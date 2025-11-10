@@ -6,7 +6,7 @@ import '../../services/navigation/navigation.dart';
 import '../functions/general_functions.dart';
 
 class CustomTextField extends StatelessWidget {
-  final TextEditingController controller;
+  final TextEditingController ?controller;
   final String? hintText;
   final Color? hintColor;
   final int? maxLength;
@@ -26,7 +26,7 @@ class CustomTextField extends StatelessWidget {
 
     const CustomTextField({
     super.key,
-    required this.controller,
+      this.controller,
     this.hintText,
     this.maxLines,
     this.maxLength,
@@ -48,7 +48,11 @@ class CustomTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      onTap: ( )=> GeneralFunctions.unFocusCursorRTL(controller),
+      onTap: ( ) {
+        if(controller!=null) {
+          GeneralFunctions.unFocusCursorRTL(controller!);
+        }
+      },
       focusNode: focusNode,
       maxLength: maxLength,
       maxLines: maxLines,

@@ -13,10 +13,12 @@ class EndPoints {
   static const String candidateValidateIban = 'Candidate/ValidateIBan';
   static const String candidateUpdateIban = 'Candidate/UpdateIBan';
   static const String candidateGetBanks = 'Candidate/getbanks';
+
   static const String candidateGetImage = 'Candidate/GetFile';
   static const String candidateGetExperience = 'Experince/getExperience';
   static const String getCandidate = 'Candidate/GetCandidate';
   static const String getAllActiveEvents = 'Event/GetAllActiveEvents';
+  static const String getMyEvents = 'EventCandidate/GetAllActiveEventsForUser';
   static const String getLookUps = 'LookUps/GetCandidateLookups';
   static const String getZonesOfEvent = 'LookUps/GetEventZonesLookups';
   static const String getSubZonesOfEvent = 'LookUps/GetEventSubZonesLookups';

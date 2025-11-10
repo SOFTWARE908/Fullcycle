@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fullcycle/core/resources/colors.dart';
 import 'package:fullcycle/features/attendance/screens/add_qr_screen.dart';
-import 'package:fullcycle/features/main/presentation/screens/main_screen.dart';
+import 'package:fullcycle/features/main/presentation/screens/events_screen.dart';
 import 'package:fullcycle/features/profile/presentation/screens/profile_screen.dart';
 
 import '../../../profile/presentation/screens/qr_screen.dart';
@@ -23,7 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   final pages = [
-    const MainScreen(),
+    const EventsScreen(),
     const AddQrScreen(),
     const AttendanceQrScreen(),
     const ProfileScreen(),

@@ -3,9 +3,7 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 
 import '../../core/const/api_consts.dart';
-import '../../features/auth/screens/login_screen.dart';
 import '../../features/candidate/data/repository/candidate_repository.dart';
-import '../navigation/navigation.dart';
 import '../cache/cache_helper.dart';
 
 class DioHelper {
@@ -18,7 +16,6 @@ class DioHelper {
         followRedirects: false,
         validateStatus: (status) {
           return status! <= 505;
-
         },
       )).post(url, data: data);
 
@@ -29,8 +26,6 @@ class DioHelper {
 
       if (response.statusCode == 422 || response.statusCode == 401) {
         await CandidateRepository.generateNewToken();
-      } else if (response.statusCode == 401) {
-        AppNavigation.navigateOffAll(const LoginScreen());
       }
       return response;
     } catch (e) {
@@ -65,8 +60,6 @@ class DioHelper {
 
       if (response.statusCode == 422 || response.statusCode == 401) {
         await CandidateRepository.generateNewToken();
-      } else if (response.statusCode == 401) {
-        // AppNavigation.navigateOffAll(const LoginScreen());
       }
       return response;
     } catch (e) {
@@ -103,10 +96,11 @@ class DioHelper {
     }
   }
 
-  static Future<Response?> postData({required String url, data, query,baseurl}) async {
+  static Future<Response?> postData(
+      {required String url, data, query, baseurl}) async {
     try {
       final response = await Dio(BaseOptions(
-        baseUrl: baseurl??EndPoints.baseUrl,
+        baseUrl: baseurl ?? EndPoints.baseUrl,
         receiveDataWhenStatusError: true,
         followRedirects: false,
         validateStatus: (status) {
@@ -197,9 +191,8 @@ class DioHelper {
         validateStatus: (status) => true,
       )).get(
         url,
-        options: Options(headers: {
-          'Authorization': 'Bearer ${CacheHelper.getToken}',
-        }),
+        options: Options(
+            headers: {'Authorization': 'Bearer ${CacheHelper.getToken}'}),
         data: data,
         queryParameters: query,
       );

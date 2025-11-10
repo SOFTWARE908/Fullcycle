@@ -13,7 +13,8 @@ class VerificationScreen extends StatelessWidget {
 
   final String name;
 
-  final controller = TextEditingController(text: kDebugMode ? '0555020513' : null);
+  final controller =
+      TextEditingController(text: kDebugMode ? '0555020513' : null);
 
   @override
   Widget build(BuildContext context) {

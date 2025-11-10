@@ -113,8 +113,9 @@ class CandidateRepository {
 
   static Future<Response?> joinEvent(String id) async {
     final response = await DioHelper.postData(
-      baseurl: 'https://api.mshware.com/',
-        url: EndPoints.joinEvent, query: {'eventId': id});
+        baseurl: 'https://api.mshware.com/',
+        url: EndPoints.joinEvent,
+        query: {'eventId': id});
     if (response?.statusCode == 200) {
       CustomSnackBars.showSuccessToast(title: response?.data['message']);
       return response;
@@ -314,9 +315,9 @@ class CandidateRepository {
     return null;
   }
 
-  static generateNewToken() async {
+  static Future<void> generateNewToken() async {
     final response =
-        await DioHelper.postData(url: EndPoints.refreshToken, data: {
+        await DioHelper.postLoginData(url: EndPoints.refreshToken, data: {
       'ExpiredToken': CacheHelper.getToken,
       'refreshTokenId': CacheHelper.getRefreshToken,
     });
@@ -324,12 +325,21 @@ class CandidateRepository {
     if (response?.statusCode == 200) {
       final token = response?.data['data']['authToken'];
       final refreshToken = response?.data['data']['refreshTokenId'];
-      //
       await CacheHelper.saveToken(token);
       await CacheHelper.saveRefreshToken(refreshToken);
-    } else {
-      errorHandler(response);
     }
+  }
+
+  static Future<Response?> getMyEvents() async {
+
+      final response = await DioHelper.getData(url: EndPoints.getMyEvents);
+      if (response?.statusCode == 200) {
+        return response;
+      } else {
+        errorHandler(response);
+      }
+
+    return null;
   }
 
   static Future<Response?> getActiveEvents() async {
@@ -339,6 +349,7 @@ class CandidateRepository {
     } else {
       errorHandler(response);
     }
+
     return null;
   }
 

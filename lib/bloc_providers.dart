@@ -14,6 +14,7 @@ import 'features/candidate/cubit/validate_iban_cubit.dart';
 import 'features/events/cubit/get_active_events_cubit.dart';
 import 'features/events/cubit/get_event_zones_cubit.dart';
 import 'features/events/cubit/join_event_cubit.dart';
+import 'features/events/cubit/my_events_cubit.dart';
 import 'features/experience/presentation/cubit/add_experience_cubit.dart';
 import 'features/user_documents/edit_personal_document_cubit.dart';
 
@@ -35,6 +36,7 @@ final providers = [
   BlocProvider<GetCandidateDocsCubit>(
       create: (context) => GetCandidateDocsCubit()),
   BlocProvider<ValidateIbanCubit>(create: (context) => ValidateIbanCubit()),
+  BlocProvider<MyEventsCubit>(create: (context) => MyEventsCubit()),
   BlocProvider<GetCandidateQRCodeCubit>(create: (context) => GetCandidateQRCodeCubit()),
   BlocProvider<QrProfileCubit>(create: (context) => QrProfileCubit()),
   BlocProvider<RegisterCubit>(create: (context) => RegisterCubit()),
