@@ -19,22 +19,16 @@ import 'features/experience/presentation/cubit/add_experience_cubit.dart';
 import 'features/user_documents/edit_personal_document_cubit.dart';
 
 final providers = [
-  BlocProvider<GetCandidateExperiencesCubit>(
-      create: (context) => GetCandidateExperiencesCubit()),
+  BlocProvider<GetCandidateExperiencesCubit>(create: (context) => GetCandidateExperiencesCubit()),
   BlocProvider<GetEventZonesCubit>(create: (context) => GetEventZonesCubit()),
-  BlocProvider<GetEventSubZonesCubit>(
-      create: (context) => GetEventSubZonesCubit()),
+  BlocProvider<GetEventSubZonesCubit>(create: (context) => GetEventSubZonesCubit()),
   BlocProvider<LoginCubit>(create: (context) => LoginCubit()),
-  BlocProvider<GetCandidateImageCubit>(
-      create: (context) => GetCandidateImageCubit()),
-  BlocProvider<GetActiveEventsCubit>(
-      create: (context) => GetActiveEventsCubit()),
-  BlocProvider<GetCandidateBanksCubit>(
-      create: (context) => GetCandidateBanksCubit()),
+  BlocProvider<GetCandidateImageCubit>(create: (context) => GetCandidateImageCubit()),
+  BlocProvider<GetActiveEventsCubit>(create: (context) => GetActiveEventsCubit()),
+  BlocProvider<GetCandidateBanksCubit>(create: (context) => GetCandidateBanksCubit()),
   BlocProvider<AddExperienceCubit>(create: (context) => AddExperienceCubit()),
   BlocProvider<SendOtpCubit>(create: (context) => SendOtpCubit()),
-  BlocProvider<GetCandidateDocsCubit>(
-      create: (context) => GetCandidateDocsCubit()),
+  BlocProvider<GetCandidateDocsCubit>(create: (context) => GetCandidateDocsCubit()),
   BlocProvider<ValidateIbanCubit>(create: (context) => ValidateIbanCubit()),
   BlocProvider<MyEventsCubit>(create: (context) => MyEventsCubit()),
   BlocProvider<GetCandidateQRCodeCubit>(create: (context) => GetCandidateQRCodeCubit()),
