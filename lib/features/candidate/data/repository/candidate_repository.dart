@@ -113,14 +113,11 @@ class CandidateRepository {
 
   static Future<Response?> joinEvent(String id) async {
     final response = await DioHelper.postData(
-        url: EndPoints.joinEvent,
-        query: {'eventId': id});
+        url: EndPoints.joinEvent, query: {'eventId': id});
     if (response?.statusCode == 200) {
       CustomSnackBars.showSuccessToast(title: response?.data['message']);
       return response;
-
     } else {
-      // CustomSnackBars.showErrorToast(title: 'title');
       errorHandler(response);
     }
     return null;
@@ -332,13 +329,12 @@ class CandidateRepository {
   }
 
   static Future<Response?> getMyEvents() async {
-
-      final response = await DioHelper.getData(url: EndPoints.getMyEvents);
-      if (response?.statusCode == 200) {
-        return response;
-      } else {
-        errorHandler(response);
-      }
+    final response = await DioHelper.getData(url: EndPoints.getMyEvents);
+    if (response?.statusCode == 200) {
+      return response;
+    } else {
+      // errorHandler(response);
+    }
 
     return null;
   }

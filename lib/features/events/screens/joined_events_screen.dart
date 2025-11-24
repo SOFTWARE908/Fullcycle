@@ -102,6 +102,7 @@ class _JoinedEventsScreenState extends State<JoinedEventsScreen> {
                 ),
               ),
             );
+
           }
           return const SizedBox.shrink();
         },
