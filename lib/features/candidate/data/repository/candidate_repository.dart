@@ -113,13 +113,14 @@ class CandidateRepository {
 
   static Future<Response?> joinEvent(String id) async {
     final response = await DioHelper.postData(
-        baseurl: 'https://api.mshware.com/',
         url: EndPoints.joinEvent,
         query: {'eventId': id});
     if (response?.statusCode == 200) {
       CustomSnackBars.showSuccessToast(title: response?.data['message']);
       return response;
+
     } else {
+      // CustomSnackBars.showErrorToast(title: 'title');
       errorHandler(response);
     }
     return null;

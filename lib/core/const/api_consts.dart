@@ -26,5 +26,6 @@ class EndPoints {
   static const String updateCandidate = 'Candidate/UpdateCandidate';
   static const String addCandidate = 'Candidate/AddCandidate';
   static const String attendCandidate = 'CandidateAttendance/AttendCandidate';
-  static const String joinEvent = 'AssignEventToCandidate';
+  static const String joinEvent = 'EventCandidate/AssignEventToCandidate';
+  static const String deleteEvent = 'EventCandidate/DeleteCandidateFromEvent';
 }

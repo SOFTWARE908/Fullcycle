@@ -151,7 +151,7 @@ class ProfileScreen extends StatelessWidget {
               ),
               child: buildItem('حذف الحساب', 'logout', () {
                 showDeleteAccountDialog(context);
-              }, AppColors.errorColor),
+              }, AppColors.whiteColor),
             ),
           ],
         ),

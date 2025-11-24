@@ -60,27 +60,27 @@ class LoginScreenState extends State<LoginScreen> {
                 );
               }),
               const SizedBox(height: 10),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text(
-                    "ليس لديك حساب؟",
-                    style: TextStyle(color: Colors.grey),
-                  ),
-                  const SizedBox(width: 4),
-                  GestureDetector(
-                    onTap: () => AppNavigation.navigate(const RegisterScreen()),
-                    child: const Text(
-                      "إنشاء حساب الان",
-                      style: TextStyle(
-                        color: AppColors.primaryColor,
-                        fontWeight: FontWeight.w500,
-                        fontSize: 16,
-                      ),
-                    ),
-                  )
-                ],
-              )
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.center,
+              //   children: [
+              //     const Text(
+              //       "ليس لديك حساب؟",
+              //       style: TextStyle(color: Colors.grey),
+              //     ),
+              //     const SizedBox(width: 4),
+              //     GestureDetector(
+              //       onTap: () => AppNavigation.navigate(const RegisterScreen()),
+              //       child: const Text(
+              //         "إنشاء حساب الان",
+              //         style: TextStyle(
+              //           color: AppColors.primaryColor,
+              //           fontWeight: FontWeight.w500,
+              //           fontSize: 16,
+              //         ),
+              //       ),
+              //     )
+              //   ],
+              // )
             ],
           ),
         ),
