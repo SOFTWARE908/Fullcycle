@@ -9,9 +9,10 @@ import '../../home/presentation/screens/home_screen.dart';
 class LoginCubit extends Cubit<CubitState> {
   LoginCubit() : super(CubitState.initial);
 
-  Future<void> login(String idNumber, String phoneNumber) async {
+  Future<void> login(String email, String password) async {
+
     emit(CubitState.loading);
-    final response = await CandidateRepository.login(idNumber, phoneNumber);
+    final response = await CandidateRepository.login(email, password);
     if (response?.status == 200) {
       emit(CubitState.done);
       await CacheHelper.saveToken(response!.data!.authToken!);
@@ -20,7 +21,7 @@ class LoginCubit extends Cubit<CubitState> {
       AppNavigation.navigateOffAll(const HomeScreen());
     } else {
       emit(CubitState.error);
-      CustomSnackBars.showErrorToast(title: "رمز خاطئ");
+      CustomSnackBars.showErrorToast(title: "تسجيل دخول خاطئ");
     }
   }
 }

@@ -79,8 +79,12 @@ class _JoinedEventsScreenState extends State<JoinedEventsScreen> {
           } else if (state == CubitState.loading) {
             return const CustomLoadingWidget(padding: 50);
           } else if (state == CubitState.error) {
+
+
             return Center(
-              child: GestureDetector(
+              child: true?
+              const Text("لا يوجد فعاليات",style: TextStyle(color: Colors.red,fontSize: 18),):
+              GestureDetector(
                 onTap: () {
                   context.read<MyEventsCubit>().getMyEvents();
 

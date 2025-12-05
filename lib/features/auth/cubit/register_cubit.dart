@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fullcycle/core/cubit/base_cubit_state.dart';
-import 'package:fullcycle/features/auth/screens/login_screen.dart';
+import 'package:fullcycle/features/auth/screens/verification_screen.dart';
 import 'package:fullcycle/features/candidate/data/repository/candidate_repository.dart';
 import 'package:fullcycle/services/navigation/navigation.dart';
 import 'package:fullcycle/shared/widgets/custom_snack_bar.dart';
@@ -12,6 +12,7 @@ class RegisterCubit extends Cubit<CubitState> {
     required String arabicName,
     required String englishName,
     required String idNumber,
+    required String password,
     required int cityId,
     required String dob,
     required int gender,
@@ -31,6 +32,7 @@ class RegisterCubit extends Cubit<CubitState> {
     final response = await CandidateRepository.register(
       arabicName: arabicName,
       englishName: englishName,
+      password: password,
       idNumber: idNumber,
       departmentId: departmentId,
       educationId: educationId,
@@ -50,7 +52,7 @@ class RegisterCubit extends Cubit<CubitState> {
       emit(CubitState.done);
       // final candidateModel = CandidateModel.fromJson(response?.data);
       // await CacheHelper.saveCandidate(candidateModel.data);
-      AppNavigation.navigateOffAll(const LoginScreen());
+      AppNavigation.navigateOffAll(  LoginPage());
       CustomSnackBars.showSuccessToast(title:'تم انشاء الحساب بنجاح');
     } else {
       emit(CubitState.error);

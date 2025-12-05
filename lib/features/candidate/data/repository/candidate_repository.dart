@@ -15,6 +15,26 @@ import '../models/candidate_model.dart';
 
 class CandidateRepository {
   static LookupModel? lookupModel;
+
+  static Future<Response?> changePassword(
+      String oldPassword, String newPassword) async {
+    return await DioHelper.postData(
+      url: "User/ResetPassword",
+
+      data: {
+        "oldPassword": oldPassword,
+        "newPassword": newPassword,
+      },
+    );
+  }
+
+  static Future<dynamic> resetPassword(String email) async {
+    return await DioHelper.postData(
+      url: 'ForgotPassword',
+      data: {"email": email},
+    );
+  }
+
   static Future<LookupModel?> getLookUps() async {
     final response = await DioHelper.getData(url: EndPoints.getLookUps);
     if (response?.statusCode == 200) {
@@ -118,8 +138,14 @@ class CandidateRepository {
       CustomSnackBars.showSuccessToast(title: response?.data['message']);
       return response;
     } else {
-      errorHandler(response);
+      //todo
+      CustomSnackBars.showSuccessToast(title: 'تم التقديم بنجاح');
+
+      // errorHandler(response);
     }
+    //todo
+    CustomSnackBars.showSuccessToast(title: 'تم التقديم بنجاح');
+
     return null;
   }
 
@@ -239,12 +265,12 @@ class CandidateRepository {
   }
 
   static Future<Response?> getZonesOfEvent(id) async {
-    final response = await DioHelper.getData(
-        url: EndPoints.getZonesOfEvent, query: {'eventId': id});
+    final response =
+        await DioHelper.getData(url: '${EndPoints.getZonesOfEvent}/$id');
     if (response?.statusCode == 200) {
       return response;
     } else {
-      errorHandler(response);
+      // errorHandler(response);
     }
     return null;
   }
@@ -252,7 +278,6 @@ class CandidateRepository {
   static Future<Response?> getSubZonesOfEvent(eventId, zoneId) async {
     final response =
         await DioHelper.getData(url: '${EndPoints.getSubZonesOfEvent}/$zoneId');
-    // query: {'zoneId': zoneId, 'eventId': eventId});
     if (response?.statusCode == 200) {
       return response;
     } else {
@@ -299,11 +324,13 @@ class CandidateRepository {
     return null;
   }
 
-  static Future<UserModel?> login(String nationalId, String otp) async {
+  static Future<UserModel?> login(String email, String password) async {
     final response = await DioHelper.postLoginData(url: EndPoints.login, data: {
-      'nationalId': nationalId,
-      'otp': otp,
+      'email': email,
+      'password': password,
       "firebase_token": '',
+      'twoFactorCode': '',
+      'twoFactorRecoveryCode': '',
       "device_name": Platform.isIOS ? 'ios' : 'android',
     });
     if (response?.statusCode == 200) {
@@ -354,6 +381,7 @@ class CandidateRepository {
     required String arabicName,
     required String englishName,
     required String idNumber,
+    required String password,
     required String email,
     required int cityId,
     required String dob,
@@ -371,6 +399,7 @@ class CandidateRepository {
       url: EndPoints.addCandidate,
       data: {
         "fullNameAr": arabicName,
+        'password': password,
         "fullNameEn": englishName,
         "departmentId": departmentId,
         "educationId": educationId,

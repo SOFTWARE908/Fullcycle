@@ -28,6 +28,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final weightController = TextEditingController();
   final phoneController = TextEditingController();
   final emailController = TextEditingController();
+  final password = TextEditingController();
 
   LookUpItem? city;
   LookUpItem? gender;
@@ -46,12 +47,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
     if (kDebugMode) {
       arabicNameController.text = "محمد";
       englishNameController.text = "Ali";
-      idController.text = "1016406344";
+      idController.text = "1016356344";
       dobController.text = "1947-07-23";
       heightController.text = "180";
       weightController.text = "75";
-      phoneController.text = "0555054513";
+      phoneController.text = "0555154513";
       emailController.text = "momo12@gmail.com";
+      password.text = "P@ssw0rd";
+      // city=LookUpItem(value: 1,text: 'الرياض');
+      // department=LookUpItem(value: 1,text: 'dep');
+      // educationLevel=LookUpItem(value: 1,text: 'edu');
+      // gender=LookUpItem(value: 1,text: 'ذكر');
+      // language=LookUpItem(value: 1,text: 'male');
+      // nationality=LookUpItem(value: 1,text: 'male');
+      // tshirtSize=LookUpItem(value: 1,text: 'S');
+
     }
   }
 
@@ -67,13 +77,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
       _showError("الرجاء إدخال الاسم بالإنجليزية");
       return false;
     }
-    if (!RegExp(r'^\d{10}$').hasMatch(idController.text.trim())) {
-      _showError("رقم الهوية يجب أن يتكون من 10 أرقام");
-      return false;
-    }
+    // if (!RegExp(r'^\d{10}$').hasMatch(idController.text.trim())) {
+    //   _showError("رقم الهوية يجب أن يتكون من 10 أرقام");
+    //   return false;
+    // }
     if (!RegExp(r'^[\w\.-]+@[\w\.-]+\.\w+$')
         .hasMatch(emailController.text.trim())) {
       _showError("الرجاء إدخال بريد إلكتروني صحيح");
+      return false;
+    }
+    if (password.text.isEmpty) {
+      _showError("الرجاء إدخال كلمة المرور صحيح");
       return false;
     }
     if (city == null) {
@@ -113,12 +127,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     return true;
   }
 
-
   bool _validateContactStep() {
-    if (!RegExp(r'^(05\d{8})$').hasMatch(phoneController.text.trim())) {
-      _showError("الرجاء إدخال رقم هاتف صحيح يبدأ بـ 05");
-      return false;
-    }
     if (department == null) {
       _showError("الرجاء اختيار القسم");
       return false;
@@ -152,11 +161,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
     context.read<RegisterCubit>().register(
           languageId: language?.value ?? 0,
+          password: password.text,
           educationId: educationLevel?.value ?? 0,
           departmentId: department?.value ?? 0,
           arabicName: arabicNameController.text.trim(),
           englishName: englishNameController.text.trim(),
-          idNumber: idController.text.trim(),
+          idNumber:
+              idController.text.isEmpty ? '0249423584' : idController.text,
           cityId: city?.value ?? 0,
           email: emailController.text.trim(),
           dob: dobController.text.trim(),
@@ -165,7 +176,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
           height: int.parse(heightController.text),
           weight: int.parse(weightController.text),
           tshirtSize: tshirtSize?.value ?? 0,
-          phoneNumber: phoneController.text.trim(),
+          phoneNumber: phoneController.text.isEmpty
+              ? '84129439834'
+              : phoneController.text,
         );
   }
 
@@ -244,13 +257,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
       children: [
         buildTextField("الاسم بالعربية", arabicNameController),
         buildTextField("الاسم بالإنجليزية", englishNameController),
-        buildTextField("رقم الهوية", idController,
+        buildTextField("رقم الهوية (اختياري)", idController,
             keyboardType: TextInputType.number),
         buildTextField("البريد الإلكتروني", emailController,
             keyboardType: TextInputType.emailAddress),
+        buildTextField("كلمة المرور", password,
+            keyboardType: TextInputType.visiblePassword),
         buildDropdown("المدينة", city, lookUps?.lookUpData?.cities ?? [],
             (val) => setState(() => city = val!)),
       ],
+
     );
   }
 
@@ -298,7 +314,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget _buildContactStep(BuildContext context) {
     return Column(
       children: [
-        buildTextField("رقم الهاتف", phoneController,
+        buildTextField("( اختياري )رقم الهاتف", phoneController,
             keyboardType: TextInputType.phone),
         buildDropdown(
             "القسم",

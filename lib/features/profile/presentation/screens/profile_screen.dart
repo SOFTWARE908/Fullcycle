@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fullcycle/features/auth/screens/change_password_screen.dart';
 import 'package:fullcycle/features/candidate/presentation/screens/update_bank_information_screen.dart';
 import 'package:fullcycle/features/events/screens/joined_events_screen.dart';
 import 'package:fullcycle/features/experience/presentation/screens/experience_screen.dart';
@@ -11,7 +12,6 @@ import 'package:fullcycle/services/navigation/navigation.dart';
 import 'package:fullcycle/services/cache/cache_helper.dart';
 import 'package:fullcycle/shared/widgets/custom_divider.dart';
 import '../../../../core/resources/colors.dart';
-import '../../../security/screens/security_screen.dart';
 import '../widgets/delete_account_widget.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -46,6 +46,10 @@ class ProfileScreen extends StatelessWidget {
               ),
               child: Column(
                 children: [
+
+                  buildItem('تغيير كلمة المرور', 'security',
+                          () => AppNavigation.navigate(  ChangePasswordScreen())),
+                  const CustomDivider(),
                   buildItem('المعلومات البنكية', 'bank',
                       () => AppNavigation.navigate(const UserBanksScreen())),
                   const CustomDivider(),
@@ -85,7 +89,7 @@ class ProfileScreen extends StatelessWidget {
               const Padding(
                 padding: EdgeInsets.only(top: 16, bottom: 12),
                 child: Text(
-                  'الإعدادات والأمان',
+                  'الإعدادات والاشعارات',
                   style: TextStyle(
                       color: AppColors.textColor,
                       fontSize: 12,
@@ -99,9 +103,9 @@ class ProfileScreen extends StatelessWidget {
                 ),
                 child: Column(
                   children: [
-                    buildItem('الامان', 'security',
-                        () => AppNavigation.navigate(const SecurityScreen())),
-                    const CustomDivider(),
+                    // buildItem('الامان', 'security',
+                    //     () => AppNavigation.navigate(const SecurityScreen())),
+                    // const CustomDivider(),
                     buildItem('الاعدادت', 'settings', () {}),
                     const CustomDivider(),
                     buildItem('الاشعارات', 'notif', () {}),
@@ -135,7 +139,7 @@ class ProfileScreen extends StatelessWidget {
               ),
             ],
             Container(
-              margin: const EdgeInsets.only(top: 20, bottom: 50),
+              margin: const EdgeInsets.only(top: 20, bottom: 10),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(12),
@@ -149,9 +153,7 @@ class ProfileScreen extends StatelessWidget {
                 color: Colors.red,
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: buildItem('حذف الحساب', 'logout', () {
-                showDeleteAccountDialog(context);
-              }, AppColors.whiteColor),
+              child: buildItem('حذف الحساب', 'logout', () => showDeleteAccountDialog(context), AppColors.whiteColor),
             ),
           ],
         ),
@@ -166,14 +168,15 @@ class ProfileScreen extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         child: Row(
           children: [
-            SvgPicture.asset('assets/icons/$icon.svg'),
+            SvgPicture.asset('assets/icons/$icon.svg',color: title=='حذف الحساب'?Colors.white:Colors.black,),
             const SizedBox(width: 10),
             Text(
+
               title,
               style: TextStyle(color: color),
             ),
             const Spacer(),
-            SvgPicture.asset('assets/icons/arrow.svg'),
+            SvgPicture.asset('assets/icons/arrow.svg',color: title=='حذف الحساب'?Colors.white:Colors.black),
           ],
         ),
       ),

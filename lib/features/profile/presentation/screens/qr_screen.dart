@@ -101,7 +101,7 @@ class _AttendanceQrScreenState extends State<AttendanceQrScreen> {
                             onChanged: (value) {
                               zone = value!;
                               setState(() {});
-                              qrCodeCubit.getSubZones(event!.id,value.value);
+                              qrCodeCubit.getSubZones(event!.id, value.value);
                             },
                           ),
                         ],
@@ -136,9 +136,8 @@ class _AttendanceQrScreenState extends State<AttendanceQrScreen> {
                               onChanged: (value) {
                                 subZone = value;
                                 setState(() {});
-                                qrCodeCubit.getQRCode(
-                                    event?.id, zone?.value, subZone?.value, supervisorId);
-
+                                qrCodeCubit.getQRCode(event?.id, zone?.value,
+                                    subZone?.value, supervisorId);
                               },
                             ),
                           ],
@@ -206,16 +205,19 @@ class _AttendanceQrScreenState extends State<AttendanceQrScreen> {
           );
         }),
       ),
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.only(bottom: 30),
-        child: CustomElevatedButton(
-          onTap: () {
-            qrCodeCubit.getQRCode(
-                event?.id, zone?.value, subZone?.value, supervisorId);
-          },
-          buttonText: 'إعادة تحميل',
-        ),
-      ),
+      bottomNavigationBar:
+          (event?.id == null || zone?.value == null || subZone?.value == null)
+              ? const SizedBox.shrink()
+              : Padding(
+                  padding: const EdgeInsets.only(bottom: 30),
+                  child: CustomElevatedButton(
+                    onTap: () {
+                      qrCodeCubit.getQRCode(
+                          event?.id, zone?.value, subZone?.value, supervisorId);
+                    },
+                    buttonText: 'إعادة تحميل',
+                  ),
+                ),
     );
   }
 }

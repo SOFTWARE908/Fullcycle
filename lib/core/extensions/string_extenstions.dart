@@ -6,9 +6,9 @@ extension StringExtenstions on String {
     final RegExp regex = RegExp(pattern);
 
     if (value == null || value.isEmpty) {
-      return 'email is required';
+      return 'البريد الالكتروني مطلوب';
     } else if (!regex.hasMatch(value)) {
-      return 'enter a valid email address';
+      return 'ادخل بريد الكتروني صحيح';
     } else {
       return null;
     }
@@ -16,10 +16,10 @@ extension StringExtenstions on String {
 
   phoneValidator(String? value) {
     if (value == null || value.isEmpty) {
-      return 'ادخل رقم البطاقة';
+      return 'ادخل رقم الهاتف';
     }
     if (value.length < 10) {
-      return 'ادخل رقم بطاقة صحيح';
+      return 'ادخل رقم هاتف صحيح';
     } else {
       return null;
     }

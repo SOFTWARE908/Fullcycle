@@ -59,7 +59,7 @@ class _EventsScreenState extends State<EventsScreen> {
                         decoration: BoxDecoration(
                           // If withValues() is an extension, keep it. Otherwise use withOpacity(.2)
                           border: Border.all(
-                              color: AppColors.lightGrey.withOpacity(.2)),
+                              color: AppColors.lightGrey.withValues(alpha: .2)),
                           borderRadius: BorderRadius.circular(8),
                         ),
                         height: 48,

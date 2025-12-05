@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fullcycle/features/auth/screens/login_screen.dart';
+import 'package:fullcycle/features/auth/screens/verification_screen.dart';
 import 'package:fullcycle/services/navigation/navigation.dart';
 import 'package:fullcycle/shared/widgets/custom_snack_bar.dart';
 
@@ -50,7 +50,7 @@ void showDeleteAccountDialog(BuildContext context) {
               Navigator.pop(context);
               CustomSnackBars.showErrorToast(title: 'تم حذف الحساب بنجاح');
 
-              AppNavigation.navigateOffAll(LoginScreen());
+              AppNavigation.navigateOffAll(LoginPage());
             },
             child: const Text('حذف'),
           ),
