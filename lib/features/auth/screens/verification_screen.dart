@@ -14,12 +14,12 @@ class VerificationScreen extends StatelessWidget {
   final String name;
 
   final controller =
-      TextEditingController(text: kDebugMode ? '0555020513' : null);
+      TextEditingController(text: kDebugMode ? 'P@ssw0rd' : null);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('ادخل رقم الجوال')),
+      appBar: AppBar(title: const Text('اكمل تسجيل الدخول')),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
@@ -28,7 +28,7 @@ class VerificationScreen extends StatelessWidget {
             const SizedBox(height: 20),
             CustomTextField(
               controller: controller,
-              hintText: 'رقم الجوال',
+              hintText: 'كلمة المرور',
               keyboardType: TextInputType.number,
             ),
             const SizedBox(height: 20),
@@ -36,6 +36,7 @@ class VerificationScreen extends StatelessWidget {
               if (state == CubitState.loading) {
                 return const CustomLoadingButtonWidget();
               }
+
               return CustomElevatedButton(
                   buttonText: 'تحقق',
                   onTap: () =>

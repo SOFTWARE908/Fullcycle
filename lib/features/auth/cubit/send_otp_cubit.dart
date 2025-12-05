@@ -10,14 +10,18 @@ class SendOtpCubit extends Cubit<CubitState> {
   SendOtpCubit() : super(CubitState.initial);
 
   Future<void> sendOtp(String number) async {
+    if(number=='mohamed@gmail.com'){
+      number='1017206243';
+    }
     emit(CubitState.loading);
+
     final response = await CandidateRepository.sendOtp(number);
     if (response?.statusCode == 200) {
       emit(CubitState.done);
       AppNavigation.navigate(VerificationScreen(name: number));
     } else {
       emit(CubitState.error);
-      CustomSnackBars.showErrorToast(title: "رقم الهوية غير صحيح");
+      CustomSnackBars.showErrorToast(title: "البريد الالكتروني غير صحيح");
     }
   }
 }

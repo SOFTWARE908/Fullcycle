@@ -21,7 +21,7 @@ class LoginScreen extends StatefulWidget {
 
 class LoginScreenState extends State<LoginScreen> {
   final nationalId =
-      TextEditingController(text: kDebugMode ? '1017206243' : null);
+      TextEditingController(text: kDebugMode ? 'mohamed@gmail.com' : null);
   final formKey = GlobalKey<FormState>();
 
   @override
@@ -30,6 +30,7 @@ class LoginScreenState extends State<LoginScreen> {
       appBar: AppBar(
         title: const Text('تسجيل الدخول'),
       ),
+
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Form(
@@ -41,10 +42,11 @@ class LoginScreenState extends State<LoginScreen> {
               const SizedBox(height: 20),
               CustomTextField(
                 controller: nationalId,
-                hintText: 'رقم الهوية',
-                keyboardType: TextInputType.number,
-                validator: (val) => val!.phoneValidator(val),
+                hintText: 'البريد الالكتروني',
+                // keyboardType: TextInputType.number,
+                validator: (val) => val!.emailValidator(val),
               ),
+
               const SizedBox(height: 20),
               BlocBuilder<SendOtpCubit, CubitState>(builder: (context, state) {
                 if (state == CubitState.loading) {

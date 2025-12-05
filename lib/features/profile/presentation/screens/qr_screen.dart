@@ -206,16 +206,18 @@ class _AttendanceQrScreenState extends State<AttendanceQrScreen> {
           );
         }),
       ),
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.only(bottom: 30),
-        child: CustomElevatedButton(
-          onTap: () {
-            qrCodeCubit.getQRCode(
-                event?.id, zone?.value, subZone?.value, supervisorId);
-          },
-          buttonText: 'إعادة تحميل',
-        ),
-      ),
+      //todo
+
+      // bottomNavigationBar: Padding(
+      //   padding: const EdgeInsets.only(bottom: 30),
+      //   child: CustomElevatedButton(
+      //     onTap: () {
+      //       qrCodeCubit.getQRCode(
+      //           event?.id, zone?.value, subZone?.value, supervisorId);
+      //     },
+      //     buttonText: 'إعادة تحميل',
+      //   ),
+      // ),
     );
   }
 }

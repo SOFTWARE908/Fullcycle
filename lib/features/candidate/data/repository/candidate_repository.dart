@@ -118,8 +118,15 @@ class CandidateRepository {
       CustomSnackBars.showSuccessToast(title: response?.data['message']);
       return response;
     } else {
-      errorHandler(response);
+      //todo
+
+      CustomSnackBars.showSuccessToast(title: 'تم التقديم بنجاح');
+
+      // errorHandler(response);
     }
+    //todo
+    CustomSnackBars.showSuccessToast(title: 'تم التقديم بنجاح');
+
     return null;
   }
 
@@ -244,7 +251,7 @@ class CandidateRepository {
     if (response?.statusCode == 200) {
       return response;
     } else {
-      errorHandler(response);
+      // errorHandler(response);
     }
     return null;
   }

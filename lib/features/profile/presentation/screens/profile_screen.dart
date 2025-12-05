@@ -135,7 +135,7 @@ class ProfileScreen extends StatelessWidget {
               ),
             ],
             Container(
-              margin: const EdgeInsets.only(top: 20, bottom: 50),
+              margin: const EdgeInsets.only(top: 20, bottom: 10),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(12),
@@ -149,9 +149,7 @@ class ProfileScreen extends StatelessWidget {
                 color: Colors.red,
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: buildItem('حذف الحساب', 'logout', () {
-                showDeleteAccountDialog(context);
-              }, AppColors.whiteColor),
+              child: buildItem('حذف الحساب', 'logout', () => showDeleteAccountDialog(context), AppColors.whiteColor),
             ),
           ],
         ),
@@ -166,14 +164,15 @@ class ProfileScreen extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         child: Row(
           children: [
-            SvgPicture.asset('assets/icons/$icon.svg'),
+            SvgPicture.asset('assets/icons/$icon.svg',color: title=='حذف الحساب'?Colors.white:Colors.black,),
             const SizedBox(width: 10),
             Text(
+
               title,
               style: TextStyle(color: color),
             ),
             const Spacer(),
-            SvgPicture.asset('assets/icons/arrow.svg'),
+            SvgPicture.asset('assets/icons/arrow.svg',color: title=='حذف الحساب'?Colors.white:Colors.black),
           ],
         ),
       ),
