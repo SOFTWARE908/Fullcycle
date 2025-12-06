@@ -12,7 +12,7 @@ class ForgetPasswordScreen extends StatelessWidget {
   ForgetPasswordScreen({super.key});
 
   final email = TextEditingController(
-      text: kDebugMode ? 'mohmaedfcis2000@gmail.com' : null);
+      text: kDebugMode ? 'mohamedfcis2000@gmail.com' : null);
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +25,7 @@ class ForgetPasswordScreen extends StatelessWidget {
           children: [
             const SizedBox(height: 25),
             CustomTextField(
+
               controller: email,
               hintText: "البريد الالكتروني",
               keyboardType: TextInputType.emailAddress,
@@ -37,7 +38,7 @@ class ForgetPasswordScreen extends StatelessWidget {
                 }
 
                 return CustomElevatedButton(
-                  buttonText: "استعادة كلمة المرو",
+                  buttonText: "استعادة كلمة المرور",
                   onTap: () {
                     context
                         .read<ForgetPasswordCubit>()

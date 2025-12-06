@@ -128,19 +128,23 @@ class DioHelper {
   }
 
   static Future<Response?> getDataWithoutToken(
-      {required String url, Map<String, dynamic>? data}) async {
+      {required String url, Map<String, dynamic>? data,Map<String, dynamic>? query}) async {
     try {
       final response = await Dio(BaseOptions(
+        headers: {
+          "Content-Type": "application/json"
+        },
         baseUrl: EndPoints.baseUrl,
         receiveDataWhenStatusError: true,
         followRedirects: false,
         validateStatus: (status) {
           return status! <= 500;
         },
-      )).get(url, data: data);
+      )).get(url, data: data,queryParameters: query);
       log('RESPONSE STATUS CODE:${response.statusCode}');
       log('RESPONSE DATA:${response.data}');
-      log('RESPONSE REQUEST OPTIONS:${response.requestOptions.data}');
+      log('Headers:${response.requestOptions.headers}');
+      log('RESPONSE REQUEST OPTIONS:${response.requestOptions.queryParameters}');
 
       return response;
     } catch (e) {
@@ -179,6 +183,7 @@ class DioHelper {
       return e is DioException ? e.response : null;
     }
   }
+
 
   static Future<Response?> getData(
       {required String url,

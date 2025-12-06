@@ -29,9 +29,10 @@ class CandidateRepository {
   }
 
   static Future<dynamic> resetPassword(String email) async {
-    return await DioHelper.postData(
-      url: 'ForgotPassword',
-      data: {"email": email},
+    return await DioHelper.getDataWithoutToken(
+      url: 'User/ForgotPassword',
+      query: {"email": email},
+
     );
   }
 

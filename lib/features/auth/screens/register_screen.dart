@@ -47,12 +47,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
     if (kDebugMode) {
       arabicNameController.text = "محمد";
       englishNameController.text = "Ali";
-      idController.text = "1016356344";
+      idController.text = "1216356344";
       dobController.text = "1947-07-23";
       heightController.text = "180";
       weightController.text = "75";
-      phoneController.text = "0555154513";
-      emailController.text = "momo12@gmail.com";
+      phoneController.text = "0564154513";
+      emailController.text = "mohamedfcis2000@gmail.com";
       password.text = "P@ssw0rd";
       // city=LookUpItem(value: 1,text: 'الرياض');
       // department=LookUpItem(value: 1,text: 'dep');
