@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fullcycle/features/auth/screens/change_password_screen.dart';
@@ -8,9 +6,10 @@ import 'package:fullcycle/features/events/screens/joined_events_screen.dart';
 import 'package:fullcycle/features/experience/presentation/screens/experience_screen.dart';
 import 'package:fullcycle/features/profile/presentation/widgets/profile_header.dart';
 import 'package:fullcycle/features/user_documents/presentation/screens/edit_personal_documents_screen.dart';
-import 'package:fullcycle/services/navigation/navigation.dart';
 import 'package:fullcycle/services/cache/cache_helper.dart';
+import 'package:fullcycle/services/navigation/navigation.dart';
 import 'package:fullcycle/shared/widgets/custom_divider.dart';
+
 import '../../../../core/resources/colors.dart';
 import '../widgets/delete_account_widget.dart';
 
@@ -46,9 +45,8 @@ class ProfileScreen extends StatelessWidget {
               ),
               child: Column(
                 children: [
-
                   buildItem('تغيير كلمة المرور', 'security',
-                          () => AppNavigation.navigate(  ChangePasswordScreen())),
+                      () => AppNavigation.navigate(ChangePasswordScreen())),
                   const CustomDivider(),
                   buildItem('المعلومات البنكية', 'bank',
                       () => AppNavigation.navigate(const UserBanksScreen())),
@@ -85,59 +83,57 @@ class ProfileScreen extends StatelessWidget {
                 ],
               ),
             ),
-            if (Platform.isAndroid) ...[
-              const Padding(
-                padding: EdgeInsets.only(top: 16, bottom: 12),
-                child: Text(
-                  'الإعدادات والاشعارات',
-                  style: TextStyle(
-                      color: AppColors.textColor,
-                      fontSize: 12,
-                      fontWeight: FontWeight.w600),
-                ),
+            const Padding(
+              padding: EdgeInsets.only(top: 16, bottom: 12),
+              child: Text(
+                'الإعدادات والاشعارات',
+                style: TextStyle(
+                    color: AppColors.textColor,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600),
               ),
-              Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Column(
-                  children: [
-                    // buildItem('الامان', 'security',
-                    //     () => AppNavigation.navigate(const SecurityScreen())),
-                    // const CustomDivider(),
-                    buildItem('الاعدادت', 'settings', () {}),
-                    const CustomDivider(),
-                    buildItem('الاشعارات', 'notif', () {}),
-                  ],
-                ),
+            ),
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(12),
               ),
-              const Padding(
-                padding: EdgeInsets.only(top: 16, bottom: 12),
-                child: Text(
-                  'الدعم والمعلومات',
-                  style: TextStyle(
-                      color: AppColors.textColor,
-                      fontSize: 12,
-                      fontWeight: FontWeight.w600),
-                ),
+              child: Column(
+                children: [
+                  // buildItem('الامان', 'security',
+                  //     () => AppNavigation.navigate(const SecurityScreen())),
+                  // const CustomDivider(),
+                  buildItem('الاعدادت', 'settings', () {}),
+                  const CustomDivider(),
+                  buildItem('الاشعارات', 'notif', () {}),
+                ],
               ),
-              Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Column(
-                  children: [
-                    buildItem('المساعدة', 'help', () {}),
-                    const CustomDivider(),
-                    buildItem('سياسة الخصوصية', 'privacy', () {}),
-                    const CustomDivider(),
-                    buildItem('تعرف عنا', 'info', () {}),
-                  ],
-                ),
+            ),
+            const Padding(
+              padding: EdgeInsets.only(top: 16, bottom: 12),
+              child: Text(
+                'الدعم والمعلومات',
+                style: TextStyle(
+                    color: AppColors.textColor,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600),
               ),
-            ],
+            ),
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Column(
+                children: [
+                  buildItem('المساعدة', 'help', () {}),
+                  const CustomDivider(),
+                  buildItem('سياسة الخصوصية', 'privacy', () {}),
+                  const CustomDivider(),
+                  buildItem('تعرف عنا', 'info', () {}),
+                ],
+              ),
+            ),
             Container(
               margin: const EdgeInsets.only(top: 20, bottom: 10),
               decoration: BoxDecoration(
@@ -153,7 +149,8 @@ class ProfileScreen extends StatelessWidget {
                 color: Colors.red,
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: buildItem('حذف الحساب', 'logout', () => showDeleteAccountDialog(context), AppColors.whiteColor),
+              child: buildItem('حذف الحساب', 'logout',
+                  () => showDeleteAccountDialog(context), AppColors.whiteColor),
             ),
           ],
         ),
@@ -168,15 +165,18 @@ class ProfileScreen extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         child: Row(
           children: [
-            SvgPicture.asset('assets/icons/$icon.svg',color: title=='حذف الحساب'?Colors.white:Colors.black,),
+            SvgPicture.asset(
+              'assets/icons/$icon.svg',
+              color: title == 'حذف الحساب' ? Colors.white : Colors.black,
+            ),
             const SizedBox(width: 10),
             Text(
-
               title,
               style: TextStyle(color: color),
             ),
             const Spacer(),
-            SvgPicture.asset('assets/icons/arrow.svg',color: title=='حذف الحساب'?Colors.white:Colors.black),
+            SvgPicture.asset('assets/icons/arrow.svg',
+                color: title == 'حذف الحساب' ? Colors.white : Colors.black),
           ],
         ),
       ),

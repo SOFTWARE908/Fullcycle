@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../features/auth/screens/verification_screen.dart';
+import '../../features/auth/screens/login_screen.dart';
 import '../../features/candidate/data/models/candidate_model.dart';
 import '../navigation/navigation.dart';
 
@@ -41,6 +41,6 @@ class CacheHelper {
 
   static Future<void> logOut() async {
     await preferences.clear();
-    AppNavigation.navigateOffAll(LoginPage());
+    AppNavigation.navigateOffAll(LoginScreen());
   }
 }

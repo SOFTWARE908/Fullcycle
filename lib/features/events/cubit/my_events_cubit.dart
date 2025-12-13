@@ -9,9 +9,6 @@ class MyEventsCubit extends Cubit<CubitState> {
 
   List<EventModel> events = [];
   Future<void> getMyEvents() async {
-    if (events.isNotEmpty) {
-      return;
-    }
     emit(CubitState.loading);
 
     try {

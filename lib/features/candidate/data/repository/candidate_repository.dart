@@ -20,7 +20,6 @@ class CandidateRepository {
       String oldPassword, String newPassword) async {
     return await DioHelper.postData(
       url: "User/ResetPassword",
-
       data: {
         "oldPassword": oldPassword,
         "newPassword": newPassword,
@@ -32,7 +31,6 @@ class CandidateRepository {
     return await DioHelper.getDataWithoutToken(
       url: 'User/ForgotPassword',
       query: {"email": email},
-
     );
   }
 
@@ -136,16 +134,24 @@ class CandidateRepository {
     final response = await DioHelper.postData(
         url: EndPoints.joinEvent, query: {'eventId': id});
     if (response?.statusCode == 200) {
-      CustomSnackBars.showSuccessToast(title: response?.data['message']);
+      CustomSnackBars.showSuccessToast(title: 'تم التقديم بنجاح');
       return response;
     } else {
-      //todo
-      CustomSnackBars.showSuccessToast(title: 'تم التقديم بنجاح');
-
-      // errorHandler(response);
+      errorHandler(response);
     }
-    //todo
-    CustomSnackBars.showSuccessToast(title: 'تم التقديم بنجاح');
+
+    return null;
+  }
+
+  static Future<Response?> leaveEvent(String id) async {
+    final response = await DioHelper.deleteData(
+        url: EndPoints.deleteEvent, query: {'eventId': id});
+    if (response?.statusCode == 200) {
+      CustomSnackBars.showSuccessToast(title: 'تم المغادرة بنجاح');
+      return response;
+    } else {
+      errorHandler(response);
+    }
 
     return null;
   }
@@ -400,8 +406,8 @@ class CandidateRepository {
       url: EndPoints.addCandidate,
       data: {
         "fullNameAr": arabicName,
-        'password': password,
         "fullNameEn": englishName,
+        'password': password,
         "departmentId": departmentId,
         "educationId": educationId,
         "identity": idNumber,
@@ -411,10 +417,10 @@ class CandidateRepository {
         "languageId": languageId,
         "genderId": gender,
         "nationalityId": nationality,
+        "mobileNumber": phoneNumber,
         "height": height,
         "weight": weight,
         "t_ShirtSize": tshirtSize,
-        "mobileNumber": phoneNumber,
         'candidateStatus': 2,
         'statusName': 'string',
       },

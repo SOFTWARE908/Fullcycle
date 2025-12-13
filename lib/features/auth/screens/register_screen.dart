@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,8 +11,19 @@ import 'package:fullcycle/shared/widgets/custom_loading_widget.dart';
 import 'package:fullcycle/shared/widgets/custom_snack_bar.dart';
 import 'package:fullcycle/shared/widgets/custom_text_field.dart';
 import 'package:intl/intl.dart';
+
 import '../../candidate/data/models/lookup_model.dart';
 import '../cubit/register_cubit.dart';
+
+//
+
+String formatDate(String input) {
+  final inputFormat = DateFormat('dd/MM/yyyy');
+  final outputFormat = DateFormat('yyyy-MM-dd');
+
+  final date = inputFormat.parse(input);
+  return outputFormat.format(date);
+}
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -47,21 +60,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
     if (kDebugMode) {
       arabicNameController.text = "محمد";
       englishNameController.text = "Ali";
-      idController.text = "1216356344";
-      dobController.text = "1947-07-23";
+      // idController.text = "1216946344";
+
+      // dobController.text = "18/12/2005";
       heightController.text = "180";
       weightController.text = "75";
-      phoneController.text = "0564154513";
-      emailController.text = "mohamedfcis2000@gmail.com";
-      password.text = "P@ssw0rd";
-      // city=LookUpItem(value: 1,text: 'الرياض');
-      // department=LookUpItem(value: 1,text: 'dep');
-      // educationLevel=LookUpItem(value: 1,text: 'edu');
-      // gender=LookUpItem(value: 1,text: 'ذكر');
-      // language=LookUpItem(value: 1,text: 'male');
-      // nationality=LookUpItem(value: 1,text: 'male');
-      // tshirtSize=LookUpItem(value: 1,text: 'S');
-
+      phoneController.text = "0564694513";
+      emailController.text = "m${Random().nextInt(10) * 10}@gmail.com";
+      // password.text = "P@ssw0rd";
     }
   }
 
@@ -77,10 +83,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
       _showError("الرجاء إدخال الاسم بالإنجليزية");
       return false;
     }
-    // if (!RegExp(r'^\d{10}$').hasMatch(idController.text.trim())) {
-    //   _showError("رقم الهوية يجب أن يتكون من 10 أرقام");
-    //   return false;
-    // }
     if (!RegExp(r'^[\w\.-]+@[\w\.-]+\.\w+$')
         .hasMatch(emailController.text.trim())) {
       _showError("الرجاء إدخال بريد إلكتروني صحيح");
@@ -88,6 +90,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
     }
     if (password.text.isEmpty) {
       _showError("الرجاء إدخال كلمة المرور صحيح");
+      return false;
+    }
+    if (password.text.length < 8) {
+      _showError("كلمة المرور لا يجب ان تقل عن ثمان احرف");
       return false;
     }
     if (city == null) {
@@ -120,6 +126,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       _showError("الرجاء إدخال الوزن بشكل صحيح");
       return false;
     }
+
     if (tshirtSize == null) {
       _showError("الرجاء اختيار مقاس التيشرت");
       return false;
@@ -166,19 +173,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
           departmentId: department?.value ?? 0,
           arabicName: arabicNameController.text.trim(),
           englishName: englishNameController.text.trim(),
-          idNumber:
-              idController.text.isEmpty ? '0249423584' : idController.text,
+          idNumber: idController.text,
           cityId: city?.value ?? 0,
           email: emailController.text.trim(),
-          dob: dobController.text.trim(),
+          dob: formatDate(dobController.text.trim()),
           gender: gender?.value ?? 0,
           nationality: nationality?.value ?? 0,
           height: int.parse(heightController.text),
           weight: int.parse(weightController.text),
           tshirtSize: tshirtSize?.value ?? 0,
-          phoneNumber: phoneController.text.isEmpty
-              ? '84129439834'
-              : phoneController.text,
+          phoneNumber: phoneController.text,
         );
   }
 
@@ -266,7 +270,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
         buildDropdown("المدينة", city, lookUps?.lookUpData?.cities ?? [],
             (val) => setState(() => city = val!)),
       ],
-
     );
   }
 
@@ -299,9 +302,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
             lookUps?.lookUpData?.nationalities,
             (val) => setState(() => nationality = val!)),
         buildTextField("الطول (سم)", heightController,
-            keyboardType: TextInputType.number),
-        buildTextField("الوزن (كجم)", weightController,
-            keyboardType: TextInputType.number),
+            keyboardType: TextInputType.number, maxLength: 3),
+        buildTextField(
+          "الوزن (كجم)",
+          weightController,
+          maxLength: 3,
+          keyboardType: TextInputType.number,
+        ),
         buildDropdown(
             "مقاس التيشرت",
             tshirtSize,
@@ -314,7 +321,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget _buildContactStep(BuildContext context) {
     return Column(
       children: [
-        buildTextField("( اختياري )رقم الهاتف", phoneController,
+        buildTextField("رقم الهاتف ( اختياري )", phoneController,
             keyboardType: TextInputType.phone),
         buildDropdown(
             "القسم",
@@ -344,11 +351,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   Widget buildTextField(String label, TextEditingController controller,
-      {TextInputType keyboardType = TextInputType.text}) {
+      {TextInputType keyboardType = TextInputType.text, int? maxLength}) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
       child: CustomTextField(
         controller: controller,
+        maxLength: maxLength,
         hintText: label,
         keyboardType: keyboardType,
       ),

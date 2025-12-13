@@ -53,11 +53,11 @@ class DioHelper {
           data: data,
           queryParameters: query);
 
-      log('RESPONSE URL:${response.requestOptions.uri}');
-      log('RESPONSE STATUS CODE:${response.statusCode}');
-      log('RESPONSE DATA:${response.data}');
-      log('RESPONSE REQUEST OPTIONS:${response.requestOptions.data}');
-
+      log('URL:${response.requestOptions.uri}');
+      log('STATUS CODE:${response.statusCode}');
+      log('DATA:${response.data}');
+      log('REQUEST Data:${response.requestOptions.data}');
+      log('REQUEST QUERY PARAMAS:${response.requestOptions.queryParameters}');
       if (response.statusCode == 422 || response.statusCode == 401) {
         await CandidateRepository.generateNewToken();
       }
@@ -76,15 +76,15 @@ class DioHelper {
         baseUrl: EndPoints.baseUrl,
         receiveDataWhenStatusError: true,
         followRedirects: false,
-        validateStatus: (status) => status! <= 505,
+        validateStatus: (status) => true,
         headers: {"Content-Type": "application/json"},
       )).put(url, data: data);
 
-      log('RESPONSE URL:${response.requestOptions.uri}');
-      log('RESPONSE STATUS CODE:${response.statusCode}');
-      log('RESPONSE DATA:${response.data}');
-
-      log('RESPONSE REQUEST OPTIONS:${response.requestOptions.data}');
+      log('URL:${response.requestOptions.uri}');
+      log('STATUS CODE:${response.statusCode}');
+      log('DATA:${response.data}');
+      log('REQUEST Data:${response.requestOptions.data}');
+      log('REQUEST QUERY PARAMAS:${response.requestOptions.queryParameters}');
       if (response.statusCode == 422 || response.statusCode == 401) {
         await CandidateRepository.generateNewToken();
       } else if (response.statusCode == 401) {}
@@ -96,8 +96,7 @@ class DioHelper {
     }
   }
 
-  static Future<Response?> postData(
-      {required String url, data, query}) async {
+  static Future<Response?> postData({required String url, data, query}) async {
     try {
       final response = await Dio(BaseOptions(
         baseUrl: EndPoints.baseUrl,
@@ -112,10 +111,11 @@ class DioHelper {
           data: data,
           queryParameters: query);
 
-      log('RESPONSE URL:${response.requestOptions.uri}');
-      log('RESPONSE STATUS CODE:${response.statusCode}');
-      log('RESPONSE DATA:${response.data}');
-      log('RESPONSE REQUEST OPTIONS:${response.requestOptions.data}');
+      log('URL:${response.requestOptions.uri}');
+      log('STATUS CODE:${response.statusCode}');
+      log('DATA:${response.data}');
+      log('REQUEST Data:${response.requestOptions.data}');
+      log('REQUEST QUERY PARAMAS:${response.requestOptions.queryParameters}');
       if (response.statusCode == 422 || response.statusCode == 401) {
         await CandidateRepository.generateNewToken();
       }
@@ -128,24 +128,24 @@ class DioHelper {
   }
 
   static Future<Response?> getDataWithoutToken(
-      {required String url, Map<String, dynamic>? data,Map<String, dynamic>? query}) async {
+      {required String url,
+      Map<String, dynamic>? data,
+      Map<String, dynamic>? query}) async {
     try {
       final response = await Dio(BaseOptions(
-        headers: {
-          "Content-Type": "application/json"
-        },
+        headers: {"Content-Type": "application/json"},
         baseUrl: EndPoints.baseUrl,
         receiveDataWhenStatusError: true,
         followRedirects: false,
         validateStatus: (status) {
           return status! <= 500;
         },
-      )).get(url, data: data,queryParameters: query);
-      log('RESPONSE STATUS CODE:${response.statusCode}');
-      log('RESPONSE DATA:${response.data}');
-      log('Headers:${response.requestOptions.headers}');
-      log('RESPONSE REQUEST OPTIONS:${response.requestOptions.queryParameters}');
-
+      )).get(url, data: data, queryParameters: query);
+      log('URL:${response.requestOptions.uri}');
+      log('STATUS CODE:${response.statusCode}');
+      log('DATA:${response.data}');
+      log('REQUEST Data:${response.requestOptions.data}');
+      log('REQUEST QUERY PARAMAS:${response.requestOptions.queryParameters}');
       return response;
     } catch (e) {
       log('$e');
@@ -171,11 +171,11 @@ class DioHelper {
         data: data,
         queryParameters: query,
       );
-      log('FULL URL: ${response.realUri}');
-      log('RESPONSE STATUS CODE:${response.statusCode}');
-      log('RESPONSE DATA:${response.data}');
-      log('RESPONSE REQUEST OPTIONS:${response.requestOptions.data}');
-
+      log('URL:${response.requestOptions.uri}');
+      log('STATUS CODE:${response.statusCode}');
+      log('DATA:${response.data}');
+      log('REQUEST Data:${response.requestOptions.data}');
+      log('REQUEST QUERY PARAMAS:${response.requestOptions.queryParameters}');
       return response;
     } catch (e) {
       log('$e');
@@ -183,7 +183,6 @@ class DioHelper {
       return e is DioException ? e.response : null;
     }
   }
-
 
   static Future<Response?> getData(
       {required String url,

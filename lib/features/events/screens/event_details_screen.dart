@@ -12,8 +12,9 @@ import '../../../services/date_helper.dart';
 import '../data/model/event_model.dart';
 
 class EventDetailsScreen extends StatefulWidget {
-  const EventDetailsScreen({super.key, required this.event});
+  const EventDetailsScreen({super.key, required this.event, this.isJoined});
   final EventModel event;
+  final bool? isJoined;
 
   @override
   State<EventDetailsScreen> createState() => _EventDetailsScreenState();
@@ -207,9 +208,13 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
               }
               return CustomElevatedButton(
                 onTap: () {
-                  context.read<JoinEventCubit>().joinEvent(widget.event.id);
+                  if (widget.isJoined == true) {
+                    context.read<JoinEventCubit>().leaveEvent(widget.event.id);
+                  } else {
+                    context.read<JoinEventCubit>().joinEvent(widget.event.id);
+                  }
                 },
-                buttonText: 'قدم الآن',
+                buttonText: widget.isJoined == true ? "غادر الان" : 'قدم الآن',
               );
             }),
           )

@@ -1,9 +1,11 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fullcycle/core/cubit/base_cubit_state.dart';
-import 'package:fullcycle/features/auth/screens/verification_screen.dart';
 import 'package:fullcycle/features/candidate/data/repository/candidate_repository.dart';
+import 'package:fullcycle/services/dio_helper/error_handler.dart';
 import 'package:fullcycle/services/navigation/navigation.dart';
 import 'package:fullcycle/shared/widgets/custom_snack_bar.dart';
+
+import '../screens/login_screen.dart';
 
 class RegisterCubit extends Cubit<CubitState> {
   RegisterCubit() : super(CubitState.initial);
@@ -24,7 +26,6 @@ class RegisterCubit extends Cubit<CubitState> {
     required int educationId,
     required int languageId,
     required int departmentId,
-
     required String phoneNumber,
   }) async {
     emit(CubitState.loading);
@@ -50,13 +51,11 @@ class RegisterCubit extends Cubit<CubitState> {
 
     if (response?.statusCode == 200) {
       emit(CubitState.done);
-      // final candidateModel = CandidateModel.fromJson(response?.data);
-      // await CacheHelper.saveCandidate(candidateModel.data);
-      AppNavigation.navigateOffAll(  LoginPage());
-      CustomSnackBars.showSuccessToast(title:'تم انشاء الحساب بنجاح');
+      AppNavigation.navigateOffAll(LoginScreen());
+      CustomSnackBars.showSuccessToast(title: 'تم انشاء الحساب بنجاح');
     } else {
       emit(CubitState.error);
-      CustomSnackBars.showErrorToast(title: response?.data['message']??"error");
+      errorHandler(response);
     }
   }
 }

@@ -3,7 +3,6 @@ plugins {
     id "kotlin-android"
     id "dev.flutter.flutter-gradle-plugin"
 }
-
 android {
 
     def localProperties = new Properties()
@@ -33,15 +32,13 @@ android {
         flutterVersionName = '1.2'
     }
     namespace = "com.abdallah.fullcycle"
-    ndkVersion = "25.1.8937393"
+    ndkVersion = "26.1.10909125"
     compileSdk = 36
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
         coreLibraryDesugaringEnabled true
-
     }
-
     kotlinOptions {
         jvmTarget = "1.8"
     }

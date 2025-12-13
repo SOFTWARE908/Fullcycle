@@ -25,7 +25,6 @@ class ForgetPasswordScreen extends StatelessWidget {
           children: [
             const SizedBox(height: 25),
             CustomTextField(
-
               controller: email,
               hintText: "البريد الالكتروني",
               keyboardType: TextInputType.emailAddress,

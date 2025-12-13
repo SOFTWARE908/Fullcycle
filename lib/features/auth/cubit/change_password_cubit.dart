@@ -1,5 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fullcycle/features/auth/screens/verification_screen.dart';
+import 'package:fullcycle/features/auth/screens/login_screen.dart';
 import 'package:fullcycle/services/navigation/navigation.dart';
 
 import '../../../core/cubit/base_cubit_state.dart';
@@ -29,7 +29,7 @@ class ChangePasswordCubit extends Cubit<CubitState> {
       emit(CubitState.done);
 
       CustomSnackBars.showSuccessToast(title: "تم تغيير كلمة المرور بنجاح");
-      AppNavigation.navigateOffAll(LoginPage());
+      AppNavigation.navigateOffAll(LoginScreen());
     } else {
       emit(CubitState.error);
       CustomSnackBars.showErrorToast(title: response?.data['message']);

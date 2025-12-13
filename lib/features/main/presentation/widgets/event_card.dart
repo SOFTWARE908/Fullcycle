@@ -8,14 +8,16 @@ import '../../../../services/navigation/navigation.dart';
 import '../../../events/screens/event_details_screen.dart';
 
 class EventCard extends StatelessWidget {
-  const EventCard({super.key, required this.event});
+  const EventCard({super.key, required this.event, this.isJoined});
 
   final EventModel event;
+  final bool? isJoined;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => AppNavigation.navigate(EventDetailsScreen(event: event)),
+      onTap: () => AppNavigation.navigate(
+          EventDetailsScreen(event: event, isJoined: isJoined)),
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         padding: const EdgeInsets.all(16),
@@ -134,7 +136,6 @@ class EventCard extends StatelessWidget {
             const SizedBox(height: 16),
             buildItem('النوع : ', 'انثي - ذكر'),
             buildItem('السن : ', '18 - 24'),
-
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -142,10 +143,12 @@ class EventCard extends StatelessWidget {
                   'الوصف : ',
                   style: TextStyle(color: Color(0xff4D5761), fontSize: 16),
                 ),
-                Flexible(child: Text(event.description??"", style: const TextStyle(fontSize: 16))),
+                Flexible(
+                    child: Text(event.description ?? "",
+                        style: const TextStyle(fontSize: 16))),
               ],
             ),
-             const SizedBox(height: 14),
+            const SizedBox(height: 14),
             if (event.departments?.isNotEmpty == true)
               Container(
                 width: double.infinity,
