@@ -53,58 +53,127 @@ class _ExperienceScreenState extends State<ExperienceScreen> {
               itemBuilder: (context, index) {
                 final experience =
                     getCandidateExperiencesCubit.experiencesModel?.data?[index];
-                return Container(
+
+                return Card(
                   margin: const EdgeInsets.only(bottom: 16),
-                  padding: const EdgeInsets.all(15),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      border: Border.all(color: AppColors.greyText)),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            '${experience?.position}',
-                            style: const TextStyle(fontWeight: FontWeight.w600),
-                          ),
-                          PopupMenuButton<String>(
-                            onSelected: (value) {
-                              if (value == 'edit') {
-                                AppNavigation.navigate(EditExperienceScreen(
-                                  item: experience!,
-                                ));
-                              } else if (value == 'delete') {
-                                showDeleteExperienceDialog(experience!.id!);
-                              }
-                            },
-                            itemBuilder: (context) => [
-                              const PopupMenuItem(
-                                value: 'edit',
-                                child: Text("تعديل الخبرة"),
+                  elevation: 3,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        /// Header
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    experience?.position ?? '',
+                                    style: const TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 4),
+                                  Text(
+                                    'عدد سنوات الخبرة: ${experience?.years ?? 0} سنوات',
+                                    style: const TextStyle(
+                                      fontSize: 13,
+                                      color: AppColors.greyText,
+                                    ),
+                                  ),
+                                ],
                               ),
-                              const PopupMenuItem(
-                                value: 'delete',
-                                child: Text("مسح الخبرة"),
+                            ),
+                            PopupMenuButton<String>(
+                              onSelected: (value) {
+                                if (value == 'edit') {
+                                  AppNavigation.navigate(
+                                    EditExperienceScreen(item: experience!),
+                                  );
+                                } else if (value == 'delete') {
+                                  showDeleteExperienceDialog(experience!.id!);
+                                }
+                              },
+                              itemBuilder: (context) => const [
+                                PopupMenuItem(
+                                  value: 'edit',
+                                  child: Row(
+                                    children: [
+                                      Icon(Icons.edit, size: 18),
+                                      SizedBox(width: 8),
+                                      Text("تعديل الخبرة"),
+                                    ],
+                                  ),
+                                ),
+                                PopupMenuItem(
+                                  value: 'delete',
+                                  child: Row(
+                                    children: [
+                                      Icon(Icons.delete_outline,
+                                          size: 18, color: Colors.red),
+                                      SizedBox(width: 8),
+                                      Text("مسح الخبرة"),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+
+                        const Divider(height: 24),
+
+                        /// Company
+                        Row(
+                          children: [
+                            const Icon(Icons.business, size: 18),
+                            const SizedBox(width: 8),
+                            Expanded(
+                              child: Text(
+                                experience?.companyName ?? '',
+                                style: const TextStyle(fontSize: 14),
+                              ),
+                            ),
+                          ],
+                        ),
+
+                        if ((experience?.description ?? '').isNotEmpty) ...[
+                          const SizedBox(height: 12),
+
+                          /// Description
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Icon(Icons.description_outlined, size: 18),
+                              const SizedBox(width: 8),
+                              Expanded(
+                                child: Text(
+                                  experience!.description!,
+                                  style: const TextStyle(
+                                    fontSize: 13,
+                                    color: AppColors.greyText,
+                                    height: 1.4,
+                                  ),
+                                ),
                               ),
                             ],
-                            icon: const Icon(Icons.more_horiz),
                           ),
                         ],
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 8, bottom: 12),
-                        child: Text('${experience?.companyName}'),
-                      ),
-                      Text('${experience?.description}')
-                    ],
+                      ],
+                    ),
                   ),
                 );
               });
         } else if (state == CubitState.loading) {
           return const CustomLoadingWidget();
-        } else if (state == CubitState.empty) {
+        } else if (state == CubitState.empty || state == CubitState.error) {
           return Padding(
             padding: const EdgeInsets.only(bottom: 100, left: 16, right: 16),
             child: Center(
@@ -130,7 +199,8 @@ class _ExperienceScreenState extends State<ExperienceScreen> {
                     ),
                   ),
                   CustomElevatedButton(
-                    onTap: () => AppNavigation.navigate(const AddExperienceScreen()),
+                    onTap: () =>
+                        AppNavigation.navigate(const AddExperienceScreen()),
                     buttonText: 'اضافة خبرة جديدة',
                     fontColor: const Color(0xffF5DCCB),
                     fontWeight: FontWeight.w500,

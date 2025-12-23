@@ -48,15 +48,16 @@ class AppThemes {
     appBarTheme: const AppBarTheme(
       // iconTheme: IconThemeData(size: 13.sp),
       titleSpacing: 0,
+
       centerTitle: true,
       titleTextStyle: TextStyle(
-          fontSize: 16,
-          fontWeight: FontWeight.w500,
-          color: AppColors.textColor,
-          fontFamily: 'IBMPlexSansArabic',
+        fontSize: 16,
+        fontWeight: FontWeight.w500,
+        color: AppColors.textColor,
+        fontFamily: 'IBMPlexSansArabic',
       ),
       elevation: 0,
-      backgroundColor: AppColors.grey,
+      backgroundColor: AppColors.whiteColor,
     ),
     secondaryHeaderColor: AppColors.whiteColor,
     highlightColor: Colors.transparent,

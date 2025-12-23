@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:fullcycle/features/candidate/data/models/experiences_model.dart';
 import 'package:fullcycle/features/candidate/data/models/lookup_model.dart';
 import 'package:fullcycle/services/cache/cache_helper.dart';
 import 'package:fullcycle/services/navigation/navigation.dart';
@@ -52,8 +51,7 @@ class CandidateRepository {
       final file = File(filePath);
 
       final formData = FormData.fromMap({
-        "documentType":
-            documentType, // e.g., "cv", "criminalRecord", "delegation"
+        "documentType": documentType,
         "file": await MultipartFile.fromFile(file.path,
             filename: file.uri.pathSegments.last),
       });
@@ -72,12 +70,7 @@ class CandidateRepository {
   static Future<Response?> getCandidateExperiences() async {
     final response =
         await DioHelper.getData(url: EndPoints.candidateGetExperience);
-    if (response?.statusCode == 200) {
-      return response;
-    } else {
-      // errorHandler(response);
-    }
-    return null;
+    return response;
   }
 
   static Future<Response?> getCandidateImage() async {
@@ -148,6 +141,7 @@ class CandidateRepository {
         url: EndPoints.deleteEvent, query: {'eventId': id});
     if (response?.statusCode == 200) {
       CustomSnackBars.showSuccessToast(title: 'تم المغادرة بنجاح');
+      AppNavigation.pop();
       return response;
     } else {
       errorHandler(response);
@@ -167,12 +161,14 @@ class CandidateRepository {
     return null;
   }
 
-  static Future<Response?> addExperience(String companyName, String projectName,
-      String description, String position, int years) async {
+  static Future<Response?> addExperience(
+      {required String companyName,
+      required String description,
+      required String position,
+      required int years}) async {
     final response =
         await DioHelper.postData(url: EndPoints.candidateAddExperience, data: {
       'companyName': companyName,
-      'projectName': projectName,
       'description': description,
       'position': position,
       'years': years,
@@ -185,13 +181,24 @@ class CandidateRepository {
     return null;
   }
 
-  static Future<Response?> updateExperience(ExperienceItem item) async {
+  static Future<Response?> updateExperience(
+      {required String companyName,
+      required String description,
+      required String position,
+      required int years,
+      required int id}) async {
     final response = await DioHelper.updateData(
-        url: EndPoints.candidateDeleteExperience,
-        query: {'ExperienceId': item.id});
+        url: EndPoints.candidateUpdateExperience,
+        query: {
+          'ExperinceId': id,
+        },
+        data: {
+          'companyName': companyName,
+          'description': description,
+          'position': position,
+          'years': years,
+        });
     if (response?.statusCode == 200) {
-      CustomSnackBars.showSuccessToast(title: 'تم مسح الخبرة بنجاح');
-      AppNavigation.pop();
       return response;
     } else {
       errorHandler(response);
@@ -227,6 +234,11 @@ class CandidateRepository {
     return null;
   }
 
+  static Future<Response?> getBankInfo() async {
+    final response = await DioHelper.getData(url: EndPoints.getBankInfo);
+    return response;
+  }
+
   static Future<Response?> updateIBAN(
     iban,
     bankId,
@@ -235,17 +247,14 @@ class CandidateRepository {
     delegateName,
   ) async {
     final response =
-        await DioHelper.updateData(url: EndPoints.candidateUpdateIban, query: {
+        await DioHelper.updateData(url: EndPoints.candidateUpdateIban, data: {
       'bankId': bankId,
-      'ibanNumber': iban,
+      'iBan': iban,
       'hasDelegate': hasDelegate,
       'delegateID': delegateID,
       'delegateName': delegateName,
     });
-    if (response?.statusCode == 200) {
-      return response;
-    } else {}
-    return null;
+    return response;
   }
 
   static Future<Response?> validateIBAN(
@@ -255,10 +264,7 @@ class CandidateRepository {
     final response = await DioHelper.getData(
         url: EndPoints.candidateValidateIban,
         query: {'bankId': bankId, 'ibanNumber': iban});
-    if (response?.statusCode == 200) {
-      return response;
-    }
-    return null;
+    return response;
   }
 
   static Future<Response?> addBank() async {
@@ -373,15 +379,15 @@ class CandidateRepository {
     return null;
   }
 
+  static Future<Response?> getEventsDropdownList() async {
+    final response =
+        await DioHelper.getData(url: EndPoints.getAllActiveEventsSelectList);
+    return response;
+  }
+
   static Future<Response?> getActiveEvents() async {
     final response = await DioHelper.getData(url: EndPoints.getAllActiveEvents);
-    if (response?.statusCode == 200) {
-      return response;
-    } else {
-      errorHandler(response);
-    }
-
-    return null;
+    return response;
   }
 
   static Future<Response?> register({

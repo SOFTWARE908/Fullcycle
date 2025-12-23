@@ -165,9 +165,8 @@ class DioHelper {
         validateStatus: (status) => true,
       )).put(
         url,
-        options: Options(headers: {
-          'Authorization': 'Bearer ${CacheHelper.getToken}',
-        }),
+        options: Options(
+            headers: {'Authorization': 'Bearer ${CacheHelper.getToken}'}),
         data: data,
         queryParameters: query,
       );

@@ -12,8 +12,7 @@ class CustomLoadingWidget extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(top: padding ?? 0),
       child: Center(
-          child: CircularProgressIndicator.adaptive(
-              backgroundColor: color ?? Colors.white)),
+          child: CircularProgressIndicator.adaptive(backgroundColor: color)),
     );
   }
 }

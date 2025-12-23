@@ -12,14 +12,14 @@ class GetCandidateExperiencesCubit extends Cubit<CubitState> {
 
     try {
       final response = await CandidateRepository.getCandidateExperiences();
-      if (response != null) {
-        experiencesModel = ExperiencesModel.fromJson(response.data);
+      if (response?.statusCode == 200) {
+        experiencesModel = ExperiencesModel.fromJson(response?.data);
         emit(CubitState.done);
       } else {
         emit(CubitState.empty);
       }
     } catch (e) {
-      emit(CubitState.empty);
+      emit(CubitState.error);
     }
   }
 }

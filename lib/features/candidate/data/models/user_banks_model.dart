@@ -1,3 +1,5 @@
+import 'package:equatable/equatable.dart';
+
 class UserBanksModel {
   List<BankInfoModel>? data;
   int? status;
@@ -27,7 +29,7 @@ class UserBanksModel {
   }
 }
 
-class BankInfoModel {
+class BankInfoModel extends Equatable {
   int? value;
   String? text;
 
@@ -44,4 +46,8 @@ class BankInfoModel {
     data['text'] = text;
     return data;
   }
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [value, text];
 }

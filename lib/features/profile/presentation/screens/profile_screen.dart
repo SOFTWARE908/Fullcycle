@@ -11,6 +11,7 @@ import 'package:fullcycle/services/navigation/navigation.dart';
 import 'package:fullcycle/shared/widgets/custom_divider.dart';
 
 import '../../../../core/resources/colors.dart';
+import '../../../notificatoins/notifciations_screen.dart';
 import '../widgets/delete_account_widget.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -100,12 +101,13 @@ class ProfileScreen extends StatelessWidget {
               ),
               child: Column(
                 children: [
-                  // buildItem('الامان', 'security',
-                  //     () => AppNavigation.navigate(const SecurityScreen())),
-                  // const CustomDivider(),
                   buildItem('الاعدادت', 'settings', () {}),
                   const CustomDivider(),
-                  buildItem('الاشعارات', 'notif', () {}),
+                  buildItem(
+                      'الاشعارات',
+                      'notif',
+                      () =>
+                          AppNavigation.navigate(const NotificationsScreen())),
                 ],
               ),
             ),
@@ -159,7 +161,7 @@ class ProfileScreen extends StatelessWidget {
   }
 
   buildItem(String title, String icon, Function function, [color]) {
-    return GestureDetector(
+    return InkWell(
       onTap: () => function(),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),

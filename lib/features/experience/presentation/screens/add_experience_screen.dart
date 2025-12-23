@@ -19,7 +19,6 @@ class _AddExperienceScreenState extends State<AddExperienceScreen> {
   final companyNameController = TextEditingController();
   final position = TextEditingController();
   final numOfYearsController = TextEditingController();
-  final projectNameController = TextEditingController();
   final descriptionController = TextEditingController();
 
   String? _requiredValidator(String? value, {String? fieldName}) {
@@ -43,11 +42,10 @@ class _AddExperienceScreenState extends State<AddExperienceScreen> {
   void _onSave() {
     if (_formKey.currentState!.validate()) {
       context.read<AddExperienceCubit>().addExpeience(
-            companyNameController.text.trim(),
-            projectNameController.text.trim(),
-            descriptionController.text.trim(),
-            position.text.trim(),
-            int.parse(numOfYearsController.text.trim()),
+            companyName: companyNameController.text.trim(),
+            description: descriptionController.text.trim(),
+            position: position.text.trim(),
+            years: int.parse(numOfYearsController.text.trim()),
           );
     }
   }
@@ -77,15 +75,6 @@ class _AddExperienceScreenState extends State<AddExperienceScreen> {
                       _requiredValidator(val, fieldName: "اسم الشركة"),
                 ),
                 const SizedBox(height: 16),
-                const Text('اسم المشروع'),
-                const SizedBox(height: 8),
-
-                CustomTextField(
-                  controller: projectNameController,
-                  validator: (val) =>
-                      _requiredValidator(val, fieldName: "اسم المشروع"),
-                ),
-                const SizedBox(height: 16),
                 const Text('المسمي الوظيفي'),
                 const SizedBox(height: 8),
                 CustomTextField(
@@ -94,7 +83,7 @@ class _AddExperienceScreenState extends State<AddExperienceScreen> {
                       _requiredValidator(val, fieldName: "المسمي الوظيفي"),
                 ),
                 const SizedBox(height: 16),
-                const Text('المدة'),
+                const Text('المدة(عدد السنوات)'),
                 const SizedBox(height: 8),
                 CustomTextField(
                   controller: numOfYearsController,

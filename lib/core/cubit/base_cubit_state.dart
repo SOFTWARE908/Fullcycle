@@ -1,1 +1,9 @@
-enum CubitState { initial, loading, done, error, empty }
+enum CubitState {
+  initial,
+  loading,
+  done,
+  error,
+  empty,
+  userInactive,
+  updateIban
+}
