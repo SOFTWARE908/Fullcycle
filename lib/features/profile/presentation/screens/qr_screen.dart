@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fullcycle/core/cubit/base_cubit_state.dart';
 import 'package:fullcycle/core/resources/colors.dart';
 import 'package:fullcycle/features/events/data/model/zone_model.dart';
 import 'package:fullcycle/shared/widgets/custom_button.dart';
@@ -8,6 +7,7 @@ import 'package:fullcycle/shared/widgets/custom_loading_widget.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 import '../../../candidate/cubit/get_qr_code_cubit.dart';
+import '../../../candidate/get_qr_code_state.dart';
 
 class AttendanceQrScreen extends StatefulWidget {
   const AttendanceQrScreen({super.key});
@@ -38,18 +38,18 @@ class _AttendanceQrScreenState extends State<AttendanceQrScreen> {
       appBar: AppBar(title: const Text('رمز ال QR ')),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: BlocBuilder<GetCandidateQRCodeCubit, CubitState>(
+        child: BlocBuilder<GetCandidateQRCodeCubit, GetQrCodeState>(
             builder: (context, state) {
-          if (state == CubitState.userInactive)
+          if (state is GetQrCodeStateError) {
             return Center(
                 child: Text(
-              'لم يتم تسجيلك كمشرف في اي فاعلية',
-              style: TextStyle(
+              state.message,
+              style: const TextStyle(
                 color: Colors.red,
                 fontWeight: FontWeight.w500,
               ),
             ));
-          else if (state == CubitState.done)
+          } else if (state is GetQrCodeStateDone) {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -214,8 +214,10 @@ class _AttendanceQrScreenState extends State<AttendanceQrScreen> {
                             )),
               ],
             );
-          else if (state == CubitState.loading) return CustomLoadingWidget();
-          return SizedBox();
+          } else if (state is GetQrCodeStateLoading) {
+            return const CustomLoadingWidget();
+          }
+          return const SizedBox();
         }),
       ),
       bottomNavigationBar: (event?.value == null ||

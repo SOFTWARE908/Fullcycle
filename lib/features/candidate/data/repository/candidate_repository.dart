@@ -43,6 +43,28 @@ class CandidateRepository {
     return null;
   }
 
+  static Future<Response?> uploadCv({
+    required String filePath,
+  }) async {
+    try {
+      final file = File(filePath);
+
+      final formData = FormData.fromMap({
+        "CV": await MultipartFile.fromFile(file.path,
+            filename: file.uri.pathSegments.last),
+      });
+
+      final response = await DioHelper.putFormData(
+        url: "/Files/UpdateCv",
+        data: formData,
+      );
+
+      return response;
+    } catch (e) {
+      return null;
+    }
+  }
+
   static Future<Response?> uploadDocument({
     required String filePath,
     required String documentType,

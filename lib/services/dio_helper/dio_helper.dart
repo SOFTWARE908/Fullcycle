@@ -69,6 +69,33 @@ class DioHelper {
     }
   }
 
+  static Future<Response?> putFormData(
+      {required String url, required FormData data}) async {
+    try {
+      final response = await Dio(BaseOptions(
+        baseUrl: EndPoints.baseUrl,
+        receiveDataWhenStatusError: true,
+        followRedirects: false,
+        validateStatus: (status) => true,
+        headers: {"Content-Type": "application/json"},
+      )).put(url, data: data);
+
+      log('URL:${response.requestOptions.uri}');
+      log('STATUS CODE:${response.statusCode}');
+      if (response.data != null) {
+        log('DATA:${response.data}');
+      }
+      if (response.statusCode == 422 || response.statusCode == 401) {
+        await CandidateRepository.generateNewToken();
+      } else if (response.statusCode == 401) {}
+      return response;
+    } catch (e) {
+      log('$e');
+
+      return e is DioException ? e.response : null;
+    }
+  }
+
   static Future<Response?> putData(
       {required String url, Map<String, dynamic>? data}) async {
     try {

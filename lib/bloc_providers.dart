@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fullcycle/features/auth/cubit/forget_password_cubit.dart';
 import 'package:fullcycle/features/events/cubit/get_event_subzones_cubit.dart';
+import 'package:fullcycle/features/user_documents/cubit/cv_cubit.dart';
 
 import 'features/auth/cubit/change_password_cubit.dart';
 import 'features/auth/cubit/login_cubit.dart';
@@ -19,7 +20,8 @@ import 'features/events/cubit/join_event_cubit.dart';
 import 'features/events/cubit/my_events_cubit.dart';
 import 'features/experience/presentation/cubit/add_experience_cubit.dart';
 import 'features/experience/presentation/cubit/edit_experience_cubit.dart';
-import 'features/user_documents/edit_personal_document_cubit.dart';
+import 'features/user_documents/cubit/criminal_record_cubit.dart';
+import 'features/user_documents/cubit/delegation_cubit.dart';
 
 final providers = [
   BlocProvider<GetCandidateExperiencesCubit>(
@@ -44,11 +46,12 @@ final providers = [
   BlocProvider<QrProfileCubit>(create: (context) => QrProfileCubit()),
   BlocProvider<EditExperienceCubit>(create: (context) => EditExperienceCubit()),
   BlocProvider<RegisterCubit>(create: (context) => RegisterCubit()),
-  BlocProvider<PersonalDocumentsCubit>(
-      create: (context) => PersonalDocumentsCubit()),
+  BlocProvider<CvCubit>(create: (context) => CvCubit()),
   BlocProvider<JoinEventCubit>(create: (context) => JoinEventCubit()),
   BlocProvider<AttendCandidateCubit>(
       create: (context) => AttendCandidateCubit()),
   BlocProvider<ForgetPasswordCubit>(create: (context) => ForgetPasswordCubit()),
+  BlocProvider<DelegationCubit>(create: (context) => DelegationCubit()),
+  BlocProvider<CriminalRecordCubit>(create: (context) => CriminalRecordCubit()),
   BlocProvider<ChangePasswordCubit>(create: (context) => ChangePasswordCubit()),
 ];

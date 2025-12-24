@@ -4,15 +4,18 @@ import 'package:fullcycle/features/auth/screens/change_password_screen.dart';
 import 'package:fullcycle/features/candidate/presentation/screens/update_bank_information_screen.dart';
 import 'package:fullcycle/features/events/screens/joined_events_screen.dart';
 import 'package:fullcycle/features/experience/presentation/screens/experience_screen.dart';
+import 'package:fullcycle/features/profile/presentation/screens/who_us_screen.dart';
 import 'package:fullcycle/features/profile/presentation/widgets/profile_header.dart';
 import 'package:fullcycle/features/user_documents/presentation/screens/edit_personal_documents_screen.dart';
 import 'package:fullcycle/services/cache/cache_helper.dart';
 import 'package:fullcycle/services/navigation/navigation.dart';
 import 'package:fullcycle/shared/widgets/custom_divider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../core/resources/colors.dart';
 import '../../../notificatoins/notifciations_screen.dart';
 import '../widgets/delete_account_widget.dart';
+import 'help_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -128,11 +131,16 @@ class ProfileScreen extends StatelessWidget {
               ),
               child: Column(
                 children: [
-                  buildItem('المساعدة', 'help', () {}),
+                  buildItem('المساعدة', 'help',
+                      () => AppNavigation.navigate(HelpScreen())),
                   const CustomDivider(),
-                  buildItem('سياسة الخصوصية', 'privacy', () {}),
+                  buildItem('سياسة الخصوصية', 'privacy', () async {
+                    await launchUrl(Uri.parse(
+                        'https://software908.github.io/expertscodes-privacy-policy/expertscodes-privacy-policy-en.html'));
+                  }),
                   const CustomDivider(),
-                  buildItem('تعرف عنا', 'info', () {}),
+                  buildItem('تعرف عنا', 'info',
+                      () => AppNavigation.navigate(const WhoUsScreen())),
                 ],
               ),
             ),

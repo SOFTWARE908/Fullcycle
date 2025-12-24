@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:fullcycle/shared/widgets/custom_loading_widget.dart';
 
 import '../../../../core/resources/colors.dart';
 import '../../../../shared/widgets/custom_button.dart';
 
 class DocumentUploader extends StatelessWidget {
   final String title;
-  final String fileName;
+  final String? fileName;
+  final bool isLoading;
   final VoidCallback onUpload;
   final VoidCallback onRemove;
 
@@ -14,18 +16,20 @@ class DocumentUploader extends StatelessWidget {
     super.key,
     required this.title,
     required this.fileName,
+    required this.isLoading,
     required this.onUpload,
     required this.onRemove,
   });
 
   @override
   Widget build(BuildContext context) {
-    final hasFile = fileName != "لم يتم رفع الملف بعد";
+    final hasFile = fileName != null;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(title, style: const TextStyle(fontSize: 16, color: AppColors.textColor)),
+        Text(title,
+            style: const TextStyle(fontSize: 16, color: AppColors.textColor)),
         const SizedBox(height: 8),
         const Text(
           'Maximum file size allowed is 2MB, supported file formats include .jpg, .png, and .pdf.',
@@ -49,7 +53,7 @@ class DocumentUploader extends StatelessWidget {
                     const SizedBox(width: 8),
                     Expanded(
                       child: Text(
-                        fileName,
+                        fileName ?? "لا يوجد ملف مرفوع",
                         style: const TextStyle(fontSize: 12),
                         overflow: TextOverflow.ellipsis,
                       ),
@@ -65,14 +69,16 @@ class DocumentUploader extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 8),
-            CustomElevatedButton(
-              padding: 10,
-              width: 90,
-              height: 36,
-              color: Colors.black,
-              onTap: onUpload,
-              buttonText: "رفع الملف",
-            ),
+            isLoading
+                ? const CustomLoadingWidget()
+                : CustomElevatedButton(
+                    padding: 10,
+                    width: 90,
+                    height: 36,
+                    color: Colors.black,
+                    onTap: onUpload,
+                    buttonText: "رفع الملف",
+                  ),
           ],
         ),
       ],
