@@ -17,10 +17,13 @@ class EventsScreen extends StatefulWidget {
 }
 
 class _EventsScreenState extends State<EventsScreen> {
+  late GetActiveEventsCubit getActiveEventsCubit;
+
   @override
   void initState() {
     super.initState();
-    context.read<GetActiveEventsCubit>().getActiveEvents();
+    getActiveEventsCubit = context.read<GetActiveEventsCubit>();
+    getActiveEventsCubit.getActiveEvents();
   }
 
   @override
@@ -32,10 +35,8 @@ class _EventsScreenState extends State<EventsScreen> {
       ),
       body: BlocBuilder<GetActiveEventsCubit, CubitState>(
         builder: (_, state) {
-          final cubit = context.read<GetActiveEventsCubit>();
-
           if (state == CubitState.done) {
-            final events = cubit.filteredEvents;
+            final events = getActiveEventsCubit.filteredEvents;
 
             return Column(
               mainAxisSize: MainAxisSize.min,
@@ -49,9 +50,8 @@ class _EventsScreenState extends State<EventsScreen> {
                         child: CustomTextField(
                           hintText: 'بحث عن طريق الاسم',
                           hintColor: Colors.grey,
-                          onChanged: (text) => context
-                              .read<GetActiveEventsCubit>()
-                              .searchEvents(text),
+                          onChanged: (text) =>
+                              getActiveEventsCubit.searchEvents(text),
                         ),
                       ),
                       const SizedBox(width: 16),
@@ -93,8 +93,7 @@ class _EventsScreenState extends State<EventsScreen> {
           } else if (state == CubitState.error) {
             return Center(
               child: GestureDetector(
-                onTap: () =>
-                    context.read<GetActiveEventsCubit>().getActiveEvents(),
+                onTap: () => getActiveEventsCubit.getActiveEvents(),
                 child: const Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

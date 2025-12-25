@@ -25,11 +25,13 @@ class GetActiveEventsCubit extends Cubit<CubitState> {
         filteredEvents = List<EventModel>.from(events);
         emit(CubitState.done);
       } else {
-        await CandidateRepository.generateNewToken();
         emit(CubitState.error);
+        // await CandidateRepository.generateNewToken();
       }
-    } catch (_) {
-      await CandidateRepository.generateNewToken();
+    } catch (e) {
+      //hany
+
+      // await CandidateRepository.generateNewToken();
       emit(CubitState.error);
     }
   }

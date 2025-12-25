@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../widgets/criminal_record_uploader.dart';
 import '../widgets/cv_uploader.dart';
 
 class EditPersonalDocumentsScreen extends StatelessWidget {
@@ -15,7 +16,7 @@ class EditPersonalDocumentsScreen extends StatelessWidget {
         children: const [
           CvUploader(),
           SizedBox(height: 24),
-          // CriminalRecordUploader(),
+          CriminalRecordUploader(),
           SizedBox(height: 24),
           // DelegationUploader(),
         ],

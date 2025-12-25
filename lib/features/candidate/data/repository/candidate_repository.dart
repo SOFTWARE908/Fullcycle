@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fullcycle/features/candidate/data/models/lookup_model.dart';
 import 'package:fullcycle/services/cache/cache_helper.dart';
 import 'package:fullcycle/services/navigation/navigation.dart';
@@ -10,6 +12,7 @@ import '../../../../core/const/api_consts.dart';
 import '../../../../services/dio_helper/dio_helper.dart';
 import '../../../../services/dio_helper/error_handler.dart';
 import '../../../../shared/model/user_model.dart';
+import '../../cubit/get_candidate_experiences_cubit.dart';
 import '../models/candidate_model.dart';
 
 class CandidateRepository {
@@ -35,17 +38,36 @@ class CandidateRepository {
 
   static Future<LookupModel?> getLookUps() async {
     final response = await DioHelper.getData(url: EndPoints.getLookUps);
+
     if (response?.statusCode == 200) {
-      lookupModel = LookupModel.fromJson(response?.data);
+      return LookupModel.fromJson(response?.data);
     } else {
       errorHandler(response);
     }
     return null;
   }
 
-  static Future<Response?> uploadCv({
-    required String filePath,
-  }) async {
+  static Future<Response?> uploadFesh({required String filePath}) async {
+    try {
+      final file = File(filePath);
+
+      final formData = FormData.fromMap({
+        "Fesh": await MultipartFile.fromFile(file.path,
+            filename: file.uri.pathSegments.last),
+      });
+
+      final response = await DioHelper.putData(
+        url: "/Files/UpdateFesh",
+        data: formData,
+      );
+
+      return response;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  static Future<Response?> uploadCv({required String filePath}) async {
     try {
       final file = File(filePath);
 
@@ -54,11 +76,29 @@ class CandidateRepository {
             filename: file.uri.pathSegments.last),
       });
 
-      final response = await DioHelper.putFormData(
+      final response = await DioHelper.putData(
         url: "/Files/UpdateCv",
         data: formData,
       );
 
+      return response;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  static Future<Response?> getFesh() async {
+    try {
+      final response = await DioHelper.getData(url: 'Files/GetFesh');
+      return response;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  static Future<Response?> getCV() async {
+    try {
+      final response = await DioHelper.getData(url: 'Files/GetCv');
       return response;
     } catch (e) {
       return null;
@@ -172,17 +212,6 @@ class CandidateRepository {
     return null;
   }
 
-  static Future<Response?> getMobileCandidate(String id) async {
-    final response = await DioHelper.getData(
-        url: EndPoints.candidateGetMobile, data: {'candidateId': id});
-    if (response?.statusCode == 200) {
-      return response;
-    } else {
-      errorHandler(response);
-    }
-    return null;
-  }
-
   static Future<Response?> addExperience(
       {required String companyName,
       required String description,
@@ -209,7 +238,7 @@ class CandidateRepository {
       required String position,
       required int years,
       required int id}) async {
-    final response = await DioHelper.updateData(
+    final response = await DioHelper.putData(
         url: EndPoints.candidateUpdateExperience,
         query: {
           'ExperinceId': id,
@@ -232,10 +261,13 @@ class CandidateRepository {
     final response = await DioHelper.deleteData(
         url: EndPoints.candidateDeleteExperience,
         query: {'ExperienceId': experienceId});
-    if (response?.statusCode == 200) {
+    if (response?.statusCode == 200 && AppNavigation.context.mounted) {
       CustomSnackBars.showSuccessToast(title: 'تم مسح الخبرة بنجاح');
       AppNavigation.pop();
-      AppNavigation.pop();
+
+      AppNavigation.context
+          .read<GetCandidateExperiencesCubit>()
+          .getCandidateExperiences();
       return response;
     } else {
       errorHandler(response);
@@ -269,7 +301,7 @@ class CandidateRepository {
     delegateName,
   ) async {
     final response =
-        await DioHelper.updateData(url: EndPoints.candidateUpdateIban, data: {
+        await DioHelper.putData(url: EndPoints.candidateUpdateIban, data: {
       'bankId': bankId,
       'iBan': iban,
       'hasDelegate': hasDelegate,
@@ -287,16 +319,6 @@ class CandidateRepository {
         url: EndPoints.candidateValidateIban,
         query: {'bankId': bankId, 'ibanNumber': iban});
     return response;
-  }
-
-  static Future<Response?> addBank() async {
-    final response = await DioHelper.getData(url: '', query: {});
-    if (response?.statusCode == 200) {
-      return response;
-    } else {
-      errorHandler(response);
-    }
-    return null;
   }
 
   static Future<Response?> getZonesOfEvent(id) async {
@@ -332,20 +354,6 @@ class CandidateRepository {
     return null;
   }
 
-  static Future<Response?> sendOtp(String number) async {
-    final response =
-        await DioHelper.postLoginData(url: EndPoints.sendOTP, data: {
-      'nationalId': number,
-      'userCategory': 5,
-    });
-    if (response?.statusCode == 200) {
-      return response;
-    } else {
-      errorHandler(response);
-    }
-    return null;
-  }
-
   static Future<Response?> attendCandidate(String code) async {
     final response =
         await DioHelper.postData(url: EndPoints.attendCandidate, query: {
@@ -366,27 +374,36 @@ class CandidateRepository {
       "firebase_token": '',
       'twoFactorCode': '',
       'twoFactorRecoveryCode': '',
-      "device_name": Platform.isIOS ? 'ios' : 'android',
+      "device_name": Platform.isIOS
+          ? 'ios'
+          : Platform.isAndroid
+              ? 'android'
+              : 'not-android-or-ios',
     });
     if (response?.statusCode == 200) {
-      final user = UserModel.fromJson(response?.data);
+      await CacheHelper.saveToken(response!.data!['data']['authToken']);
+      await CacheHelper.saveRefreshToken(
+          response.data!['data']['refreshTokenId']);
+      await CacheHelper.saveEmail(email);
+      await CacheHelper.savePassword(password);
+      await CandidateRepository.getCandidate();
+      final user = UserModel.fromJson(response.data);
+
       return user;
     }
     return null;
   }
 
   static Future<void> generateNewToken() async {
-    final response =
-        await DioHelper.postLoginData(url: EndPoints.refreshToken, data: {
-      'ExpiredToken': CacheHelper.getToken,
-      'refreshTokenId': CacheHelper.getRefreshToken,
-    });
+    final response = await DioHelper.postData(
+        url: EndPoints.refreshToken, data: {'expiredToken': CacheHelper.token});
 
     if (response?.statusCode == 200) {
       final token = response?.data['data']['authToken'];
-      final refreshToken = response?.data['data']['refreshTokenId'];
+      // final refreshToken = response?.data['data']['refreshTokenId'];
+      debugPrint('New token: $token:');
       await CacheHelper.saveToken(token);
-      await CacheHelper.saveRefreshToken(refreshToken);
+      // await CacheHelper.saveRefreshToken(refreshToken);
     }
   }
 
@@ -395,7 +412,7 @@ class CandidateRepository {
     if (response?.statusCode == 200) {
       return response;
     } else {
-      // errorHandler(response);
+      errorHandler(response);
     }
 
     return null;
@@ -408,8 +425,7 @@ class CandidateRepository {
   }
 
   static Future<Response?> getActiveEvents() async {
-    final response = await DioHelper.getData(url: EndPoints.getAllActiveEvents);
-    return response;
+    return await DioHelper.getData(url: EndPoints.getAllActiveEvents);
   }
 
   static Future<Response?> register({

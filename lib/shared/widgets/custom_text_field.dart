@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 
 import '../../core/resources/colors.dart';
 import '../../core/resources/styles.dart';
-import '../../services/navigation/navigation.dart';
 import '../functions/general_functions.dart';
 
 class CustomTextField extends StatelessWidget {
-  final TextEditingController ?controller;
+  final TextEditingController? controller;
   final String? hintText;
   final Color? hintColor;
   final int? maxLength;
@@ -16,7 +15,7 @@ class CustomTextField extends StatelessWidget {
   final Icon? prefixIcon;
   final double borderRadius;
   final double? hintFontSize;
-  final    Widget ?suffixIcon;
+  final Widget? suffixIcon;
   final FocusNode? focusNode;
   final TextInputType keyboardType;
   final String? Function(String?)? validator;
@@ -24,9 +23,9 @@ class CustomTextField extends StatelessWidget {
   final void Function(String)? onSubmitted;
   final TextInputAction textInputAction;
 
-    const CustomTextField({
+  const CustomTextField({
     super.key,
-      this.controller,
+    this.controller,
     this.hintText,
     this.maxLines,
     this.maxLength,
@@ -48,8 +47,8 @@ class CustomTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      onTap: ( ) {
-        if(controller!=null) {
+      onTap: () {
+        if (controller != null) {
           GeneralFunctions.unFocusCursorRTL(controller!);
         }
       },
@@ -67,8 +66,7 @@ class CustomTextField extends StatelessWidget {
         hintStyle: lightGrey15W400.copyWith(
             color: hintColor ?? Colors.black, fontSize: hintFontSize),
         labelStyle: lightGrey15W400,
-        fillColor:
-            fillColor ?? Theme.of(AppNavigation.context).secondaryHeaderColor,
+        fillColor: fillColor ?? Colors.white,
         prefixIconConstraints: const BoxConstraints(),
         filled: true,
         prefixIcon: prefixIcon != null

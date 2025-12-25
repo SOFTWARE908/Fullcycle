@@ -1,7 +1,6 @@
 class EndPoints {
   static String baseUrl = 'https://api.mshware.com/api/';
 
-  static const String sendOTP = 'user';
   static const String login = 'User/login';
 
   static const String refreshToken = 'User/RefreshToken';

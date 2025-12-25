@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:fullcycle/features/candidate/data/repository/candidate_repository.dart';
-import 'package:fullcycle/services/cache/cache_helper.dart';
 import 'package:fullcycle/full_cycle.dart';
-import 'shared/functions/restart_app.dart';
+import 'package:fullcycle/services/cache/cache_helper.dart';
+import 'package:fullcycle/services/dio_helper/dio_helper.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   await CacheHelper.init();
-  await CandidateRepository.getLookUps();
-  runApp(const RestartWidget(child: MyApp()));
+  DioHelper.init();
+  runApp(const MyApp());
 }

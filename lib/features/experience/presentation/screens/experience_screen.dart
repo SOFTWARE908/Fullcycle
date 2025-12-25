@@ -35,8 +35,7 @@ class _ExperienceScreenState extends State<ExperienceScreen> {
         title: const Text('الخبرات والمشاراكات'),
         actions: [
           IconButton(
-              onPressed: () =>
-                  AppNavigation.navigate(const AddExperienceScreen()),
+              onPressed: () => AppNavigation.push(const AddExperienceScreen()),
               icon: const Icon(
                 Icons.add,
                 size: 30,
@@ -94,7 +93,7 @@ class _ExperienceScreenState extends State<ExperienceScreen> {
                             PopupMenuButton<String>(
                               onSelected: (value) {
                                 if (value == 'edit') {
-                                  AppNavigation.navigate(
+                                  AppNavigation.push(
                                     EditExperienceScreen(item: experience!),
                                   );
                                 } else if (value == 'delete') {
@@ -200,7 +199,7 @@ class _ExperienceScreenState extends State<ExperienceScreen> {
                   ),
                   CustomElevatedButton(
                     onTap: () =>
-                        AppNavigation.navigate(const AddExperienceScreen()),
+                        AppNavigation.push(const AddExperienceScreen()),
                     buttonText: 'اضافة خبرة جديدة',
                     fontColor: const Color(0xffF5DCCB),
                     fontWeight: FontWeight.w500,

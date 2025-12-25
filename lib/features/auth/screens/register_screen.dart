@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fullcycle/core/cubit/base_cubit_state.dart';
 import 'package:fullcycle/core/resources/colors.dart';
-import 'package:fullcycle/features/candidate/data/repository/candidate_repository.dart';
 import 'package:fullcycle/shared/widgets/custom_button.dart';
 import 'package:fullcycle/shared/widgets/custom_loading_widget.dart';
 import 'package:fullcycle/shared/widgets/custom_snack_bar.dart';
@@ -13,9 +12,8 @@ import 'package:fullcycle/shared/widgets/custom_text_field.dart';
 import 'package:intl/intl.dart';
 
 import '../../candidate/data/models/lookup_model.dart';
+import '../cubit/lookups_cubit.dart';
 import '../cubit/register_cubit.dart';
-
-//
 
 String formatDate(String input) {
   final inputFormat = DateFormat('dd/MM/yyyy');
@@ -52,11 +50,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
   LookUpItem? department;
 
   int _currentStep = 0;
-  final lookUps = CandidateRepository.lookupModel;
 
+  late LookupsCubit lookupsCubit;
   @override
   void initState() {
     super.initState();
+
+    lookupsCubit = context.read<LookupsCubit>();
+    lookupsCubit.getLookUps();
     if (kDebugMode) {
       arabicNameController.text = "محمد";
       englishNameController.text = "Ali";
@@ -189,165 +190,173 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("تسجيل حساب جديد"),
-        leading: BackButton(
-          onPressed: () {
-            if (_currentStep > 0) {
-              setState(() => _currentStep -= 1);
-            } else {
-              Navigator.pop(context);
-            }
-          },
+        appBar: AppBar(
+          title: const Text("تسجيل حساب جديد"),
+          leading: BackButton(
+            onPressed: () {
+              if (_currentStep > 0) {
+                setState(() => _currentStep -= 1);
+              } else {
+                Navigator.pop(context);
+              }
+            },
+          ),
         ),
-      ),
-      body: Stepper(
-        type: StepperType.horizontal,
-        currentStep: _currentStep,
-        controlsBuilder: (context, details) => Row(
-          children: [
-            Flexible(
-              child: CustomElevatedButton(
-                onTap: () {
-                  if (_currentStep < 2) {
-                    if (_validateCurrentStep()) {
-                      setState(() => _currentStep += 1);
-                    }
-                  } else {
-                    _submitForm(context);
-                  }
-                },
-                buttonText: _currentStep == 2 ? "إرسال" : "التالي",
+        body: BlocBuilder<LookupsCubit, CubitState>(builder: (context, state) {
+          if (state == CubitState.loading) {
+            return const CustomLoadingWidget();
+          } else if (state == CubitState.done) {
+            final lookUps = lookupsCubit.lookupModel;
+
+            return Stepper(
+              type: StepperType.horizontal,
+              currentStep: _currentStep,
+              controlsBuilder: (context, details) => Row(
+                children: [
+                  Flexible(
+                    child: CustomElevatedButton(
+                      onTap: () {
+                        if (_currentStep < 2) {
+                          if (_validateCurrentStep()) {
+                            setState(() => _currentStep += 1);
+                          }
+                        } else {
+                          _submitForm(context);
+                        }
+                      },
+                      buttonText: _currentStep == 2 ? "إرسال" : "التالي",
+                    ),
+                  ),
+                  if (_currentStep != 0)
+                    Flexible(
+                      child: CustomElevatedButton(
+                        onTap: () {
+                          if (_currentStep > 0) {
+                            setState(() => _currentStep -= 1);
+                          }
+                        },
+                        buttonText: "السابق",
+                        color: Colors.white,
+                        fontColor: AppColors.textColor,
+                      ),
+                    ),
+                ],
               ),
-            ),
-            if (_currentStep != 0)
-              Flexible(
-                child: CustomElevatedButton(
-                  onTap: () {
-                    if (_currentStep > 0) {
-                      setState(() => _currentStep -= 1);
-                    }
-                  },
-                  buttonText: "السابق",
-                  color: Colors.white,
-                  fontColor: AppColors.textColor,
+              steps: [
+                Step(
+                  title: const Text("الهوية"),
+                  isActive: _currentStep >= 0,
+                  content: Column(
+                    children: [
+                      buildTextField("الاسم بالعربية", arabicNameController),
+                      buildTextField(
+                          "الاسم بالإنجليزية", englishNameController),
+                      buildTextField("رقم الهوية", idController,
+                          keyboardType: TextInputType.number),
+                      buildTextField("البريد الإلكتروني", emailController,
+                          keyboardType: TextInputType.emailAddress),
+                      buildTextField("كلمة المرور", password,
+                          keyboardType: TextInputType.visiblePassword),
+                      buildDropdown(
+                          "المدينة",
+                          city,
+                          lookUps?.lookUpData?.cities ?? [],
+                          (val) => setState(() => city = val!)),
+                    ],
+                  ),
                 ),
-              ),
-          ],
-        ),
-        steps: [
-          Step(
-            title: const Text("الهوية"),
-            isActive: _currentStep >= 0,
-            content: _buildIdentityStep(),
-          ),
-          Step(
-            title: const Text("الشخصية"),
-            isActive: _currentStep >= 1,
-            content: _buildPersonalStep(),
-          ),
-          Step(
-            title: const Text("التواصل"),
-            isActive: _currentStep >= 2,
-            content: _buildContactStep(context),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildIdentityStep() {
-    return Column(
-      children: [
-        buildTextField("الاسم بالعربية", arabicNameController),
-        buildTextField("الاسم بالإنجليزية", englishNameController),
-        buildTextField("رقم الهوية (اختياري)", idController,
-            keyboardType: TextInputType.number),
-        buildTextField("البريد الإلكتروني", emailController,
-            keyboardType: TextInputType.emailAddress),
-        buildTextField("كلمة المرور", password,
-            keyboardType: TextInputType.visiblePassword),
-        buildDropdown("المدينة", city, lookUps?.lookUpData?.cities ?? [],
-            (val) => setState(() => city = val!)),
-      ],
-    );
-  }
-
-  Widget _buildPersonalStep() {
-    return Column(
-      children: [
-        GestureDetector(
-          onTap: () async {
-            FocusScope.of(context).unfocus();
-            final DateTime? picked = await showDatePicker(
-              context: context,
-              initialDate:
-                  DateTime.now().subtract(const Duration(days: 365 * 20)),
-              firstDate: DateTime(1900),
-              lastDate: DateTime.now(),
+                Step(
+                  title: const Text("الشخصية"),
+                  isActive: _currentStep >= 1,
+                  content: Column(
+                    children: [
+                      GestureDetector(
+                        onTap: () async {
+                          FocusScope.of(context).unfocus();
+                          final DateTime? picked = await showDatePicker(
+                            context: context,
+                            initialDate: DateTime.now()
+                                .subtract(const Duration(days: 365 * 20)),
+                            firstDate: DateTime(1900),
+                            lastDate: DateTime.now(),
+                          );
+                          if (picked != null) {
+                            dobController.text =
+                                DateFormat("dd/MM/yyyy").format(picked);
+                          }
+                        },
+                        child: AbsorbPointer(
+                          child: buildTextField("تاريخ الميلاد", dobController),
+                        ),
+                      ),
+                      buildDropdown(
+                          "الجنس",
+                          gender,
+                          lookUps?.lookUpData?.genders,
+                          (val) => setState(() => gender = val!)),
+                      buildDropdown(
+                          "الجنسية",
+                          nationality,
+                          lookUps?.lookUpData?.nationalities,
+                          (val) => setState(() => nationality = val!)),
+                      buildTextField("الطول (سم)", heightController,
+                          keyboardType: TextInputType.number, maxLength: 3),
+                      buildTextField(
+                        "الوزن (كجم)",
+                        weightController,
+                        maxLength: 3,
+                        keyboardType: TextInputType.number,
+                      ),
+                      buildDropdown(
+                          "مقاس التيشرت",
+                          tshirtSize,
+                          lookUps?.lookUpData?.tshirtSizes,
+                          (val) => setState(() => tshirtSize = val!)),
+                    ],
+                  ),
+                ),
+                Step(
+                  title: const Text("التواصل"),
+                  isActive: _currentStep >= 2,
+                  content: Column(
+                    children: [
+                      buildTextField("رقم الهاتف ( اختياري )", phoneController,
+                          keyboardType: TextInputType.phone),
+                      buildDropdown(
+                          "القسم",
+                          department,
+                          lookUps?.lookUpData?.departments ?? [],
+                          (val) => setState(() => department = val!)),
+                      buildDropdown(
+                          "اللغة",
+                          language,
+                          lookUps?.lookUpData?.languages ?? [],
+                          (val) => setState(() => language = val!)),
+                      buildDropdown(
+                          "المستوى التعليمي",
+                          educationLevel,
+                          lookUps?.lookUpData?.educationLevels ?? [],
+                          (val) => setState(() => educationLevel = val!)),
+                      BlocBuilder<RegisterCubit, CubitState>(
+                        builder: (context, state) {
+                          if (state == CubitState.loading) {
+                            return const Padding(
+                              padding: EdgeInsets.only(bottom: 20),
+                              child: CustomLoadingWidget(),
+                            );
+                          }
+                          return const SizedBox.shrink();
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             );
-            if (picked != null) {
-              dobController.text = DateFormat("dd/MM/yyyy").format(picked);
-            }
-          },
-          child: AbsorbPointer(
-            child: buildTextField("تاريخ الميلاد", dobController),
-          ),
-        ),
-        buildDropdown("الجنس", gender, lookUps?.lookUpData?.genders,
-            (val) => setState(() => gender = val!)),
-        buildDropdown(
-            "الجنسية",
-            nationality,
-            lookUps?.lookUpData?.nationalities,
-            (val) => setState(() => nationality = val!)),
-        buildTextField("الطول (سم)", heightController,
-            keyboardType: TextInputType.number, maxLength: 3),
-        buildTextField(
-          "الوزن (كجم)",
-          weightController,
-          maxLength: 3,
-          keyboardType: TextInputType.number,
-        ),
-        buildDropdown(
-            "مقاس التيشرت",
-            tshirtSize,
-            lookUps?.lookUpData?.tshirtSizes,
-            (val) => setState(() => tshirtSize = val!)),
-      ],
-    );
-  }
-
-  Widget _buildContactStep(BuildContext context) {
-    return Column(
-      children: [
-        buildTextField("رقم الهاتف ( اختياري )", phoneController,
-            keyboardType: TextInputType.phone),
-        buildDropdown(
-            "القسم",
-            department,
-            lookUps?.lookUpData?.departments ?? [],
-            (val) => setState(() => department = val!)),
-        buildDropdown("اللغة", language, lookUps?.lookUpData?.languages ?? [],
-            (val) => setState(() => language = val!)),
-        buildDropdown(
-            "المستوى التعليمي",
-            educationLevel,
-            lookUps?.lookUpData?.educationLevels ?? [],
-            (val) => setState(() => educationLevel = val!)),
-        BlocBuilder<RegisterCubit, CubitState>(
-          builder: (context, state) {
-            if (state == CubitState.loading) {
-              return const Padding(
-                padding: EdgeInsets.only(bottom: 20),
-                child: CustomLoadingWidget(),
-              );
-            }
-            return const SizedBox.shrink();
-          },
-        ),
-      ],
-    );
+          } else {
+            return const SizedBox();
+          }
+        }));
   }
 
   Widget buildTextField(String label, TextEditingController controller,

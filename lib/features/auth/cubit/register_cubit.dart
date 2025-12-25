@@ -51,7 +51,7 @@ class RegisterCubit extends Cubit<CubitState> {
 
     if (response?.statusCode == 200) {
       emit(CubitState.done);
-      AppNavigation.navigateOffAll(LoginScreen());
+      AppNavigation.pushRemoveAll(LoginScreen());
       CustomSnackBars.showSuccessToast(title: 'تم انشاء الحساب بنجاح');
     } else {
       emit(CubitState.error);

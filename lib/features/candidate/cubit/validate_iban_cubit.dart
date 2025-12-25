@@ -38,7 +38,7 @@ class ValidateIbanCubit extends Cubit<CubitState> {
     final result = await CandidateRepository.updateIBAN(
         iban, bankId, hasDelegate, delegateID, delegateName);
     if (result?.statusCode == 200) {
-      emit(CubitState.done);
+      emit(CubitState.initial);
       CustomSnackBars.showSuccessToast(title: 'تم تحديث بيانات حسابك');
       // AppNavigation.pop();
     } else {

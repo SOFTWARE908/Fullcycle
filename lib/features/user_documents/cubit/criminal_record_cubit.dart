@@ -1,23 +1,23 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fullcycle/core/cubit/base_cubit_state.dart';
+import 'package:fullcycle/features/candidate/data/repository/candidate_repository.dart';
+import 'package:fullcycle/shared/widgets/custom_snack_bar.dart';
 
-import '../../../core/cubit/base_cubit_state.dart';
-import '../../candidate/data/repository/candidate_repository.dart';
+import '../../../shared/model/user_doc_model.dart';
 
-class CriminalRecordCubit extends Cubit<CubitState> {
-  CriminalRecordCubit() : super(CubitState.initial);
+class FeshCubit extends Cubit<CubitState> {
+  FeshCubit() : super(CubitState.initial);
 
-  String? fileUrl;
+  String? filePath;
+  UserDocModel? feshModel;
 
-  Future<void> upload(String filePath) async {
+  Future<void> getFesh() async {
     emit(CubitState.loading);
     try {
-      final response = await CandidateRepository.uploadDocument(
-        filePath: filePath,
-        documentType: "criminalRecord",
-      );
+      final response = await CandidateRepository.getFesh();
 
       if (response?.statusCode == 200) {
-        fileUrl = response?.data?.fileUrl ?? filePath;
+        feshModel = UserDocModel.fromJson(response?.data['data']);
         emit(CubitState.done);
       } else {
         emit(CubitState.error);
@@ -27,8 +27,28 @@ class CriminalRecordCubit extends Cubit<CubitState> {
     }
   }
 
+  Future<void> uploadFesh(String filePath) async {
+    emit(CubitState.loading);
+    try {
+      final response = await CandidateRepository.uploadFesh(filePath: filePath);
+
+      this.filePath = filePath;
+      if (response?.statusCode == 200) {
+        CustomSnackBars.showSuccessToast(title: "تم رفع الملف الجنائي");
+        emit(CubitState.done);
+      } else {
+        CustomSnackBars.showErrorToast(title: "خطأ في رفع الملف الجنائي");
+
+        emit(CubitState.error);
+      }
+    } catch (_) {
+      emit(CubitState.error);
+    }
+  }
+
   void remove() {
-    fileUrl = null;
-    emit(CubitState.done);
+    filePath = null;
+    feshModel = null;
+    emit(CubitState.success);
   }
 }

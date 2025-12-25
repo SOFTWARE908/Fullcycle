@@ -5,5 +5,6 @@ enum CubitState {
   error,
   empty,
   userInactive,
-  updateIban
+  updateIban,
+  success
 }

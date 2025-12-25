@@ -31,7 +31,7 @@ class LoginScreen extends StatelessWidget {
             const Text("ليس لديك حساب؟"),
             const SizedBox(width: 4),
             GestureDetector(
-              onTap: () => AppNavigation.navigate(const RegisterScreen()),
+              onTap: () => AppNavigation.push(const RegisterScreen()),
               child: const Text(
                 "إنشاء حساب الان",
                 style: TextStyle(
@@ -111,7 +111,7 @@ class LoginScreen extends StatelessWidget {
               const SizedBox(height: 10),
 
               InkWell(
-                onTap: () => AppNavigation.navigate(ForgetPasswordScreen()),
+                onTap: () => AppNavigation.push(ForgetPasswordScreen()),
                 child: const Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -123,7 +123,7 @@ class LoginScreen extends StatelessWidget {
                         color: Colors.orange,
                         decoration: TextDecoration.underline,
                       ),
-                    )
+                    ),
                   ],
                 ),
               )

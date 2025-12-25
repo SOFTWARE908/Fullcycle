@@ -48,7 +48,7 @@ class ProfileHeader extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  CacheHelper.getCandidate?.fullNameAr ?? "No name",
+                  CacheHelper.candidate?.fullNameAr ?? "No name",
                   style: const TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w600,
@@ -70,7 +70,7 @@ class ProfileHeader extends StatelessWidget {
                       label: "مشاركة QR",
                       iconAsset: 'assets/icons/qr.svg',
                       function: () {
-                        AppNavigation.navigate(const ProfileQrScreen());
+                        AppNavigation.push(const ProfileQrScreen());
                       },
                     ),
                   ],

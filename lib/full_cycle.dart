@@ -22,12 +22,11 @@ class MyApp extends StatelessWidget {
           builder: (context, child) =>
               Directionality(textDirection: TextDirection.rtl, child: child!),
           title: 'FullCycle',
-          theme: AppThemes.whiteTheme,
+          theme: AppThemes.lightTheme,
           locale: const Locale('ar'),
           debugShowCheckedModeBanner: false,
           navigatorKey: AppNavigation.navigatorKey,
-          home:
-              CacheHelper.getToken != null ? const HomeScreen() : LoginScreen(),
+          home: CacheHelper.token != null ? const HomeScreen() : LoginScreen(),
         ),
       ),
     );

@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fullcycle/core/cubit/base_cubit_state.dart';
@@ -20,7 +21,8 @@ class _UserBanksScreenState extends State<UserBanksScreen> {
   late final GetCandidateBanksCubit getCandidateBanksCubit;
   late ValidateIbanCubit validateIbanCubit;
 
-  final ibanController = TextEditingController();
+  final ibanController = TextEditingController(
+      text: kDebugMode ? 'SA0380000000608010167519' : null);
   final delegateNameController = TextEditingController();
   final delegateIdController = TextEditingController();
 
@@ -41,14 +43,15 @@ class _UserBanksScreenState extends State<UserBanksScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('اضف بيانات البنك'),
+        title: const Text('بيانات البنك'),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
         child: BlocListener<ValidateIbanCubit, CubitState>(
           listener: (context, state) {
             if (validateIbanCubit.userBankDataModel != null &&
-                state != CubitState.updateIban) {
+                // state != CubitState.updateIban &&
+                state == CubitState.done) {
               final bankData = validateIbanCubit.userBankDataModel!;
 
               if (bankData.bankId != null && bankData.bankName != null) {
@@ -173,7 +176,9 @@ class _UserBanksScreenState extends State<UserBanksScreen> {
                   }
 
                   return CustomElevatedButton(
-                    buttonText: 'إضافة بيانات البنك',
+                    buttonText: validateIbanCubit.userBankDataModel == null
+                        ? 'إضافة بيانات البنك'
+                        : "تحديث بيانات البنك",
                     onTap: () {
                       validateIbanCubit.updateIban(
                         ibanController.text,

@@ -16,7 +16,7 @@ class EventCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => AppNavigation.navigate(
+      onTap: () => AppNavigation.push(
           EventDetailsScreen(event: event, isJoined: isJoined)),
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),

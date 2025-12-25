@@ -4,13 +4,13 @@ import 'package:fullcycle/features/auth/screens/change_password_screen.dart';
 import 'package:fullcycle/features/candidate/presentation/screens/update_bank_information_screen.dart';
 import 'package:fullcycle/features/events/screens/joined_events_screen.dart';
 import 'package:fullcycle/features/experience/presentation/screens/experience_screen.dart';
+import 'package:fullcycle/features/profile/presentation/screens/privacy_policy_screen.dart';
 import 'package:fullcycle/features/profile/presentation/screens/who_us_screen.dart';
 import 'package:fullcycle/features/profile/presentation/widgets/profile_header.dart';
 import 'package:fullcycle/features/user_documents/presentation/screens/edit_personal_documents_screen.dart';
 import 'package:fullcycle/services/cache/cache_helper.dart';
 import 'package:fullcycle/services/navigation/navigation.dart';
 import 'package:fullcycle/shared/widgets/custom_divider.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../core/resources/colors.dart';
 import '../../../notificatoins/notifciations_screen.dart';
@@ -25,7 +25,7 @@ class ProfileScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.grey.shade100,
       appBar: const PreferredSize(
-          preferredSize: Size(double.infinity, 130), child: ProfileHeader()),
+          preferredSize: Size(double.infinity, 140), child: ProfileHeader()),
       body: SingleChildScrollView(
         physics: const ClampingScrollPhysics(),
         padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -33,7 +33,7 @@ class ProfileScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Padding(
-              padding: EdgeInsets.only(top: 16, bottom: 12),
+              padding: EdgeInsets.only(top: 16, bottom: 15),
               child: Text(
                 'تفاصيل الملف الشخصي',
                 style: TextStyle(
@@ -50,23 +50,23 @@ class ProfileScreen extends StatelessWidget {
               child: Column(
                 children: [
                   buildItem('تغيير كلمة المرور', 'security',
-                      () => AppNavigation.navigate(ChangePasswordScreen())),
+                      () => AppNavigation.push(ChangePasswordScreen())),
                   const CustomDivider(),
                   buildItem('المعلومات البنكية', 'bank',
-                      () => AppNavigation.navigate(const UserBanksScreen())),
+                      () => AppNavigation.push(const UserBanksScreen())),
                   const CustomDivider(),
                   buildItem(
                       'مستنداتي  الشخصية',
                       'folder',
-                      () => AppNavigation.navigate(
+                      () => AppNavigation.push(
                           const EditPersonalDocumentsScreen())),
                   const CustomDivider(),
                   buildItem('الخبرات والمشاراكات', 'exp',
-                      () => AppNavigation.navigate(const ExperienceScreen())),
+                      () => AppNavigation.push(const ExperienceScreen())),
                   const CustomDivider(),
-                  GestureDetector(
+                  InkWell(
                     onTap: () {
-                      AppNavigation.navigate(const JoinedEventsScreen());
+                      AppNavigation.push(const JoinedEventsScreen());
                     },
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
@@ -106,11 +106,8 @@ class ProfileScreen extends StatelessWidget {
                 children: [
                   buildItem('الاعدادت', 'settings', () {}),
                   const CustomDivider(),
-                  buildItem(
-                      'الاشعارات',
-                      'notif',
-                      () =>
-                          AppNavigation.navigate(const NotificationsScreen())),
+                  buildItem('الاشعارات', 'notif',
+                      () => AppNavigation.push(const NotificationsScreen())),
                 ],
               ),
             ),
@@ -132,15 +129,13 @@ class ProfileScreen extends StatelessWidget {
               child: Column(
                 children: [
                   buildItem('المساعدة', 'help',
-                      () => AppNavigation.navigate(HelpScreen())),
+                      () => AppNavigation.push(HelpScreen())),
                   const CustomDivider(),
-                  buildItem('سياسة الخصوصية', 'privacy', () async {
-                    await launchUrl(Uri.parse(
-                        'https://software908.github.io/expertscodes-privacy-policy/expertscodes-privacy-policy-en.html'));
-                  }),
+                  buildItem('سياسة الخصوصية', 'privacy',
+                      () => AppNavigation.push(const PrivacyPolicyPage())),
                   const CustomDivider(),
                   buildItem('تعرف عنا', 'info',
-                      () => AppNavigation.navigate(const WhoUsScreen())),
+                      () => AppNavigation.push(const WhoUsScreen())),
                 ],
               ),
             ),
@@ -151,7 +146,7 @@ class ProfileScreen extends StatelessWidget {
                 borderRadius: BorderRadius.circular(12),
               ),
               child: buildItem('تسجيل الخروج', 'logout',
-                  () => CacheHelper.logOut(), AppColors.errorColor),
+                  () => CacheHelper.clear(), AppColors.errorColor),
             ),
             Container(
               margin: const EdgeInsets.only(top: 20, bottom: 50),

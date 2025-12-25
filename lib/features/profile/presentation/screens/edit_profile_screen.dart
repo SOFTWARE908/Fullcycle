@@ -11,39 +11,38 @@ class EditProfileScreen extends StatefulWidget {
 
 class _EditProfileScreenState extends State<EditProfileScreen> {
   final arabicNameController =
-      TextEditingController(text: "${CacheHelper.getCandidate?.fullNameAr}");
+      TextEditingController(text: "${CacheHelper.candidate?.fullNameAr}");
   final englishNameController =
-      TextEditingController(text: "${CacheHelper.getCandidate?.fullNameEn}");
+      TextEditingController(text: "${CacheHelper.candidate?.fullNameEn}");
   final idController =
-      TextEditingController(text: "${CacheHelper.getCandidate?.identity}");
+      TextEditingController(text: "${CacheHelper.candidate?.identity}");
   final cityController =
-      TextEditingController(text: "${CacheHelper.getCandidate?.cityId}");
+      TextEditingController(text: "${CacheHelper.candidate?.cityId}");
   final dobController =
-      TextEditingController(text: "${CacheHelper.getCandidate?.dateOfBirth}");
+      TextEditingController(text: "${CacheHelper.candidate?.dateOfBirth}");
   final nationalityController =
-      TextEditingController(text: "${CacheHelper.getCandidate?.nationalityId}");
+      TextEditingController(text: "${CacheHelper.candidate?.nationalityId}");
   final heightController =
-      TextEditingController(text: "${CacheHelper.getCandidate?.height}");
+      TextEditingController(text: "${CacheHelper.candidate?.height}");
   final weightController =
-      TextEditingController(text: "${CacheHelper.getCandidate?.weight}");
+      TextEditingController(text: "${CacheHelper.candidate?.weight}");
   final sizeController =
-      TextEditingController(text: "${CacheHelper.getCandidate?.tShirtSize}");
+      TextEditingController(text: "${CacheHelper.candidate?.tShirtSize}");
   final phoneController = TextEditingController(text: "---");
 
-  String gender = CacheHelper.getCandidate?.genderId==1?'ذكر':"انثى";
+  String gender = CacheHelper.candidate?.genderId == 1 ? 'ذكر' : "انثى";
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text("تعديل حسابي"),
-       ),
+      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-
             sectionTitle("الهوية الشخصية"),
             buildTextField("الاسم بالعربي", arabicNameController),
             buildTextField("الاسم باللغة الانجليزية", englishNameController),

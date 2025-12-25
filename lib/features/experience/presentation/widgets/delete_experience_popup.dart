@@ -36,7 +36,7 @@ void showDeleteExperienceDialog(id) {
               ),
             ),
             onPressed: () {
-              Navigator.pop(context, false); // return false = cancel
+              Navigator.pop(context, false);
             },
             child: const Text(
               "الغاء",
@@ -51,7 +51,9 @@ void showDeleteExperienceDialog(id) {
                 borderRadius: BorderRadius.circular(6),
               ),
             ),
-            onPressed: () => CandidateRepository.deleteExperience(id),
+            onPressed: () {
+              CandidateRepository.deleteExperience(id);
+            },
             child: const Text(
               "مسح",
               style: TextStyle(color: Colors.white),

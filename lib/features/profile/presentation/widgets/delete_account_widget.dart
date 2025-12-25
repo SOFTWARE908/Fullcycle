@@ -50,7 +50,7 @@ void showDeleteAccountDialog(BuildContext context) {
               Navigator.pop(context);
               CustomSnackBars.showErrorToast(title: 'تم حذف الحساب بنجاح');
 
-              AppNavigation.navigateOffAll(LoginScreen());
+              AppNavigation.pushRemoveAll(LoginScreen());
             },
             child: const Text('حذف'),
           ),

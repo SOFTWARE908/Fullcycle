@@ -3,7 +3,6 @@ import 'package:fullcycle/features/candidate/data/repository/candidate_repositor
 import 'package:fullcycle/services/navigation/navigation.dart';
 
 import '../../../core/cubit/base_cubit_state.dart';
-import '../../../services/cache/cache_helper.dart';
 import '../../../shared/widgets/custom_snack_bar.dart';
 import '../../home/presentation/screens/home_screen.dart';
 
@@ -15,10 +14,8 @@ class LoginCubit extends Cubit<CubitState> {
     final response = await CandidateRepository.login(email, password);
     if (response?.status == 200) {
       emit(CubitState.done);
-      await CacheHelper.saveToken(response!.data!.authToken!);
-      await CacheHelper.saveRefreshToken(response.data!.refreshTokenId!);
-      await CandidateRepository.getCandidate();
-      AppNavigation.navigateOffAll(const HomeScreen());
+
+      AppNavigation.pushRemoveAll(const HomeScreen());
     } else {
       emit(CubitState.error);
       CustomSnackBars.showErrorToast(title: "تسجيل دخول خاطئ");

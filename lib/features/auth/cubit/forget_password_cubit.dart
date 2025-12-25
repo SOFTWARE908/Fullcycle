@@ -20,7 +20,8 @@ class ForgetPasswordCubit extends Cubit<CubitState> {
     if (response?.statusCode == 200) {
       emit(CubitState.done);
 
-      CustomSnackBars.showSuccessToast(title: "تم تحديث كلمة المرور بنجاح");
+      CustomSnackBars.showSuccessToast(
+          title: "تم إرسال كلمة المرور عن طريق البريد الالكتروني");
     } else {
       emit(CubitState.error);
       CustomSnackBars.showErrorToast(title: "حدث خطأ أثناء التحديث");

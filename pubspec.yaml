@@ -1,5 +1,5 @@
 name: fullcycle
-version: 1.0.1+110
+version: 1.0.3+114
 environment:
   sdk: ^3.5.4
 
@@ -10,6 +10,9 @@ dependencies:
   cupertino_icons: ^1.0.8
   flutter_bloc: ^8.1.6
   dio: ^5.9.0
+  webview_flutter:
+  path_provider: ^2.1.2
+  permission_handler: ^11.3.1
   shared_preferences: ^2.3.4
   awesome_dialog: ^3.2.1
   flutter_local_notifications: ^18.0.1
@@ -21,6 +24,7 @@ dependencies:
   file_picker: ^10.3.3
   equatable: ^2.0.7
   url_launcher: ^6.1.10
+  jwt_decoder: ^2.0.1
 
 dependency_overrides:
   rive_native: ^0.1.0

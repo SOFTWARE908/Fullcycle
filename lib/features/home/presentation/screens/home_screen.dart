@@ -43,25 +43,30 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: pages[currentIndex],
-        bottomNavigationBar: BottomNavigationBar(
-            backgroundColor: AppColors.grey,
-            currentIndex: currentIndex,
-            type: BottomNavigationBarType.fixed,
-            showUnselectedLabels: true,
-            onTap: changeIndex,
-            fixedColor: AppColors.primaryColor,
-            elevation: 0,
-            items: List.generate(4, (index) {
-              return BottomNavigationBarItem(
-                icon: SvgPicture.asset(
-                  icons[index],
-                  color: currentIndex == index
-                      ? AppColors.primaryColor
-                      : Colors.black, // or AppColors.unselectedIconColor
-                ),
-                label: titles[index],
-              );
-            })));
+      body: pages[currentIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: AppColors.grey,
+        currentIndex: currentIndex,
+        type: BottomNavigationBarType.fixed,
+        showUnselectedLabels: true,
+        onTap: changeIndex,
+        fixedColor: AppColors.primaryColor,
+        elevation: 0,
+        items: List.generate(
+          4,
+          (index) {
+            return BottomNavigationBarItem(
+              icon: SvgPicture.asset(
+                icons[index],
+                color: currentIndex == index
+                    ? AppColors.primaryColor
+                    : Colors.black, // or AppColors.unselectedIconColor
+              ),
+              label: titles[index],
+            );
+          },
+        ),
+      ),
+    );
   }
 }

@@ -1,10 +1,11 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fullcycle/features/auth/cubit/change_password_cubit.dart';
 import 'package:fullcycle/features/auth/cubit/forget_password_cubit.dart';
 import 'package:fullcycle/features/events/cubit/get_event_subzones_cubit.dart';
 import 'package:fullcycle/features/user_documents/cubit/cv_cubit.dart';
 
-import 'features/auth/cubit/change_password_cubit.dart';
 import 'features/auth/cubit/login_cubit.dart';
+import 'features/auth/cubit/lookups_cubit.dart';
 import 'features/auth/cubit/register_cubit.dart';
 import 'features/candidate/cubit/attend_candidate_cubit.dart';
 import 'features/candidate/cubit/get_candidate_banks_cubit.dart';
@@ -52,6 +53,7 @@ final providers = [
       create: (context) => AttendCandidateCubit()),
   BlocProvider<ForgetPasswordCubit>(create: (context) => ForgetPasswordCubit()),
   BlocProvider<DelegationCubit>(create: (context) => DelegationCubit()),
-  BlocProvider<CriminalRecordCubit>(create: (context) => CriminalRecordCubit()),
+  BlocProvider<FeshCubit>(create: (context) => FeshCubit()),
+  BlocProvider<LookupsCubit>(create: (context) => LookupsCubit()),
   BlocProvider<ChangePasswordCubit>(create: (context) => ChangePasswordCubit()),
 ];

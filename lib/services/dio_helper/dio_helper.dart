@@ -1,241 +1,226 @@
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 
 import '../../core/const/api_consts.dart';
 import '../../features/candidate/data/repository/candidate_repository.dart';
 import '../cache/cache_helper.dart';
 
 class DioHelper {
-  static Future<Response?> postLoginData(
-      {required String url, Map<String, dynamic>? data}) async {
-    try {
-      final response = await Dio(BaseOptions(
+  DioHelper._();
+
+  static late Dio dio;
+
+  static void init() {
+    dio = Dio(
+      BaseOptions(
         baseUrl: EndPoints.baseUrl,
         receiveDataWhenStatusError: true,
-        followRedirects: false,
-        validateStatus: (status) {
-          return status! <= 505;
+        validateStatus: (_) => true,
+        connectTimeout: const Duration(seconds: 30),
+        receiveTimeout: const Duration(seconds: 30),
+      ),
+    );
+
+    dio.interceptors.add(
+      InterceptorsWrapper(
+        onRequest: (options, handler) {
+          final token = CacheHelper.token;
+          if (token != null && token.isNotEmpty) {
+            options.headers['Authorization'] = 'Bearer $token';
+          }
+
+          options.headers['Accept'] = 'application/json';
+          options.headers['Content-Type'] ??= 'application/json';
+
+          log('➡️ REQUEST');
+          log('URL: ${options.uri}');
+          log('METHOD: ${options.method}');
+          log('HEADERS: ${options.headers}');
+          log('DATA: ${options.data}');
+          log('QUERY: ${options.queryParameters}');
+
+          handler.next(options);
         },
-      )).post(url, data: data);
 
-      log('RESPONSE URL:${response.requestOptions.uri}');
-      log('RESPONSE STATUS CODE:${response.statusCode}');
-      log('RESPONSE DATA:${response.data}');
-      log('RESPONSE REQUEST OPTIONS:${response.requestOptions.data}');
+        // =====================
+        // Response
+        // =====================
+        onResponse: (response, handler) async {
+          log('✅ RESPONSE');
+          log('URL: ${response.requestOptions.uri}');
+          log('STATUS CODE: ${response.statusCode}');
+          log('DATA: ${response.data}');
+          handler.next(response);
 
-      if (response.statusCode == 422 || response.statusCode == 401) {
-        await CandidateRepository.generateNewToken();
-      }
-      return response;
-    } catch (e) {
-      log('$e');
-
-      return e is DioException ? e.response : null;
-    }
-  }
-
-  static Future<Response?> deleteData(
-      {required String url,
-      Map<String, dynamic>? data,
-      Map<String, dynamic>? query}) async {
-    try {
-      final response = await Dio(BaseOptions(
-        baseUrl: EndPoints.baseUrl,
-        receiveDataWhenStatusError: true,
-        followRedirects: false,
-        validateStatus: (status) {
-          return status! <= 505;
+          if (CacheHelper.token != null &&
+                  JwtDecoder.isExpired(CacheHelper.token!) ||
+              response.statusCode == 401 ||
+              response.statusCode == 422) {
+            await CandidateRepository.login(
+                CacheHelper.email!, CacheHelper.password!);
+          }
         },
-      )).delete(url,
-          options: Options(
-              headers: {'Authorization': 'Bearer ${CacheHelper.getToken}'}),
-          data: data,
-          queryParameters: query);
 
-      log('URL:${response.requestOptions.uri}');
-      log('STATUS CODE:${response.statusCode}');
-      log('DATA:${response.data}');
-      log('REQUEST Data:${response.requestOptions.data}');
-      log('REQUEST QUERY PARAMAS:${response.requestOptions.queryParameters}');
-      if (response.statusCode == 422 || response.statusCode == 401) {
-        await CandidateRepository.generateNewToken();
-      }
-      return response;
-    } catch (e) {
-      log('$e');
+        onError: (DioException e, handler) async {
+          log('❌ ERROR');
+          log('URL: ${e.requestOptions.uri}');
+          log('STATUS: ${e.response?.statusCode}');
+          log('ERROR: ${e.message}');
+          log('DATA: ${e.response?.data}');
 
-      return e is DioException ? e.response : null;
-    }
-  }
+          await CandidateRepository.login(
+              CacheHelper.email!, CacheHelper.password!);
 
-  static Future<Response?> putFormData(
-      {required String url, required FormData data}) async {
-    try {
-      final response = await Dio(BaseOptions(
-        baseUrl: EndPoints.baseUrl,
-        receiveDataWhenStatusError: true,
-        followRedirects: false,
-        validateStatus: (status) => true,
-        headers: {"Content-Type": "application/json"},
-      )).put(url, data: data);
+          // final newToken = CacheHelper.token;
+          // if (newToken != null) {
+          //   final requestOptions = e.requestOptions;
+          //   requestOptions.headers['Authorization'] = 'Bearer $newToken';
+          //
+          //   final response = await dio.fetch(requestOptions);
+          //   return handler.resolve(response);
+          // }
 
-      log('URL:${response.requestOptions.uri}');
-      log('STATUS CODE:${response.statusCode}');
-      if (response.data != null) {
-        log('DATA:${response.data}');
-      }
-      if (response.statusCode == 422 || response.statusCode == 401) {
-        await CandidateRepository.generateNewToken();
-      } else if (response.statusCode == 401) {}
-      return response;
-    } catch (e) {
-      log('$e');
-
-      return e is DioException ? e.response : null;
-    }
-  }
-
-  static Future<Response?> putData(
-      {required String url, Map<String, dynamic>? data}) async {
-    try {
-      final response = await Dio(BaseOptions(
-        baseUrl: EndPoints.baseUrl,
-        receiveDataWhenStatusError: true,
-        followRedirects: false,
-        validateStatus: (status) => true,
-        headers: {"Content-Type": "application/json"},
-      )).put(url, data: data);
-
-      log('URL:${response.requestOptions.uri}');
-      log('STATUS CODE:${response.statusCode}');
-      log('DATA:${response.data}');
-      log('REQUEST Data:${response.requestOptions.data}');
-      log('REQUEST QUERY PARAMAS:${response.requestOptions.queryParameters}');
-      if (response.statusCode == 422 || response.statusCode == 401) {
-        await CandidateRepository.generateNewToken();
-      } else if (response.statusCode == 401) {}
-      return response;
-    } catch (e) {
-      log('$e');
-
-      return e is DioException ? e.response : null;
-    }
-  }
-
-  static Future<Response?> postData({required String url, data, query}) async {
-    try {
-      final response = await Dio(BaseOptions(
-        baseUrl: EndPoints.baseUrl,
-        receiveDataWhenStatusError: true,
-        followRedirects: false,
-        validateStatus: (status) {
-          return status! <= 505;
+          handler.next(e);
         },
-      )).post(url,
-          options: Options(
-              headers: {'Authorization': 'Bearer ${CacheHelper.getToken}'}),
-          data: data,
-          queryParameters: query);
-
-      log('URL:${response.requestOptions.uri}');
-      log('STATUS CODE:${response.statusCode}');
-      log('DATA:${response.data}');
-      log('REQUEST Data:${response.requestOptions.data}');
-      log('REQUEST QUERY PARAMAS:${response.requestOptions.queryParameters}');
-      if (response.statusCode == 422 || response.statusCode == 401) {
-        await CandidateRepository.generateNewToken();
-      }
-      return response;
-    } catch (e) {
-      log('$e');
-
-      return e is DioException ? e.response : null;
-    }
+      ),
+    );
   }
 
-  static Future<Response?> getDataWithoutToken(
-      {required String url,
-      Map<String, dynamic>? data,
-      Map<String, dynamic>? query}) async {
+  static Future<Response?> getData({
+    required String url,
+    Map<String, dynamic>? query,
+    Map<String, dynamic>? data,
+    Map<String, dynamic>? headers,
+  }) async {
     try {
-      final response = await Dio(BaseOptions(
-        headers: {"Content-Type": "application/json"},
-        baseUrl: EndPoints.baseUrl,
-        receiveDataWhenStatusError: true,
-        followRedirects: false,
-        validateStatus: (status) {
-          return status! <= 500;
-        },
-      )).get(url, data: data, queryParameters: query);
-      log('URL:${response.requestOptions.uri}');
-      log('STATUS CODE:${response.statusCode}');
-      log('DATA:${response.data}');
-      log('REQUEST Data:${response.requestOptions.data}');
-      log('REQUEST QUERY PARAMAS:${response.requestOptions.queryParameters}');
-      return response;
-    } catch (e) {
-      log('$e');
-
-      return e is DioException ? e.response : null;
-    }
-  }
-
-  static Future<Response?> updateData(
-      {required String url,
-      Map<String, dynamic>? data,
-      Map<String, dynamic>? query}) async {
-    try {
-      final response = await Dio(BaseOptions(
-        baseUrl: EndPoints.baseUrl,
-        receiveDataWhenStatusError: true,
-        validateStatus: (status) => true,
-      )).put(
+      return await dio.get(
         url,
-        options: Options(
-            headers: {'Authorization': 'Bearer ${CacheHelper.getToken}'}),
+        queryParameters: query,
+        data: data,
+        options: Options(headers: headers),
+      );
+    } catch (e) {
+      log(e.toString());
+      return null;
+    }
+  }
+
+  static Future<Response?> getDataWithoutToken({
+    required String url,
+    Map<String, dynamic>? query,
+    Map<String, dynamic>? headers,
+  }) async {
+    try {
+      return await dio.get(
+        url,
+        queryParameters: query,
+        options: Options(headers: headers),
+      );
+    } catch (e) {
+      log(e.toString());
+      return null;
+    }
+  }
+
+  static Future<Response?> postData({
+    required String url,
+    dynamic data,
+    Map<String, dynamic>? query,
+    Map<String, dynamic>? headers,
+  }) async {
+    try {
+      return await dio.post(
+        url,
         data: data,
         queryParameters: query,
+        options: Options(headers: headers),
       );
-      log('URL:${response.requestOptions.uri}');
-      log('STATUS CODE:${response.statusCode}');
-      log('DATA:${response.data}');
-      log('REQUEST Data:${response.requestOptions.data}');
-      log('REQUEST QUERY PARAMAS:${response.requestOptions.queryParameters}');
-      return response;
     } catch (e) {
-      log('$e');
-
-      return e is DioException ? e.response : null;
+      log(e.toString());
+      return null;
     }
   }
 
-  static Future<Response?> getData(
-      {required String url,
-      Map<String, dynamic>? data,
-      Map<String, dynamic>? query}) async {
+  static Future<Response?> postLoginData({
+    required String url,
+    dynamic data,
+  }) async {
     try {
-      final response = await Dio(BaseOptions(
-        baseUrl: EndPoints.baseUrl,
-        receiveDataWhenStatusError: true,
-        validateStatus: (status) => true,
-      )).get(
+      final response = await Dio(
+        BaseOptions(
+          baseUrl: EndPoints.baseUrl,
+          receiveDataWhenStatusError: true,
+          validateStatus: (_) => true,
+          connectTimeout: const Duration(seconds: 30),
+          receiveTimeout: const Duration(seconds: 30),
+        ),
+      ).post(
         url,
-        options: Options(
-            headers: {'Authorization': 'Bearer ${CacheHelper.getToken}'}),
         data: data,
-        queryParameters: query,
       );
-      log('FULL URL: ${response.realUri}');
-      log('RESPONSE STATUS CODE:${response.statusCode}');
-      log('RESPONSE DATA:${response.data}');
-      log('RESPONSE REQUEST OPTIONS:${response.requestOptions.data}');
 
       return response;
     } catch (e) {
-      log('$e');
+      log(e.toString());
+      return null;
+    }
+  }
 
-      return e is DioException ? e.response : null;
+  static Future<Response?> putData({
+    required String url,
+    dynamic data,
+    Map<String, dynamic>? query,
+    Map<String, dynamic>? headers,
+  }) async {
+    try {
+      return await dio.put(
+        url,
+        data: data,
+        queryParameters: query,
+        options: Options(headers: headers),
+      );
+    } catch (e) {
+      log(e.toString());
+      return null;
+    }
+  }
+
+  static Future<Response?> deleteData({
+    required String url,
+    dynamic data,
+    Map<String, dynamic>? query,
+    Map<String, dynamic>? headers,
+  }) async {
+    try {
+      return await dio.delete(
+        url,
+        data: data,
+        queryParameters: query,
+        options: Options(headers: headers),
+      );
+    } catch (e) {
+      log(e.toString());
+      return null;
+    }
+  }
+
+  static Future<Response?> postFormData({
+    required String url,
+    required FormData data,
+    Map<String, dynamic>? query,
+  }) async {
+    try {
+      return await dio.post(
+        url,
+        data: data,
+        queryParameters: query,
+        options: Options(contentType: 'multipart/form-data'),
+      );
+    } catch (e) {
+      log(e.toString());
+      return null;
     }
   }
 }

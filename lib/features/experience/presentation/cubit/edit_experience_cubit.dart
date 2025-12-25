@@ -23,7 +23,7 @@ class EditExperienceCubit extends Cubit<CubitState> {
         position: position,
         id: id,
         years: years);
-    if (response?.statusCode == 200) {
+    if (response?.statusCode == 200 && AppNavigation.context.mounted) {
       AppNavigation.pop();
       AppNavigation.context
           .read<GetCandidateExperiencesCubit>()

@@ -29,7 +29,7 @@ class ChangePasswordCubit extends Cubit<CubitState> {
       emit(CubitState.done);
 
       CustomSnackBars.showSuccessToast(title: "تم تغيير كلمة المرور بنجاح");
-      AppNavigation.navigateOffAll(LoginScreen());
+      AppNavigation.pushRemoveAll(LoginScreen());
     } else {
       emit(CubitState.error);
       CustomSnackBars.showErrorToast(title: response?.data['message']);
