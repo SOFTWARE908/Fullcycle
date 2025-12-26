@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:fullcycle/services/navigation/navigation.dart';
 import 'package:fullcycle/shared/widgets/custom_loading_widget.dart';
 import 'package:fullcycle/shared/widgets/custom_snack_bar.dart';
+import 'package:open_filex/open_filex.dart';
 import 'package:path_provider/path_provider.dart';
 
 class ProgressDialog {
@@ -49,17 +50,18 @@ class ProgressDialog {
 class FileDownloader {
   static final Dio _dio = Dio();
 
-  static Future<File?> downloadPdf({
+  static Future<File?> downloadAndViewFile({
     required String url,
     required String fileName,
   }) async {
     try {
-      ProgressDialog.show(title: 'جار التحميل....');
+      ProgressDialog.show(title: 'جار التحميل...');
 
       final dir = await getApplicationDocumentsDirectory();
       final filePath = '${dir.path}/$fileName';
+      final file = File(filePath);
 
-      await _dio.download(
+      final response = await _dio.download(
         url,
         filePath,
         onReceiveProgress: (received, total) {
@@ -67,15 +69,42 @@ class FileDownloader {
             ProgressDialog.update(received / total);
           }
         },
+        options: Options(
+          followRedirects: true,
+          validateStatus: (status) => status != null && status < 500,
+        ),
       );
 
+      if (response.statusCode != 200) {
+        throw Exception('Download failed');
+      }
+
       ProgressDialog.hide();
-      CustomSnackBars.showSuccessToast(title: "تم تنزيل الملف بنجاح");
-      return File(filePath);
+      CustomSnackBars.showSuccessToast(
+        title: "تم تنزيل الملف بنجاح",
+      );
+
+      return file;
     } catch (e) {
       ProgressDialog.hide();
+      CustomSnackBars.showErrorToast(
+        title: "فشل تنزيل الملف",
+      );
       debugPrint('Download error: $e');
       return null;
     }
+  }
+
+  static Future<void> viewFileFromUrl({
+    required String url,
+    required String fileName,
+  }) async {
+    final dir = await getTemporaryDirectory();
+    final filePath = '${dir.path}/$fileName';
+
+    final dio = Dio();
+    await dio.download(url, filePath);
+
+    await OpenFilex.open(filePath);
   }
 }

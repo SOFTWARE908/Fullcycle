@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:fullcycle/services/navigation/navigation.dart';
 import 'package:fullcycle/shared/widgets/custom_loading_widget.dart';
 
 import '../../../../core/resources/colors.dart';
 import '../../../../services/dio_helper/network_downloader.dart';
 import '../../../../shared/widgets/custom_button.dart';
+import '../../../profile/presentation/screens/privacy_policy_screen.dart';
 
 class DocumentUploader extends StatelessWidget {
   final String title;
@@ -137,7 +139,7 @@ class DocumentUploader extends StatelessWidget {
                       ),
                       child: IconButton(
                         onPressed: () async {
-                          final file = await FileDownloader.downloadPdf(
+                          final file = await FileDownloader.downloadAndViewFile(
                             url: fileUrl!,
                             fileName: fileName!,
                           );
@@ -147,6 +149,30 @@ class DocumentUploader extends StatelessWidget {
                         },
                         icon: const Icon(
                           Icons.download_rounded,
+                          color: AppColors.primaryColor,
+                          size: 20,
+                        ),
+                        splashRadius: 20,
+                      ),
+                    ),
+                  ],
+
+                  if (fileUrl != null && hasFile) ...[
+                    const SizedBox(width: 8),
+                    Container(
+                      height: 40,
+                      width: 40,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(color: AppColors.primaryColor),
+                      ),
+                      child: IconButton(
+                        onPressed: () => AppNavigation.push(PrivacyPolicyPage(
+                          url: fileUrl!,
+                          title: "عرض الملف",
+                        )),
+                        icon: const Icon(
+                          Icons.remove_red_eye,
                           color: AppColors.primaryColor,
                           size: 20,
                         ),

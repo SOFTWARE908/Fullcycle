@@ -64,8 +64,7 @@ class DioHelper {
           log('STATUS CODE : ${e.response?.statusCode}');
           log('ERROR MESSAGE: ${e.message}');
           log('DATA: ${e.response?.data}');
-          print(CacheHelper.email);
-          print(CacheHelper.password);
+
           await Repo.login(
               CacheHelper.email.toString(), CacheHelper.password.toString());
 

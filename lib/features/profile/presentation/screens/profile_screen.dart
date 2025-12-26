@@ -131,8 +131,14 @@ class ProfileScreen extends StatelessWidget {
                   buildItem('المساعدة', 'help',
                       () => AppNavigation.push(HelpScreen())),
                   const CustomDivider(),
-                  buildItem('سياسة الخصوصية', 'privacy',
-                      () => AppNavigation.push(const PrivacyPolicyPage())),
+                  buildItem(
+                      'سياسة الخصوصية',
+                      'privacy',
+                      () => AppNavigation.push(const PrivacyPolicyPage(
+                            title: "سياسة الخصوصية",
+                            url:
+                                'https://software908.github.io/expertscodes-privacy-policy/expertscodes-privacy-policy-en.html',
+                          ))),
                   const CustomDivider(),
                   buildItem('تعرف عنا', 'info',
                       () => AppNavigation.push(const WhoUsScreen())),

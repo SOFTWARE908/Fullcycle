@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class PrivacyPolicyPage extends StatefulWidget {
-  const PrivacyPolicyPage({super.key});
+  const PrivacyPolicyPage({super.key, required this.url, required this.title});
+
+  final String url;
+  final String title;
 
   @override
   State<PrivacyPolicyPage> createState() => _PrivacyPolicyPageState();
@@ -21,7 +24,7 @@ class _PrivacyPolicyPageState extends State<PrivacyPolicyPage> {
       ..setVerticalScrollBarEnabled(false)
       ..loadRequest(
         Uri.parse(
-          'https://software908.github.io/expertscodes-privacy-policy/expertscodes-privacy-policy-en.html',
+          widget.url,
         ),
       );
   }
@@ -30,7 +33,7 @@ class _PrivacyPolicyPageState extends State<PrivacyPolicyPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('سياسة الخصوصية'),
+        title: Text(widget.title),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () => Navigator.pop(context),
