@@ -9,8 +9,11 @@ class LookupsCubit extends Cubit<CubitState> {
   LookupModel? lookupModel;
 
   Future<void> getLookUps() async {
+    if (lookupModel != null) {
+      return;
+    }
     emit(CubitState.loading);
-    lookupModel = await CandidateRepository.getLookUps();
+    lookupModel = await Repo.getLookUps();
 
     emit(CubitState.done);
   }

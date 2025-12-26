@@ -11,7 +11,7 @@ class JoinEventCubit extends Cubit<CubitState> {
     emit(CubitState.loading);
 
     try {
-      final response = await CandidateRepository.joinEvent('$id');
+      final response = await Repo.joinEvent('$id');
       if (response?.statusCode == 200) {
         emit(CubitState.done);
       } else {
@@ -26,7 +26,7 @@ class JoinEventCubit extends Cubit<CubitState> {
     emit(CubitState.loading);
 
     try {
-      final response = await CandidateRepository.leaveEvent('$id');
+      final response = await Repo.leaveEvent('$id');
       if (response?.statusCode == 200) {
         emit(CubitState.done);
         AppNavigation.pop();

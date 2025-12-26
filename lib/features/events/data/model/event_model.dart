@@ -14,17 +14,17 @@ class EventModel {
 
   EventModel(
       {this.id,
-        this.guid,
-        this.eventName,
-        this.eventStartDate,
-        this.eventEndDate,
-        this.startTime,
-        this.endTime,
-        this.latitude,
-        this.longitude,
-        this.description,
-        this.cityName,
-        this.departments});
+      this.guid,
+      this.eventName,
+      this.eventStartDate,
+      this.eventEndDate,
+      this.startTime,
+      this.endTime,
+      this.latitude,
+      this.longitude,
+      this.description,
+      this.cityName,
+      this.departments});
 
   EventModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -51,7 +51,6 @@ class EventModel {
     } else {
       departments = [];
     }
-
   }
 
   Map<String, dynamic> toJson() {

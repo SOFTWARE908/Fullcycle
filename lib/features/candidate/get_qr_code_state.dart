@@ -6,6 +6,7 @@ class GetQrCodeStateLoading extends GetQrCodeState {}
 
 class GetQrCodeStateError extends GetQrCodeState {
   final String message;
+
   GetQrCodeStateError(this.message);
 }
 

@@ -13,6 +13,7 @@ class BankInformationScreen extends StatefulWidget {
 
 class _BankInformationScreenState extends State<BankInformationScreen> {
   final bankNameController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Directionality(

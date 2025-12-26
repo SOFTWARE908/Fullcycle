@@ -50,9 +50,9 @@ class ChangePasswordScreen extends StatelessWidget {
                   buttonText: "تغيير كلمة المرور",
                   onTap: () {
                     context.read<ChangePasswordCubit>().changePassword(
-                      oldPassword: oldPassword.text,
-                      newPassword: newPassword.text,
-                    );
+                          oldPassword: oldPassword.text,
+                          newPassword: newPassword.text,
+                        );
                   },
                 );
               },

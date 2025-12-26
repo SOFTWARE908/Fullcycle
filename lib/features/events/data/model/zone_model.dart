@@ -7,12 +7,13 @@ class ZoneModel {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-          other is ZoneModel &&
-              runtimeType == other.runtimeType &&
-              value == other.value;
+      other is ZoneModel &&
+          runtimeType == other.runtimeType &&
+          value == other.value;
 
   @override
   int get hashCode => value.hashCode;
+
   ZoneModel.fromJson(Map<String, dynamic> json) {
     value = json['value'];
     text = json['text'];

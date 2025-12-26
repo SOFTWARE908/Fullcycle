@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 
-import '../../core/const/api_consts.dart';
+import '../../core/const/end_points.dart';
 import '../../features/candidate/data/repository/candidate_repository.dart';
 import '../cache/cache_helper.dart';
 
@@ -16,7 +16,6 @@ class DioHelper {
     dio = Dio(
       BaseOptions(
         baseUrl: EndPoints.baseUrl,
-        receiveDataWhenStatusError: true,
         validateStatus: (_) => true,
         connectTimeout: const Duration(seconds: 30),
         receiveTimeout: const Duration(seconds: 30),
@@ -36,17 +35,15 @@ class DioHelper {
 
           log('➡️ REQUEST');
           log('URL: ${options.uri}');
-          log('METHOD: ${options.method}');
+          log('METHOD: ${options.method} REQUEST');
           log('HEADERS: ${options.headers}');
+
           log('DATA: ${options.data}');
+
           log('QUERY: ${options.queryParameters}');
 
           handler.next(options);
         },
-
-        // =====================
-        // Response
-        // =====================
         onResponse: (response, handler) async {
           log('✅ RESPONSE');
           log('URL: ${response.requestOptions.uri}');
@@ -58,29 +55,19 @@ class DioHelper {
                   JwtDecoder.isExpired(CacheHelper.token!) ||
               response.statusCode == 401 ||
               response.statusCode == 422) {
-            await CandidateRepository.login(
-                CacheHelper.email!, CacheHelper.password!);
+            await Repo.login(CacheHelper.email!, CacheHelper.password!);
           }
         },
-
         onError: (DioException e, handler) async {
           log('❌ ERROR');
           log('URL: ${e.requestOptions.uri}');
-          log('STATUS: ${e.response?.statusCode}');
-          log('ERROR: ${e.message}');
+          log('STATUS CODE : ${e.response?.statusCode}');
+          log('ERROR MESSAGE: ${e.message}');
           log('DATA: ${e.response?.data}');
-
-          await CandidateRepository.login(
-              CacheHelper.email!, CacheHelper.password!);
-
-          // final newToken = CacheHelper.token;
-          // if (newToken != null) {
-          //   final requestOptions = e.requestOptions;
-          //   requestOptions.headers['Authorization'] = 'Bearer $newToken';
-          //
-          //   final response = await dio.fetch(requestOptions);
-          //   return handler.resolve(response);
-          // }
+          print(CacheHelper.email);
+          print(CacheHelper.password);
+          await Repo.login(
+              CacheHelper.email.toString(), CacheHelper.password.toString());
 
           handler.next(e);
         },
@@ -94,17 +81,12 @@ class DioHelper {
     Map<String, dynamic>? data,
     Map<String, dynamic>? headers,
   }) async {
-    try {
-      return await dio.get(
-        url,
-        queryParameters: query,
-        data: data,
-        options: Options(headers: headers),
-      );
-    } catch (e) {
-      log(e.toString());
-      return null;
-    }
+    return await dio.get(
+      url,
+      queryParameters: query,
+      data: data,
+      options: Options(headers: headers),
+    );
   }
 
   static Future<Response?> getDataWithoutToken({
@@ -153,14 +135,14 @@ class DioHelper {
           baseUrl: EndPoints.baseUrl,
           receiveDataWhenStatusError: true,
           validateStatus: (_) => true,
-          connectTimeout: const Duration(seconds: 30),
-          receiveTimeout: const Duration(seconds: 30),
         ),
       ).post(
         url,
         data: data,
       );
 
+      log('${response.statusCode}');
+      log('${response.data}');
       return response;
     } catch (e) {
       log(e.toString());
@@ -199,24 +181,6 @@ class DioHelper {
         data: data,
         queryParameters: query,
         options: Options(headers: headers),
-      );
-    } catch (e) {
-      log(e.toString());
-      return null;
-    }
-  }
-
-  static Future<Response?> postFormData({
-    required String url,
-    required FormData data,
-    Map<String, dynamic>? query,
-  }) async {
-    try {
-      return await dio.post(
-        url,
-        data: data,
-        queryParameters: query,
-        options: Options(contentType: 'multipart/form-data'),
       );
     } catch (e) {
       log(e.toString());

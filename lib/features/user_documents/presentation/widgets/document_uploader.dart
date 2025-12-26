@@ -54,12 +54,13 @@ class DocumentUploader extends StatelessWidget {
         Container(
           padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(
-            color: AppColors.grey.withOpacity(0.25),
+            color: AppColors.grey.withValues(alpha: 0.25),
             borderRadius: BorderRadius.circular(12),
             border: Border.all(
               color: hasFile
-                  ? AppColors.primaryColor.withOpacity(0.5)
-                  : AppColors.greyText.withOpacity(0.5),
+                  ? AppColors.primaryColor.withValues(alpha: 0.5)
+                  : AppColors.greyText
+                ..withValues(alpha: 0.5),
             ),
           ),
           child: Column(
@@ -73,7 +74,7 @@ class DocumentUploader extends StatelessWidget {
                     height: 36,
                     decoration: BoxDecoration(
                       color: hasFile
-                          ? AppColors.primaryColor.withOpacity(0.15)
+                          ? AppColors.primaryColor.withValues(alpha: 0.15)
                           : Colors.transparent,
                       borderRadius: BorderRadius.circular(8),
                     ),

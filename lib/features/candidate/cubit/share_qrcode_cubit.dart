@@ -8,12 +8,13 @@ class QrProfileCubit extends Cubit<CubitState> {
   QrProfileCubit() : super(CubitState.initial);
 
   QrProfileModel? qrProfileModel;
+
   Future<void> getQRCode() async {
     emit(CubitState.loading);
 
     try {
-      final response = await CandidateRepository.candidateGetQrString();
-      if (response?.statusCode==200) {
+      final response = await Repo.candidateGetQrString();
+      if (response?.statusCode == 200) {
         qrProfileModel = QrProfileModel.fromJson(response?.data);
         emit(CubitState.done);
       } else {

@@ -16,10 +16,7 @@ void showDeleteExperienceDialog(id) {
         title: const Text(
           "هل أنت متأكد من حذف هذه الخبرة؟",
           textAlign: TextAlign.right,
-          style: TextStyle(
-            fontWeight: FontWeight.w600,
-            fontSize: 16
-          ),
+          style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
         ),
         content: const Text(
           "سيتم إزالة هذه الخبرة من ملفك الشخصي ولن تتمكن من استعادتها لاحقاً. هل ترغب بمتابعة الحذف؟",
@@ -27,8 +24,7 @@ void showDeleteExperienceDialog(id) {
         ),
         actionsAlignment: MainAxisAlignment.end,
         actions: [
-
-           OutlinedButton(
+          OutlinedButton(
             style: OutlinedButton.styleFrom(
               side: const BorderSide(color: Colors.grey),
               shape: RoundedRectangleBorder(
@@ -43,7 +39,6 @@ void showDeleteExperienceDialog(id) {
               style: TextStyle(color: Colors.black),
             ),
           ),
-
           ElevatedButton(
             style: ElevatedButton.styleFrom(
               backgroundColor: const Color(0xffD92D20),
@@ -52,7 +47,7 @@ void showDeleteExperienceDialog(id) {
               ),
             ),
             onPressed: () {
-              CandidateRepository.deleteExperience(id);
+              Repo.deleteExperience(id);
             },
             child: const Text(
               "مسح",

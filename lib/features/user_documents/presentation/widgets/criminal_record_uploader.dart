@@ -1,7 +1,7 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fullcycle/features/user_documents/cubit/criminal_record_cubit.dart';
+import 'package:fullcycle/features/user_documents/cubit/fesh_cubit.dart';
 
 import '../../../../core/cubit/base_cubit_state.dart';
 import 'document_uploader.dart';
@@ -15,6 +15,7 @@ class CriminalRecordUploader extends StatefulWidget {
 
 class _CriminalRecordUploaderState extends State<CriminalRecordUploader> {
   late FeshCubit feshCubit;
+
   @override
   void initState() {
     super.initState();

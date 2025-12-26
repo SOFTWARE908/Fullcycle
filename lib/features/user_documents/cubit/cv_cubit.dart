@@ -14,7 +14,7 @@ class CvCubit extends Cubit<CubitState> {
   Future<void> getCV() async {
     emit(CubitState.loading);
     try {
-      final response = await CandidateRepository.getCV();
+      final response = await Repo.getCV();
 
       if (response?.statusCode == 200) {
         cvModel = UserDocModel.fromJson(response?.data['data']);
@@ -30,7 +30,7 @@ class CvCubit extends Cubit<CubitState> {
   Future<void> uploadCV(String filePath) async {
     emit(CubitState.loading);
     try {
-      final response = await CandidateRepository.uploadCv(filePath: filePath);
+      final response = await Repo.uploadCv(filePath: filePath);
 
       this.filePath = filePath;
       if (response?.statusCode == 200) {

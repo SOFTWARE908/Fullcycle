@@ -15,10 +15,11 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int currentIndex = 0;
+  int _index = 0;
 
   changeIndex(index) {
-    currentIndex = index;
+    if (index == _index) return;
+    _index = index;
     setState(() {});
   }
 
@@ -40,13 +41,14 @@ class _HomeScreenState extends State<HomeScreen> {
     'assets/icons/qr.svg',
     'assets/icons/profile.svg',
   ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: pages[currentIndex],
+      body: pages[_index],
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: AppColors.grey,
-        currentIndex: currentIndex,
+        currentIndex: _index,
         type: BottomNavigationBarType.fixed,
         showUnselectedLabels: true,
         onTap: changeIndex,
@@ -58,9 +60,7 @@ class _HomeScreenState extends State<HomeScreen> {
             return BottomNavigationBarItem(
               icon: SvgPicture.asset(
                 icons[index],
-                color: currentIndex == index
-                    ? AppColors.primaryColor
-                    : Colors.black, // or AppColors.unselectedIconColor
+                color: _index == index ? AppColors.primaryColor : Colors.black,
               ),
               label: titles[index],
             );

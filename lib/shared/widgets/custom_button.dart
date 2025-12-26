@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+
 import '../../core/resources/colors.dart';
 
-const customButtonTextStyle = TextStyle(fontSize: 13, color: Colors.white, fontWeight: FontWeight.w400);
+const customButtonTextStyle =
+    TextStyle(fontSize: 13, color: Colors.white, fontWeight: FontWeight.w400);
 
 class CustomElevatedButton extends StatelessWidget {
   final String? buttonText;
@@ -40,7 +42,7 @@ class CustomElevatedButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: () => onTap(),
         style: ElevatedButton.styleFrom(
-          minimumSize: Size(width??double.infinity,height ?? 48),
+          minimumSize: Size(width ?? double.infinity, height ?? 48),
           elevation: 0,
           backgroundColor: color ?? AppColors.buttonColor,
           shape: RoundedRectangleBorder(
@@ -52,8 +54,9 @@ class CustomElevatedButton extends StatelessWidget {
             Text(buttonText!,
                 textAlign: TextAlign.center,
                 style: customButtonTextStyle.copyWith(
-                  fontWeight: fontWeight,
-                    color: fontColor??Colors.white, fontSize: fontSize)),
+                    fontWeight: fontWeight,
+                    color: fontColor ?? Colors.white,
+                    fontSize: fontSize)),
       ),
     );
   }

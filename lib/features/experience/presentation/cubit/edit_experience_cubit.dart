@@ -17,7 +17,7 @@ class EditExperienceCubit extends Cubit<CubitState> {
     required int id,
   }) async {
     emit(CubitState.loading);
-    final response = await CandidateRepository.updateExperience(
+    final response = await Repo.updateExperience(
         companyName: companyName,
         description: description,
         position: position,

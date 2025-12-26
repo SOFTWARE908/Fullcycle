@@ -1,22 +1,56 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fullcycle/features/candidate/data/models/lookup_model.dart';
 import 'package:fullcycle/services/cache/cache_helper.dart';
 import 'package:fullcycle/services/navigation/navigation.dart';
 import 'package:fullcycle/shared/widgets/custom_snack_bar.dart';
 
-import '../../../../core/const/api_consts.dart';
+import '../../../../core/const/end_points.dart';
 import '../../../../services/dio_helper/dio_helper.dart';
 import '../../../../services/dio_helper/error_handler.dart';
 import '../../../../shared/model/user_model.dart';
 import '../../cubit/get_candidate_experiences_cubit.dart';
 import '../models/candidate_model.dart';
 
-class CandidateRepository {
-  static LookupModel? lookupModel;
+class Repo {
+  static Future<Response?> updateProfile({
+    required String fullNameAr,
+    required String fullNameEn,
+    required String identity,
+    required String dateOfBirth,
+    required String height,
+    required String email,
+    required String weight,
+    required int? cityId,
+    required int? genderId,
+    required int? nationalityId,
+    required int? languageId,
+    required int? departmentId,
+    required int? educationId,
+    required int? tShirtSize,
+  }) {
+    return DioHelper.putData(
+      url: EndPoints.updateCandidate,
+      data: {
+        "FullNameAr": fullNameAr,
+        "FullNameEn": fullNameEn,
+        "identity": identity,
+        "dateOfBirth": dateOfBirth,
+        "height": height,
+        "weight": weight,
+        "cityId": cityId,
+        "genderId": genderId,
+        "nationalityId": nationalityId,
+        'Email': email,
+        "languageId": languageId,
+        "departmentId": departmentId,
+        "educationId": educationId,
+        "tShirtSize": tShirtSize,
+      },
+    );
+  }
 
   static Future<Response?> changePassword(
       String oldPassword, String newPassword) async {
@@ -31,7 +65,7 @@ class CandidateRepository {
 
   static Future<dynamic> resetPassword(String email) async {
     return await DioHelper.getDataWithoutToken(
-      url: 'User/ForgotPassword',
+      url: EndPoints.forgotPassword,
       query: {"email": email},
     );
   }
@@ -57,7 +91,7 @@ class CandidateRepository {
       });
 
       final response = await DioHelper.putData(
-        url: "/Files/UpdateFesh",
+        url: EndPoints.updateFesh,
         data: formData,
       );
 
@@ -77,7 +111,7 @@ class CandidateRepository {
       });
 
       final response = await DioHelper.putData(
-        url: "/Files/UpdateCv",
+        url: EndPoints.updateCv,
         data: formData,
       );
 
@@ -89,7 +123,7 @@ class CandidateRepository {
 
   static Future<Response?> getFesh() async {
     try {
-      final response = await DioHelper.getData(url: 'Files/GetFesh');
+      final response = await DioHelper.getData(url: EndPoints.getFesh);
       return response;
     } catch (e) {
       return null;
@@ -98,7 +132,7 @@ class CandidateRepository {
 
   static Future<Response?> getCV() async {
     try {
-      final response = await DioHelper.getData(url: 'Files/GetCv');
+      final response = await DioHelper.getData(url: EndPoints.getCv);
       return response;
     } catch (e) {
       return null;
@@ -135,11 +169,26 @@ class CandidateRepository {
     return response;
   }
 
-  static Future<Response?> getCandidateImage() async {
-    final response =
-        await DioHelper.postData(url: EndPoints.candidateGetImage, data: {
-      'docType': 1,
+  static Future<Response?> getImage() async {
+    final response = await DioHelper.getData(url: EndPoints.candidateGetImage);
+    if (response?.statusCode == 200) {
+      return response;
+    } else {
+      errorHandler(response);
+    }
+    return null;
+  }
+
+  static Future<Response?> updateImage(filePath) async {
+    final file = File(filePath);
+
+    final formData = FormData.fromMap({
+      "Pic": await MultipartFile.fromFile(file.path,
+          filename: file.uri.pathSegments.last),
     });
+
+    final response =
+        await DioHelper.putData(url: EndPoints.updatePic, data: formData);
     if (response?.statusCode == 200) {
       return response;
     } else {
@@ -382,11 +431,10 @@ class CandidateRepository {
     });
     if (response?.statusCode == 200) {
       await CacheHelper.saveToken(response!.data!['data']['authToken']);
-      await CacheHelper.saveRefreshToken(
-          response.data!['data']['refreshTokenId']);
+      // await CacheHelper.saveRefreshToken(response.data!['data']['refreshTokenId']);
       await CacheHelper.saveEmail(email);
       await CacheHelper.savePassword(password);
-      await CandidateRepository.getCandidate();
+      await Repo.getCandidate();
       final user = UserModel.fromJson(response.data);
 
       return user;
@@ -399,11 +447,7 @@ class CandidateRepository {
         url: EndPoints.refreshToken, data: {'expiredToken': CacheHelper.token});
 
     if (response?.statusCode == 200) {
-      final token = response?.data['data']['authToken'];
-      // final refreshToken = response?.data['data']['refreshTokenId'];
-      debugPrint('New token: $token:');
-      await CacheHelper.saveToken(token);
-      // await CacheHelper.saveRefreshToken(refreshToken);
+      await CacheHelper.saveToken(response?.data['data']['authToken']);
     }
   }
 
@@ -425,7 +469,8 @@ class CandidateRepository {
   }
 
   static Future<Response?> getActiveEvents() async {
-    return await DioHelper.getData(url: EndPoints.getAllActiveEvents);
+    final response = await DioHelper.getData(url: EndPoints.getAllActiveEvents);
+    return response;
   }
 
   static Future<Response?> register({

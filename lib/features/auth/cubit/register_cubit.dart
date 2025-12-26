@@ -30,7 +30,7 @@ class RegisterCubit extends Cubit<CubitState> {
   }) async {
     emit(CubitState.loading);
 
-    final response = await CandidateRepository.register(
+    final response = await Repo.register(
       arabicName: arabicName,
       englishName: englishName,
       password: password,

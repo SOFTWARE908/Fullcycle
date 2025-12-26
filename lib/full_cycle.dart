@@ -13,19 +13,27 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
-  Widget build(BuildContext contexwt) {
+  Widget build(BuildContext context) {
     return GestureDetector(
       onTap: GeneralFunctions.hideKeyboard,
       child: MultiBlocProvider(
         providers: providers,
         child: MaterialApp(
-          builder: (context, child) =>
-              Directionality(textDirection: TextDirection.rtl, child: child!),
           title: 'FullCycle',
-          theme: AppThemes.lightTheme,
-          locale: const Locale('ar'),
           debugShowCheckedModeBanner: false,
           navigatorKey: AppNavigation.navigatorKey,
+
+          // ✅ اللغة العربية
+          locale: const Locale('ar', 'EG'),
+
+          builder: (context, child) {
+            return Directionality(
+              textDirection: TextDirection.rtl,
+              child: child!,
+            );
+          },
+
+          theme: AppThemes.lightTheme,
           home: CacheHelper.token != null ? const HomeScreen() : LoginScreen(),
         ),
       ),

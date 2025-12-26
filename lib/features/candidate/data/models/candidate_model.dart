@@ -41,20 +41,20 @@ class CandidateData {
 
   CandidateData(
       {this.fullNameAr,
-        this.fullNameEn,
-        this.identity,
-        this.email,
-        this.mobileNumber,
-        this.departmentId,
-        this.educationId,
-        this.languageId,
-        this.dateOfBirth,
-        this.cityId,
-        this.genderId,
-        this.nationalityId,
-        this.height,
-        this.weight,
-        this.tShirtSize});
+      this.fullNameEn,
+      this.identity,
+      this.email,
+      this.mobileNumber,
+      this.departmentId,
+      this.educationId,
+      this.languageId,
+      this.dateOfBirth,
+      this.cityId,
+      this.genderId,
+      this.nationalityId,
+      this.height,
+      this.weight,
+      this.tShirtSize});
 
   CandidateData.fromJson(Map<String, dynamic> json) {
     fullNameAr = json['fullNameAr'];

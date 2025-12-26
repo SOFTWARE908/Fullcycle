@@ -37,11 +37,11 @@ class ExperienceItem {
 
   ExperienceItem(
       {this.id,
-        this.description,
-        this.companyName,
-        this.position,
-        this.years,
-        this.candidateId});
+      this.description,
+      this.companyName,
+      this.position,
+      this.years,
+      this.candidateId});
 
   ExperienceItem.fromJson(Map<String, dynamic> json) {
     id = json['id'];

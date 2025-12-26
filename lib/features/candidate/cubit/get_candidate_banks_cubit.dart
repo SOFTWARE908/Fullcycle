@@ -7,11 +7,12 @@ class GetCandidateBanksCubit extends Cubit<CubitState> {
   GetCandidateBanksCubit() : super(CubitState.initial);
 
   UserBanksModel? userBanksModel;
+
   Future<void> getUserBanks() async {
     emit(CubitState.loading);
 
     try {
-      final response = await CandidateRepository.getCandidateBanks();
+      final response = await Repo.getCandidateBanks();
       if (response != null) {
         userBanksModel = UserBanksModel.fromJson(response.data);
         emit(CubitState.done);

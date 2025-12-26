@@ -10,7 +10,7 @@ class AttendanceScreen extends StatefulWidget {
 }
 
 class _AttendanceScreenState extends State<AttendanceScreen> {
-  final   _controller = TextEditingController();
+  final _controller = TextEditingController();
   String? scannedCode;
   bool isAttendanceOk = false;
 
@@ -73,7 +73,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
             ),
             const SizedBox(height: 20),
             CustomElevatedButton(
-              onTap: (){
+              onTap: () {
                 _scanQr();
               },
               buttonText: ("Scan QR"),
@@ -83,13 +83,17 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                const Text('تم الحضور',style: TextStyle(fontSize: 40),),
-                const SizedBox(width: 20,),
-               if(isAttendanceOk)
-                 const Icon(Icons.done,size: 50,color: Colors.green)
+                const Text(
+                  'تم الحضور',
+                  style: TextStyle(fontSize: 40),
+                ),
+                const SizedBox(
+                  width: 20,
+                ),
+                if (isAttendanceOk)
+                  const Icon(Icons.done, size: 50, color: Colors.green)
                 else
-                 const Icon(Icons.error,size: 50,color: Colors.red)
-
+                  const Icon(Icons.error, size: 50, color: Colors.red)
               ],
             )
           ],

@@ -12,7 +12,6 @@ dependencies:
   dio: ^5.9.0
   webview_flutter:
   path_provider: ^2.1.2
-  permission_handler: ^11.3.1
   shared_preferences: ^2.3.4
   awesome_dialog: ^3.2.1
   flutter_local_notifications: ^18.0.1
@@ -25,6 +24,9 @@ dependencies:
   equatable: ^2.0.7
   url_launcher: ^6.1.10
   jwt_decoder: ^2.0.1
+  image_picker: ^1.2.1
+  flutter_easy_localization: ^1.0.2
+  flutter_localization: ^0.3.3
 
 dependency_overrides:
   rive_native: ^0.1.0

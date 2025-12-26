@@ -7,6 +7,7 @@ class CustomLoadingWidget extends StatelessWidget {
 
   final Color? color;
   final double? padding;
+
   @override
   Widget build(BuildContext context) {
     return Padding(

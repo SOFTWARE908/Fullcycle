@@ -4,7 +4,9 @@ import 'package:fullcycle/shared/widgets/custom_text_field.dart';
 
 class HelpScreen extends StatelessWidget {
   HelpScreen({super.key});
+
   final TextEditingController complaintController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

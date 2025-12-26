@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 // import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../core/resources/colors.dart';
@@ -68,7 +69,8 @@ class _CustomPasswordTextFieldState extends State<CustomPasswordTextField> {
           borderRadius: BorderRadius.circular(6),
         ),
         focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: widget.borderColor.withValues(alpha: 0.7)),
+          borderSide:
+              BorderSide(color: widget.borderColor.withValues(alpha: 0.7)),
           borderRadius: BorderRadius.circular(6),
         ),
         errorBorder: OutlineInputBorder(

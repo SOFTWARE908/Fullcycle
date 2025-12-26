@@ -15,6 +15,7 @@ class CvUploader extends StatefulWidget {
 
 class _CvUploaderState extends State<CvUploader> {
   late CvCubit cvCubit;
+
   @override
   void initState() {
     super.initState();

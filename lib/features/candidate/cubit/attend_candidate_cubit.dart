@@ -10,13 +10,12 @@ class AttendCandidateCubit extends Cubit<CubitState> {
   Future<void> attendCandidate(code, [bool? back]) async {
     emit(CubitState.loading);
 
-    final response = await CandidateRepository.attendCandidate(code);
+    final response = await Repo.attendCandidate(code);
     if (response?.statusCode == 200) {
       CustomSnackBars.showSuccessToast(title: 'تم التحضير بنجاح');
       emit(CubitState.done);
     } else {
       emit(CubitState.error);
-      CustomSnackBars.showErrorToast(title: 'فشل التحضير');
     }
     if (back == true) {
       AppNavigation.pop();

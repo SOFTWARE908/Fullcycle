@@ -1,7 +1,7 @@
-import 'package:equatable/equatable.dart';
+import 'lookup_item.dart';
 
 class UserBanksModel {
-  List<BankInfoModel>? data;
+  List<LookUpItem>? data;
   int? status;
   String? message;
 
@@ -9,9 +9,9 @@ class UserBanksModel {
 
   UserBanksModel.fromJson(Map<String, dynamic> json) {
     if (json['data'] != null) {
-      data = <BankInfoModel>[];
+      data = <LookUpItem>[];
       json['data'].forEach((v) {
-        data!.add(BankInfoModel.fromJson(v));
+        data!.add(LookUpItem.fromJson(v));
       });
     }
     status = json['status'];
@@ -27,26 +27,4 @@ class UserBanksModel {
     data['message'] = message;
     return data;
   }
-}
-
-class BankInfoModel extends Equatable {
-  int? value;
-  String? text;
-
-  BankInfoModel({this.value, this.text});
-
-  BankInfoModel.fromJson(Map<String, dynamic> json) {
-    value = json['value'];
-    text = json['text'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['value'] = value;
-    data['text'] = text;
-    return data;
-  }
-
-  @override
-  List<Object?> get props => [value, text];
 }

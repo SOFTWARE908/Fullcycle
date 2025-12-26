@@ -20,6 +20,7 @@ class CustomTextField extends StatelessWidget {
   final TextInputType keyboardType;
   final String? Function(String?)? validator;
   final void Function(String)? onChanged;
+  final void Function(String)? onTapOutside;
   final void Function(String)? onSubmitted;
   final TextInputAction textInputAction;
 
@@ -30,6 +31,7 @@ class CustomTextField extends StatelessWidget {
     this.maxLines,
     this.maxLength,
     this.focusNode,
+    this.onTapOutside,
     this.onSubmitted,
     this.borderRadius = 6,
     this.hintColor,
@@ -90,6 +92,7 @@ class CustomTextField extends StatelessWidget {
       validator: validator,
       onChanged: onChanged,
       onFieldSubmitted: onSubmitted,
+      onTapOutside: (v) => onTapOutside ?? (),
     );
   }
 }

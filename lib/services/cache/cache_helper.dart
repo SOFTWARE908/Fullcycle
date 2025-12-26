@@ -44,7 +44,9 @@ class CacheHelper {
   }
 
   static String? get token => tokenNotifier.value;
+
   static String? get email => _prefs.getString('email');
+
   static String? get password => _prefs.getString('password');
 
   static Future<void> saveRefreshToken(String token) async {
@@ -69,9 +71,6 @@ class CacheHelper {
 
   static CandidateData? get candidate => candidateNotifier.value;
 
-  /// =====================
-  /// Clear / Logout
-  /// =====================
   static Future<void> clear() async {
     await _prefs.clear();
     tokenNotifier.value = null;

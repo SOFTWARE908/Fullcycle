@@ -18,7 +18,7 @@ class GetCandidateQRCodeCubit extends Cubit<GetQrCodeState> {
   getEvents() async {
     emit(GetQrCodeStateLoading());
 
-    final response = await CandidateRepository.getEventsDropdownList();
+    final response = await Repo.getEventsDropdownList();
 
     if (response?.data['status'] == 400) {
       emit(GetQrCodeStateError(response?.data['message']));
@@ -34,7 +34,7 @@ class GetCandidateQRCodeCubit extends Cubit<GetQrCodeState> {
   getZones(eventId) async {
     emit(GetQrCodeStateLoading());
 
-    final response = await CandidateRepository.getZonesOfEvent(eventId);
+    final response = await Repo.getZonesOfEvent(eventId);
     if (response?.statusCode == 200) {
       final zonesData = response?.data['data']?['zones'] as List? ?? [];
       zones = zonesData.map((e) => ZoneModel.fromJson(e)).toList();
@@ -52,8 +52,7 @@ class GetCandidateQRCodeCubit extends Cubit<GetQrCodeState> {
   getSubZones(eventId, zoneId) async {
     emit(GetQrCodeStateLoading());
 
-    final response =
-        await CandidateRepository.getSubZonesOfEvent(eventId, zoneId);
+    final response = await Repo.getSubZonesOfEvent(eventId, zoneId);
     if (response?.statusCode == 200) {
       final zonesData = response?.data['data']?['subZones'] as List? ?? [];
       subZones = zonesData.map((e) => ZoneModel.fromJson(e)).toList();
@@ -67,8 +66,8 @@ class GetCandidateQRCodeCubit extends Cubit<GetQrCodeState> {
     qrLoading = true;
     emit(GetQrCodeStateLoading());
 
-    final response = await CandidateRepository.getQRCode(
-        eventId, zoneId, subZoneId, supervisorId);
+    final response =
+        await Repo.getQRCode(eventId, zoneId, subZoneId, supervisorId);
     if (response != null) {
       qrCodeModel = QRCodeModel.fromJson(response.data);
 

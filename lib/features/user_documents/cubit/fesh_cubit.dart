@@ -14,7 +14,7 @@ class FeshCubit extends Cubit<CubitState> {
   Future<void> getFesh() async {
     emit(CubitState.loading);
     try {
-      final response = await CandidateRepository.getFesh();
+      final response = await Repo.getFesh();
 
       if (response?.statusCode == 200) {
         feshModel = UserDocModel.fromJson(response?.data['data']);
@@ -30,7 +30,7 @@ class FeshCubit extends Cubit<CubitState> {
   Future<void> uploadFesh(String filePath) async {
     emit(CubitState.loading);
     try {
-      final response = await CandidateRepository.uploadFesh(filePath: filePath);
+      final response = await Repo.uploadFesh(filePath: filePath);
 
       this.filePath = filePath;
       if (response?.statusCode == 200) {

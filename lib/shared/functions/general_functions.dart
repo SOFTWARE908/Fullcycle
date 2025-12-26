@@ -15,4 +15,4 @@ class GeneralFunctions {
       FocusManager.instance.primaryFocus?.unfocus();
     }
   }
- }
+}

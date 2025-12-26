@@ -11,7 +11,7 @@ class LoginCubit extends Cubit<CubitState> {
 
   Future<void> login(String email, String password) async {
     emit(CubitState.loading);
-    final response = await CandidateRepository.login(email, password);
+    final response = await Repo.login(email, password);
     if (response?.status == 200) {
       emit(CubitState.done);
 

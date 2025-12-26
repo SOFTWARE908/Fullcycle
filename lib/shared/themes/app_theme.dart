@@ -35,6 +35,7 @@ class AppThemes {
     ),
     appBarTheme: const AppBarTheme(
       centerTitle: true,
+      scrolledUnderElevation: 0,
       elevation: 0,
       backgroundColor: AppColors.whiteColor,
       titleTextStyle: TextStyle(
@@ -55,9 +56,6 @@ class AppThemes {
     ),
   );
 
-  /// =====================
-  /// Dark Theme
-  /// =====================
   static final ThemeData darkTheme = ThemeData(
     brightness: Brightness.dark,
     fontFamily: 'IBMPlexSansArabic',

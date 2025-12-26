@@ -11,7 +11,7 @@ class ValidateIbanCubit extends Cubit<CubitState> {
 
   Future<void> getUserBankData() async {
     emit(CubitState.loading);
-    final response = await CandidateRepository.getBankInfo();
+    final response = await Repo.getBankInfo();
 
     if (response?.statusCode == 200) {
       userBankDataModel = UserBankDataModel.fromJson(response?.data['data']);
@@ -24,7 +24,7 @@ class ValidateIbanCubit extends Cubit<CubitState> {
   }
 
   Future<void> validateIban(String iban, bankId) async {
-    final response = await CandidateRepository.validateIBAN(iban, bankId);
+    final response = await Repo.validateIBAN(iban, bankId);
     if (response?.statusCode == 200) {
       CustomSnackBars.showSuccessToast(title: 'رقم ال IBAN صحيح');
     } else {
@@ -35,12 +35,11 @@ class ValidateIbanCubit extends Cubit<CubitState> {
   Future<void> updateIban(
       iban, bankId, hasDelegate, delegateID, delegateName) async {
     emit(CubitState.updateIban);
-    final result = await CandidateRepository.updateIBAN(
+    final result = await Repo.updateIBAN(
         iban, bankId, hasDelegate, delegateID, delegateName);
     if (result?.statusCode == 200) {
       emit(CubitState.initial);
       CustomSnackBars.showSuccessToast(title: 'تم تحديث بيانات حسابك');
-      // AppNavigation.pop();
     } else {
       CustomSnackBars.showErrorToast(title: 'خطأ في تحديث بيانات حسابك');
 

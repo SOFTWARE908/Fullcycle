@@ -13,6 +13,7 @@ import '../data/model/event_model.dart';
 
 class EventDetailsScreen extends StatefulWidget {
   const EventDetailsScreen({super.key, required this.event, this.isJoined});
+
   final EventModel event;
   final bool? isJoined;
 

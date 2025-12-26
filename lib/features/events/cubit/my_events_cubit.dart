@@ -7,11 +7,12 @@ class MyEventsCubit extends Cubit<CubitState> {
   MyEventsCubit() : super(CubitState.initial);
 
   List<EventModel> events = [];
+
   Future<void> getMyEvents() async {
     emit(CubitState.loading);
 
     try {
-      final response = await CandidateRepository.getMyEvents();
+      final response = await Repo.getMyEvents();
       if (response?.statusCode == 200) {
         events = (response?.data['data'] as List)
             .map((e) => EventModel.fromJson(e))

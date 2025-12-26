@@ -10,10 +10,11 @@ class GetActiveEventsCubit extends Cubit<CubitState> {
 
   List<EventModel> events = [];
   List<EventModel> filteredEvents = [];
+
   Future<void> getActiveEvents() async {
     emit(CubitState.loading);
     try {
-      final response = await CandidateRepository.getActiveEvents();
+      final response = await Repo.getActiveEvents();
       if (response?.data['status'] == 401) {
         emit(CubitState.userInactive);
       } else if (response?.data['status'] == 400) {

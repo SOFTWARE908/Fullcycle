@@ -23,26 +23,21 @@ class UserImageModel {
 }
 
 class Data {
-  String? contentType;
-  String? fileName;
-  String? extension;
-  String? base64Data;
+  String? name;
+  String? url;
 
-  Data({this.contentType, this.fileName, this.extension, this.base64Data});
+  Data({this.name, this.url});
 
   Data.fromJson(Map<String, dynamic> json) {
-    contentType = json['contentType'];
-    fileName = json['fileName'];
-    extension = json['extension'];
-    base64Data = json['base64Data'];
+    name = json['name'];
+    url = json['url'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['contentType'] = contentType;
-    data['fileName'] = fileName;
-    data['extension'] = extension;
-    data['base64Data'] = base64Data;
+    data['name'] = name;
+    data['url'] = url;
+
     return data;
   }
 }

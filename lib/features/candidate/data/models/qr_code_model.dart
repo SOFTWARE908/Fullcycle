@@ -31,12 +31,12 @@ class Data {
   Data.fromJson(Map<String, dynamic> json) {
     code = json['code'];
     count = json['count'];
-   }
+  }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['code'] = code;
     data['count'] = count;
-     return data;
+    return data;
   }
 }

@@ -3,22 +3,23 @@ import 'package:fullcycle/features/auth/screens/login_screen.dart';
 import 'package:fullcycle/services/navigation/navigation.dart';
 import 'package:fullcycle/shared/widgets/custom_snack_bar.dart';
 
-void showDeleteAccountDialog(BuildContext context) {
+void showDeleteAccountDialog() {
   final TextEditingController passwordController = TextEditingController();
 
   showDialog(
-    context: context,
+    context: AppNavigation.context,
     builder: (context) {
       return AlertDialog(
         title: const Text(
           'تأكيد حذف الحساب',
-          style: TextStyle(fontWeight: FontWeight.bold),
+          style: TextStyle(fontWeight: FontWeight.w500),
         ),
+        elevation: 0,
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             const Text('من فضلك أدخل كلمة المرور لتأكيد حذف الحساب.'),
-            const SizedBox(height: 12),
+            const SizedBox(height: 10),
             TextField(
               controller: passwordController,
               obscureText: true,
@@ -29,15 +30,11 @@ void showDeleteAccountDialog(BuildContext context) {
             ),
           ],
         ),
+        actionsAlignment: MainAxisAlignment.center,
         actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('إلغاء'),
-          ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.red,
-            ),
+                backgroundColor: Colors.red, elevation: 0),
             onPressed: () {
               final password = passwordController.text.trim();
 
@@ -52,7 +49,20 @@ void showDeleteAccountDialog(BuildContext context) {
 
               AppNavigation.pushRemoveAll(LoginScreen());
             },
-            child: const Text('حذف'),
+            child: const Text(
+              '  تاكيد  ',
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(elevation: 0),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: const Text(
+              '  إلغاء  ',
+              style: TextStyle(color: Colors.black),
+            ),
           ),
         ],
       );

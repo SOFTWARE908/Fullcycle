@@ -15,12 +15,12 @@ class AddExperienceCubit extends Cubit<CubitState> {
       required String position,
       required int years}) async {
     emit(CubitState.loading);
-    final response = await CandidateRepository.addExperience(
+    final response = await Repo.addExperience(
         companyName: companyName,
         description: description,
         position: position,
         years: years);
-    if (response?.statusCode == 200) {
+    if (response?.statusCode == 200 && AppNavigation.context.mounted) {
       AppNavigation.pop();
 
       AppNavigation.context

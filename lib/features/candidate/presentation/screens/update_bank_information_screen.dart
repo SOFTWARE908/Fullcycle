@@ -8,7 +8,7 @@ import 'package:fullcycle/shared/widgets/custom_button.dart';
 import 'package:fullcycle/shared/widgets/custom_loading_widget.dart';
 import 'package:fullcycle/shared/widgets/custom_text_field.dart';
 
-import '../../data/models/user_banks_model.dart';
+import '../../data/models/lookup_item.dart';
 
 class UserBanksScreen extends StatefulWidget {
   const UserBanksScreen({super.key});
@@ -26,7 +26,7 @@ class _UserBanksScreenState extends State<UserBanksScreen> {
   final delegateNameController = TextEditingController();
   final delegateIdController = TextEditingController();
 
-  BankInfoModel? selectedBank;
+  LookUpItem? selectedBank;
   bool hasDelegate = false;
 
   @override
@@ -55,7 +55,7 @@ class _UserBanksScreenState extends State<UserBanksScreen> {
               final bankData = validateIbanCubit.userBankDataModel!;
 
               if (bankData.bankId != null && bankData.bankName != null) {
-                selectedBank = BankInfoModel(
+                selectedBank = LookUpItem(
                   text: bankData.bankName,
                   value: bankData.bankId!,
                 );
@@ -90,7 +90,7 @@ class _UserBanksScreenState extends State<UserBanksScreen> {
                       return const Text('لا توجد بنوك متاحة');
                     }
 
-                    return DropdownButtonFormField<BankInfoModel>(
+                    return DropdownButtonFormField<LookUpItem>(
                       initialValue: selectedBank,
                       decoration: const InputDecoration(
                         labelText: 'اختر بنك',
@@ -98,7 +98,7 @@ class _UserBanksScreenState extends State<UserBanksScreen> {
                       ),
                       items: banks
                           .map(
-                            (bank) => DropdownMenuItem<BankInfoModel>(
+                            (bank) => DropdownMenuItem<LookUpItem>(
                               value: bank,
                               child: Text(bank.text ?? ''),
                             ),

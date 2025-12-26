@@ -15,6 +15,7 @@ class ProfileQrScreen extends StatefulWidget {
 
 class _ProfileQrScreenState extends State<ProfileQrScreen> {
   late QrProfileCubit qrProfileCubit;
+
   @override
   void initState() {
     super.initState();
@@ -43,54 +44,53 @@ class _ProfileQrScreenState extends State<ProfileQrScreen> {
                         style: TextStyle(color: Color(0xff384250)),
                         textAlign: TextAlign.center,
                       )),
-                 SizedBox(
-                   height: 400,
-                   child: Stack(
-                     children: [
-
-                       Container(
-
-                         width: MediaQuery.of(context).size.width-40,
-                         margin: const EdgeInsets.only(top: 30),
-                         height: 380,
-
-                         padding: const EdgeInsets.all(40),
-                         decoration: BoxDecoration(
-                             borderRadius: BorderRadius.circular(20),
-                             color: const Color(0xffF3F4F6)),
-                         child: Column(
-                           mainAxisAlignment: MainAxisAlignment.center,
-                           children: [
-                             QrImageView(
-                               padding: const EdgeInsets.symmetric(vertical: 10),
-                               data: '${qrProfileCubit.qrProfileModel?.data?.qr}',
-                               size: 200,
-                               version: QrVersions.auto,
-                             ),
-                             const Padding(
-                               padding: EdgeInsets.only(top: 10, bottom: 12),
-                               child: Text(
-                                 'تصريح حضور للمشاريع',
-                                 style: TextStyle(
-                                   fontSize: 18,
-                                   fontWeight: FontWeight.w600,
-                                 ),
-                               ),
-                             ),
-                             Text("${qrProfileCubit.qrProfileModel?.data?.name}"),
-                             // const SizedBox(height: 5),
-                             Text("${qrProfileCubit.qrProfileModel?.data?.id}")
-                           ],
-                         ),
-                       ),
-                       Align(
-                         alignment: Alignment.topCenter,
-                         child: Image.asset('assets/images/medal.png'),
-                       ),
-
-                     ],
-                   ),
-                 )
+                  SizedBox(
+                    height: 400,
+                    child: Stack(
+                      children: [
+                        Container(
+                          width: MediaQuery.of(context).size.width - 40,
+                          margin: const EdgeInsets.only(top: 30),
+                          height: 380,
+                          padding: const EdgeInsets.all(40),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              color: const Color(0xffF3F4F6)),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              QrImageView(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 10),
+                                data:
+                                    '${qrProfileCubit.qrProfileModel?.data?.qr}',
+                                size: 200,
+                                version: QrVersions.auto,
+                              ),
+                              const Padding(
+                                padding: EdgeInsets.only(top: 10, bottom: 12),
+                                child: Text(
+                                  'تصريح حضور للمشاريع',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ),
+                              Text(
+                                  "${qrProfileCubit.qrProfileModel?.data?.name}"),
+                              // const SizedBox(height: 5),
+                              Text("${qrProfileCubit.qrProfileModel?.data?.id}")
+                            ],
+                          ),
+                        ),
+                        Align(
+                          alignment: Alignment.topCenter,
+                          child: Image.asset('assets/images/medal.png'),
+                        ),
+                      ],
+                    ),
+                  )
                 ],
               ),
             );

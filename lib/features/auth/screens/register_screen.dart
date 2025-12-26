@@ -11,7 +11,7 @@ import 'package:fullcycle/shared/widgets/custom_snack_bar.dart';
 import 'package:fullcycle/shared/widgets/custom_text_field.dart';
 import 'package:intl/intl.dart';
 
-import '../../candidate/data/models/lookup_model.dart';
+import '../../candidate/data/models/lookup_item.dart';
 import '../cubit/lookups_cubit.dart';
 import '../cubit/register_cubit.dart';
 
@@ -52,6 +52,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   int _currentStep = 0;
 
   late LookupsCubit lookupsCubit;
+
   @override
   void initState() {
     super.initState();
@@ -59,9 +60,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
     lookupsCubit = context.read<LookupsCubit>();
     lookupsCubit.getLookUps();
     if (kDebugMode) {
-      arabicNameController.text = "محمد";
-      englishNameController.text = "Ali";
-      // idController.text = "1216946344";
+      arabicNameController.text = "محمد هاني مراد";
+      englishNameController.text = "Mohamed Hany Morad";
+      idController.text = "1234567575";
 
       // dobController.text = "18/12/2005";
       heightController.text = "180";

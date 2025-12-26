@@ -7,11 +7,12 @@ class GetCandidateExperiencesCubit extends Cubit<CubitState> {
   GetCandidateExperiencesCubit() : super(CubitState.initial);
 
   ExperiencesModel? experiencesModel;
+
   Future<void> getCandidateExperiences() async {
     emit(CubitState.loading);
 
     try {
-      final response = await CandidateRepository.getCandidateExperiences();
+      final response = await Repo.getCandidateExperiences();
       if (response?.statusCode == 200) {
         experiencesModel = ExperiencesModel.fromJson(response?.data);
         emit(CubitState.done);

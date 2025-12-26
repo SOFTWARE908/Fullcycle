@@ -9,7 +9,6 @@ import 'features/auth/cubit/lookups_cubit.dart';
 import 'features/auth/cubit/register_cubit.dart';
 import 'features/candidate/cubit/attend_candidate_cubit.dart';
 import 'features/candidate/cubit/get_candidate_banks_cubit.dart';
-import 'features/candidate/cubit/get_candidate_doc_cubit.dart';
 import 'features/candidate/cubit/get_candidate_experiences_cubit.dart';
 import 'features/candidate/cubit/get_candidate_image.dart';
 import 'features/candidate/cubit/get_qr_code_cubit.dart';
@@ -21,8 +20,8 @@ import 'features/events/cubit/join_event_cubit.dart';
 import 'features/events/cubit/my_events_cubit.dart';
 import 'features/experience/presentation/cubit/add_experience_cubit.dart';
 import 'features/experience/presentation/cubit/edit_experience_cubit.dart';
-import 'features/user_documents/cubit/criminal_record_cubit.dart';
-import 'features/user_documents/cubit/delegation_cubit.dart';
+import 'features/profile/cubit/edit_profile_cubit.dart';
+import 'features/user_documents/cubit/fesh_cubit.dart';
 
 final providers = [
   BlocProvider<GetCandidateExperiencesCubit>(
@@ -38,8 +37,7 @@ final providers = [
   BlocProvider<GetCandidateBanksCubit>(
       create: (context) => GetCandidateBanksCubit()),
   BlocProvider<AddExperienceCubit>(create: (context) => AddExperienceCubit()),
-  BlocProvider<GetCandidateDocsCubit>(
-      create: (context) => GetCandidateDocsCubit()),
+  BlocProvider<EditProfileCubit>(create: (context) => EditProfileCubit()),
   BlocProvider<ValidateIbanCubit>(create: (context) => ValidateIbanCubit()),
   BlocProvider<MyEventsCubit>(create: (context) => MyEventsCubit()),
   BlocProvider<GetCandidateQRCodeCubit>(
@@ -52,7 +50,6 @@ final providers = [
   BlocProvider<AttendCandidateCubit>(
       create: (context) => AttendCandidateCubit()),
   BlocProvider<ForgetPasswordCubit>(create: (context) => ForgetPasswordCubit()),
-  BlocProvider<DelegationCubit>(create: (context) => DelegationCubit()),
   BlocProvider<FeshCubit>(create: (context) => FeshCubit()),
   BlocProvider<LookupsCubit>(create: (context) => LookupsCubit()),
   BlocProvider<ChangePasswordCubit>(create: (context) => ChangePasswordCubit()),

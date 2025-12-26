@@ -15,7 +15,7 @@ class ForgetPasswordCubit extends Cubit<CubitState> {
 
     emit(CubitState.loading);
 
-    final response = await CandidateRepository.resetPassword(email);
+    final response = await Repo.resetPassword(email);
 
     if (response?.statusCode == 200) {
       emit(CubitState.done);

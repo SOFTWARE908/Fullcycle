@@ -1,14 +1,16 @@
+import 'lookup_item.dart';
+
 class LookupModel {
   LookUpData? lookUpData;
+
   int? status;
   String? message;
 
   LookupModel({this.lookUpData, this.status, this.message});
 
   LookupModel.fromJson(Map<String, dynamic> json) {
-    lookUpData = json['data'] != null
-        ? LookUpData.fromJson(json['data'])
-        : null;
+    lookUpData =
+        json['data'] != null ? LookUpData.fromJson(json['data']) : null;
     status = json['status'];
     message = json['message'];
   }
@@ -35,12 +37,12 @@ class LookUpData {
 
   LookUpData(
       {this.cities,
-        this.nationalities,
-        this.departments,
-        this.tshirtSizes,
-        this.educationLevels,
-        this.languages,
-        this.genders});
+      this.nationalities,
+      this.departments,
+      this.tshirtSizes,
+      this.educationLevels,
+      this.languages,
+      this.genders});
 
   LookUpData.fromJson(Map<String, dynamic> json) {
     if (json['cities'] != null) {
@@ -93,8 +95,7 @@ class LookUpData {
       data['cities'] = cities!.map((v) => v.toJson()).toList();
     }
     if (nationalities != null) {
-      data['nationalities'] =
-          nationalities!.map((v) => v.toJson()).toList();
+      data['nationalities'] = nationalities!.map((v) => v.toJson()).toList();
     }
     if (departments != null) {
       data['departments'] = departments!.map((v) => v.toJson()).toList();
@@ -112,25 +113,6 @@ class LookUpData {
     if (genders != null) {
       data['genders'] = genders!.map((v) => v.toJson()).toList();
     }
-    return data;
-  }
-}
-
-class LookUpItem {
-  int? value;
-  String? text;
-
-  LookUpItem({this.value, this.text});
-
-  LookUpItem.fromJson(Map<String, dynamic> json) {
-    value = json['value'];
-    text = json['text'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['value'] = value;
-    data['text'] = text;
     return data;
   }
 }

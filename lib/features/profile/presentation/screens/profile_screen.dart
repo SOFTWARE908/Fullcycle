@@ -25,7 +25,7 @@ class ProfileScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.grey.shade100,
       appBar: const PreferredSize(
-          preferredSize: Size(double.infinity, 140), child: ProfileHeader()),
+          preferredSize: Size(double.infinity, 120), child: ProfileHeader()),
       body: SingleChildScrollView(
         physics: const ClampingScrollPhysics(),
         padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -155,7 +155,7 @@ class ProfileScreen extends StatelessWidget {
                 borderRadius: BorderRadius.circular(12),
               ),
               child: buildItem('حذف الحساب', 'logout',
-                  () => showDeleteAccountDialog(context), AppColors.whiteColor),
+                  () => showDeleteAccountDialog(), AppColors.whiteColor),
             ),
           ],
         ),
