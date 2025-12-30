@@ -101,6 +101,46 @@ class Repo {
     }
   }
 
+  static Future<Response?> uploadDelegation({required String filePath}) async {
+    try {
+      final file = File(filePath);
+
+      final formData = FormData.fromMap({
+        "Delegate": await MultipartFile.fromFile(file.path,
+            filename: file.uri.pathSegments.last),
+      });
+
+      final response = await DioHelper.putData(
+        url: EndPoints.updateDelegation,
+        data: formData,
+      );
+
+      return response;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  static Future<Response?> uploadIban({required String filePath}) async {
+    try {
+      final file = File(filePath);
+
+      final formData = FormData.fromMap({
+        "IBan": await MultipartFile.fromFile(file.path,
+            filename: file.uri.pathSegments.last),
+      });
+
+      final response = await DioHelper.putData(
+        url: EndPoints.updateIban,
+        data: formData,
+      );
+
+      return response;
+    } catch (e) {
+      return null;
+    }
+  }
+
   static Future<Response?> uploadCv({required String filePath}) async {
     try {
       final file = File(filePath);
@@ -124,6 +164,24 @@ class Repo {
   static Future<Response?> getFesh() async {
     try {
       final response = await DioHelper.getData(url: EndPoints.getFesh);
+      return response;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  static Future<Response?> getIban() async {
+    try {
+      final response = await DioHelper.getData(url: EndPoints.getIban);
+      return response;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  static Future<Response?> getDelegation() async {
+    try {
+      final response = await DioHelper.getData(url: EndPoints.getDelegation);
       return response;
     } catch (e) {
       return null;
@@ -342,7 +400,7 @@ class Repo {
     return response;
   }
 
-  static Future<Response?> updateIBAN(
+  static Future<Response?> updateIban(
     iban,
     bankId,
     hasDelegate,

@@ -6,14 +6,14 @@ import 'package:fullcycle/features/user_documents/cubit/fesh_cubit.dart';
 import '../../../../core/cubit/base_cubit_state.dart';
 import 'document_uploader.dart';
 
-class CriminalRecordUploader extends StatefulWidget {
-  const CriminalRecordUploader({super.key});
+class FeshUploader extends StatefulWidget {
+  const FeshUploader({super.key});
 
   @override
-  State<CriminalRecordUploader> createState() => _CriminalRecordUploaderState();
+  State<FeshUploader> createState() => _FeshUploaderState();
 }
 
-class _CriminalRecordUploaderState extends State<CriminalRecordUploader> {
+class _FeshUploaderState extends State<FeshUploader> {
   late FeshCubit feshCubit;
 
   @override

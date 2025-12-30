@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fullcycle/shared/widgets/custom_loading_widget.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class PrivacyPolicyPage extends StatefulWidget {
@@ -23,9 +24,7 @@ class _PrivacyPolicyPageState extends State<PrivacyPolicyPage> {
       ..setHorizontalScrollBarEnabled(false)
       ..setVerticalScrollBarEnabled(false)
       ..loadRequest(
-        Uri.parse(
-          widget.url,
-        ),
+        Uri.parse(widget.url),
       );
   }
 
@@ -39,7 +38,12 @@ class _PrivacyPolicyPageState extends State<PrivacyPolicyPage> {
           onPressed: () => Navigator.pop(context),
         ),
       ),
-      body: WebViewWidget(controller: controller),
+      body: Stack(
+        children: [
+          const CustomLoadingWidget(),
+          WebViewWidget(controller: controller)
+        ],
+      ),
     );
   }
 }

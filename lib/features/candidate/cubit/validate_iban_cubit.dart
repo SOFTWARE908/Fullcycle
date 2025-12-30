@@ -35,7 +35,7 @@ class ValidateIbanCubit extends Cubit<CubitState> {
   Future<void> updateIban(
       iban, bankId, hasDelegate, delegateID, delegateName) async {
     emit(CubitState.updateIban);
-    final result = await Repo.updateIBAN(
+    final result = await Repo.updateIban(
         iban, bankId, hasDelegate, delegateID, delegateName);
     if (result?.statusCode == 200) {
       emit(CubitState.initial);

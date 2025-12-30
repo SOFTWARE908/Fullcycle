@@ -3,6 +3,7 @@ import 'package:fullcycle/features/auth/cubit/change_password_cubit.dart';
 import 'package:fullcycle/features/auth/cubit/forget_password_cubit.dart';
 import 'package:fullcycle/features/events/cubit/get_event_subzones_cubit.dart';
 import 'package:fullcycle/features/user_documents/cubit/cv_cubit.dart';
+import 'package:fullcycle/features/user_documents/cubit/iban_cubit.dart';
 
 import 'features/auth/cubit/login_cubit.dart';
 import 'features/auth/cubit/lookups_cubit.dart';
@@ -21,6 +22,7 @@ import 'features/events/cubit/my_events_cubit.dart';
 import 'features/experience/presentation/cubit/add_experience_cubit.dart';
 import 'features/experience/presentation/cubit/edit_experience_cubit.dart';
 import 'features/profile/cubit/edit_profile_cubit.dart';
+import 'features/user_documents/cubit/delegation_cubit.dart';
 import 'features/user_documents/cubit/fesh_cubit.dart';
 
 final providers = [
@@ -39,12 +41,14 @@ final providers = [
   BlocProvider<AddExperienceCubit>(create: (context) => AddExperienceCubit()),
   BlocProvider<EditProfileCubit>(create: (context) => EditProfileCubit()),
   BlocProvider<ValidateIbanCubit>(create: (context) => ValidateIbanCubit()),
+  BlocProvider<DelegationCubit>(create: (context) => DelegationCubit()),
   BlocProvider<MyEventsCubit>(create: (context) => MyEventsCubit()),
   BlocProvider<GetCandidateQRCodeCubit>(
       create: (context) => GetCandidateQRCodeCubit()),
   BlocProvider<QrProfileCubit>(create: (context) => QrProfileCubit()),
   BlocProvider<EditExperienceCubit>(create: (context) => EditExperienceCubit()),
   BlocProvider<RegisterCubit>(create: (context) => RegisterCubit()),
+  BlocProvider<IbanCubit>(create: (context) => IbanCubit()),
   BlocProvider<CvCubit>(create: (context) => CvCubit()),
   BlocProvider<JoinEventCubit>(create: (context) => JoinEventCubit()),
   BlocProvider<AttendCandidateCubit>(

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../widgets/criminal_record_uploader.dart';
 import '../widgets/cv_uploader.dart';
+import '../widgets/delegation_uploader.dart';
+import '../widgets/fesh_uploader.dart';
+import '../widgets/iban_uploader.dart';
 
 class EditPersonalDocumentsScreen extends StatelessWidget {
   const EditPersonalDocumentsScreen({super.key});
@@ -10,16 +12,21 @@ class EditPersonalDocumentsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('تعديل مستنداتي الشخصية')),
-      body: ListView(
-        physics: const ClampingScrollPhysics(),
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        children: const [
-          CvUploader(),
-          SizedBox(height: 24),
-          CriminalRecordUploader(),
-          SizedBox(height: 24),
-          // DelegationUploader(),
-        ],
+      body: const SingleChildScrollView(
+        physics: ClampingScrollPhysics(),
+        padding: EdgeInsets.symmetric(horizontal: 16),
+        child: Column(
+          children: [
+            CvUploader(),
+            SizedBox(height: 15),
+            FeshUploader(),
+            SizedBox(height: 15),
+            IbanUploader(),
+            SizedBox(height: 15),
+            DelegationUploader(),
+            SizedBox(height: 60),
+          ],
+        ),
       ),
     );
   }

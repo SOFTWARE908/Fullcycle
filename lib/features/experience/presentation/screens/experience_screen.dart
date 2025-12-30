@@ -46,6 +46,7 @@ class _ExperienceScreenState extends State<ExperienceScreen> {
           builder: (context, state) {
         if (state == CubitState.done) {
           return ListView.builder(
+              physics: const ClampingScrollPhysics(),
               padding: const EdgeInsets.only(left: 16, right: 16, top: 20),
               itemCount:
                   getCandidateExperiencesCubit.experiencesModel?.data?.length,
