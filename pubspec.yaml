@@ -1,5 +1,5 @@
 name: fullcycle
-version: 1.0.4+115
+version: 1.0.4+116
 environment:
   sdk: ^3.5.4
 

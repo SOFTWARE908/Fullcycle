@@ -51,8 +51,9 @@ class _AddQrScreenState extends State<AddQrScreen> {
             const SizedBox(height: 5),
             BlocBuilder<AttendCandidateCubit, CubitState>(
                 builder: (context, state) {
-              if (state == CubitState.loading)
+              if (state == CubitState.loading) {
                 return const CustomLoadingWidget();
+              }
               return CustomTextField(
                 controller: controller,
                 keyboardType: TextInputType.number,
