@@ -49,11 +49,12 @@ class RegisterCubit extends Cubit<CubitState> {
       phoneNumber: phoneNumber,
     );
 
-    if (response?.statusCode == 200) {
+    if (response?.data['status'] == 200) {
       emit(CubitState.done);
       AppNavigation.pushRemoveAll(LoginScreen());
       CustomSnackBars.showSuccessToast(title: 'تم انشاء الحساب بنجاح');
     } else {
+      CustomSnackBars.showErrorToast(title: response?.data['message']);
       emit(CubitState.error);
       errorHandler(response);
     }

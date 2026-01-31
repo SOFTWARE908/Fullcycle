@@ -85,8 +85,12 @@ class EventCard extends StatelessWidget {
                     borderRadius: BorderRadius.circular(50),
                   ),
                   child: Center(
-                      child: Image.asset('assets/images/loglog.png',
-                          width: 40, height: 40)),
+                      child: event.eventImageUrl == null ||
+                              event.eventImageUrl == ''
+                          ? Image.asset('assets/images/loglog.png',
+                              width: 40, height: 40)
+                          : Image.network(event.eventImageUrl!,
+                              width: 40, height: 40)),
                 ),
                 const SizedBox(width: 15),
                 Column(

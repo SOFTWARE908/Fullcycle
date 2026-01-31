@@ -6,8 +6,12 @@ class EventModel {
   String? eventEndDate;
   String? startTime;
   String? endTime;
-  double? latitude;
-  double? longitude;
+  dynamic latitude;
+  dynamic longitude;
+
+  String? eventImageUrl;
+  bool? isEnrolled;
+  bool? canEnrolled;
   String? description;
   String? cityName;
   List<String>? departments;
@@ -22,6 +26,9 @@ class EventModel {
       this.endTime,
       this.latitude,
       this.longitude,
+      this.eventImageUrl,
+      this.isEnrolled,
+      this.canEnrolled,
       this.description,
       this.cityName,
       this.departments});
@@ -29,6 +36,10 @@ class EventModel {
   EventModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     guid = json['guid'];
+    eventImageUrl = json['eventImageUrl'];
+    isEnrolled = json['isEnrolled'];
+    canEnrolled = json['canEnrolled'];
+
     eventName = json['eventName'];
     eventStartDate = json['eventStartDate'];
     eventEndDate = json['eventEndDate'];
@@ -51,22 +62,5 @@ class EventModel {
     } else {
       departments = [];
     }
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['guid'] = guid;
-    data['eventName'] = eventName;
-    data['eventStartDate'] = eventStartDate;
-    data['eventEndDate'] = eventEndDate;
-    data['startTime'] = startTime;
-    data['endTime'] = endTime;
-    data['latitude'] = latitude;
-    data['longitude'] = longitude;
-    data['description'] = description;
-    data['cityName'] = cityName;
-    // data['departments'] = departments;
-    return data;
   }
 }

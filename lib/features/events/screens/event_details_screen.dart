@@ -201,24 +201,30 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(bottom: 30),
-            child: BlocBuilder<JoinEventCubit, CubitState>(builder: (_, state) {
-              if (state == CubitState.loading) {
-                return const CustomLoadingButtonWidget();
-              }
-              return CustomElevatedButton(
-                onTap: () {
-                  if (widget.isJoined == true) {
-                    context.read<JoinEventCubit>().leaveEvent(widget.event.id);
-                  } else {
-                    context.read<JoinEventCubit>().joinEvent(widget.event.id);
-                  }
-                },
-                buttonText: widget.isJoined == true ? "غادر الان" : 'قدم الآن',
-              );
-            }),
-          )
+          if (widget.event.isEnrolled != true &&
+              widget.event.canEnrolled == true)
+            Padding(
+              padding: const EdgeInsets.only(bottom: 30),
+              child:
+                  BlocBuilder<JoinEventCubit, CubitState>(builder: (_, state) {
+                if (state == CubitState.loading) {
+                  return const CustomLoadingButtonWidget();
+                }
+                return CustomElevatedButton(
+                  onTap: () {
+                    if (widget.isJoined == true) {
+                      context
+                          .read<JoinEventCubit>()
+                          .leaveEvent(widget.event.id);
+                    } else {
+                      context.read<JoinEventCubit>().joinEvent(widget.event.id);
+                    }
+                  },
+                  buttonText:
+                      widget.isJoined == true ? "غادر الان" : 'قدم الآن',
+                );
+              }),
+            )
         ],
       ),
     );

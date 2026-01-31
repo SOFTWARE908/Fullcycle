@@ -3,6 +3,9 @@ import 'package:fullcycle/core/cubit/base_cubit_state.dart';
 import 'package:fullcycle/features/candidate/data/repository/candidate_repository.dart';
 import 'package:fullcycle/shared/widgets/custom_snack_bar.dart';
 
+import '../../../services/cache/cache_helper.dart';
+import '../../candidate/data/models/candidate_model.dart';
+
 class EditProfileCubit extends Cubit<CubitState> {
   EditProfileCubit() : super(CubitState.initial);
 
@@ -41,13 +44,18 @@ class EditProfileCubit extends Cubit<CubitState> {
       tShirtSize: tshirtSize,
     );
 
-    if (response?.statusCode == 200) {
+    if (response?.data['status'] == 200) {
+      final email = (response?.data['data']['email']);
       emit(CubitState.done);
 
-      CustomSnackBars.showSuccessToast(
-        title: 'تم تعديل الملف الشخصي بنجاح',
-      );
+      CustomSnackBars.showSuccessToast(title: 'تم تعديل الملف الشخصي بنجاح');
+      await CacheHelper.saveEmail(email);
+      await CacheHelper.saveCandidate(
+          CandidateData.fromJson(response?.data['data']));
     } else {
+      CustomSnackBars.showErrorToast(
+        title: response?.data['message'],
+      );
       emit(CubitState.error);
     }
   }

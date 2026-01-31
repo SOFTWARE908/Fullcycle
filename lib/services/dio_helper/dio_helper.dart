@@ -54,7 +54,9 @@ class DioHelper {
           if (CacheHelper.token != null &&
                   JwtDecoder.isExpired(CacheHelper.token!) ||
               response.statusCode == 401 ||
-              response.statusCode == 422) {
+              response.statusCode == 422 ||
+              response.data['status'] == 401 ||
+              response.data['status'] == 422) {
             await Repo.login(CacheHelper.email!, CacheHelper.password!);
           }
         },

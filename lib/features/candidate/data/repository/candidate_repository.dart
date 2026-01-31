@@ -34,20 +34,20 @@ class Repo {
     return DioHelper.putData(
       url: EndPoints.updateCandidate,
       data: {
-        "FullNameAr": fullNameAr,
-        "FullNameEn": fullNameEn,
+        "fullNameAr": fullNameAr,
+        "fullNameEn": fullNameEn,
         "identity": identity,
         "dateOfBirth": dateOfBirth,
         "height": height,
+        'email': email,
         "weight": weight,
         "cityId": cityId,
         "genderId": genderId,
         "nationalityId": nationalityId,
-        'Email': email,
         "languageId": languageId,
         "departmentId": departmentId,
         "educationId": educationId,
-        "tShirtSize": tShirtSize,
+        "t_ShirtSize": tShirtSize,
       },
     );
   }
