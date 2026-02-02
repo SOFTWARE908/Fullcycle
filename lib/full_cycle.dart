@@ -22,8 +22,6 @@ class MyApp extends StatelessWidget {
           title: 'FullCycle',
           debugShowCheckedModeBanner: false,
           navigatorKey: AppNavigation.navigatorKey,
-
-          // ✅ اللغة العربية
           locale: const Locale('ar', 'EG'),
 
           builder: (context, child) {
@@ -35,6 +33,7 @@ class MyApp extends StatelessWidget {
 
           theme: AppThemes.lightTheme,
           home: CacheHelper.token != null ? const HomeScreen() : LoginScreen(),
+          // home: HanyScreen(),
         ),
       ),
     );

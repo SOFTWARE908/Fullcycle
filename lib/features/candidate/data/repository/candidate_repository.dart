@@ -373,7 +373,7 @@ class Repo {
       AppNavigation.pop();
 
       AppNavigation.context
-          .read<GetCandidateExperiencesCubit>()
+          .read<GetExperiencesCubit>()
           .getCandidateExperiences();
       return response;
     } else {

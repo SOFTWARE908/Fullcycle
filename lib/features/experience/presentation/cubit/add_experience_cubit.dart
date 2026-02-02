@@ -24,7 +24,7 @@ class AddExperienceCubit extends Cubit<CubitState> {
       AppNavigation.pop();
 
       AppNavigation.context
-          .read<GetCandidateExperiencesCubit>()
+          .read<GetExperiencesCubit>()
           .getCandidateExperiences();
       emit(CubitState.done);
       CustomSnackBars.showSuccessToast(title: 'تم إضافة الخبرة');

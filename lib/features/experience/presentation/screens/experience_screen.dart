@@ -19,12 +19,12 @@ class ExperienceScreen extends StatefulWidget {
 }
 
 class _ExperienceScreenState extends State<ExperienceScreen> {
-  late GetCandidateExperiencesCubit getCandidateExperiencesCubit;
+  late GetExperiencesCubit getCandidateExperiencesCubit;
 
   @override
   void initState() {
     super.initState();
-    getCandidateExperiencesCubit = context.read<GetCandidateExperiencesCubit>();
+    getCandidateExperiencesCubit = context.read<GetExperiencesCubit>();
     getCandidateExperiencesCubit.getCandidateExperiences();
   }
 
@@ -42,7 +42,7 @@ class _ExperienceScreenState extends State<ExperienceScreen> {
               ))
         ],
       ),
-      body: BlocBuilder<GetCandidateExperiencesCubit, CubitState>(
+      body: BlocBuilder<GetExperiencesCubit, CubitState>(
           builder: (context, state) {
         if (state == CubitState.done) {
           return ListView.builder(

@@ -3,8 +3,8 @@ import 'package:fullcycle/core/cubit/base_cubit_state.dart';
 import 'package:fullcycle/features/candidate/data/models/experiences_model.dart';
 import 'package:fullcycle/features/candidate/data/repository/candidate_repository.dart';
 
-class GetCandidateExperiencesCubit extends Cubit<CubitState> {
-  GetCandidateExperiencesCubit() : super(CubitState.initial);
+class GetExperiencesCubit extends Cubit<CubitState> {
+  GetExperiencesCubit() : super(CubitState.initial);
 
   ExperiencesModel? experiencesModel;
 

@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:fullcycle/services/navigation/navigation.dart';
 import 'package:fullcycle/shared/widgets/custom_loading_widget.dart';
 import 'package:fullcycle/shared/widgets/custom_snack_bar.dart';
-import 'package:open_filex/open_filex.dart';
+// import 'package:open_filex/open_filex.dart';
 import 'package:path_provider/path_provider.dart';
 
 class ProgressDialog {
@@ -95,16 +95,16 @@ class FileDownloader {
     }
   }
 
-  static Future<void> viewFileFromUrl({
-    required String url,
-    required String fileName,
-  }) async {
-    final dir = await getTemporaryDirectory();
-    final filePath = '${dir.path}/$fileName';
-
-    final dio = Dio();
-    await dio.download(url, filePath);
-
-    await OpenFilex.open(filePath);
-  }
+  // static Future<void> viewFileFromUrl({
+  //   required String url,
+  //   required String fileName,
+  // }) async {
+  //   final dir = await getTemporaryDirectory();
+  //   final filePath = '${dir.path}/$fileName';
+  //
+  //   final dio = Dio();
+  //   await dio.download(url, filePath);
+  //
+  //   await OpenFilex.open(filePath);
+  // }
 }

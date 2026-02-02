@@ -26,8 +26,7 @@ import 'features/user_documents/cubit/delegation_cubit.dart';
 import 'features/user_documents/cubit/fesh_cubit.dart';
 
 final providers = [
-  BlocProvider<GetCandidateExperiencesCubit>(
-      create: (context) => GetCandidateExperiencesCubit()),
+  BlocProvider<GetExperiencesCubit>(create: (context) => GetExperiencesCubit()),
   BlocProvider<GetEventZonesCubit>(create: (context) => GetEventZonesCubit()),
   BlocProvider<GetEventSubZonesCubit>(
       create: (context) => GetEventSubZonesCubit()),

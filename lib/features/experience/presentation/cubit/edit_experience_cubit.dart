@@ -26,7 +26,7 @@ class EditExperienceCubit extends Cubit<CubitState> {
     if (response?.statusCode == 200 && AppNavigation.context.mounted) {
       AppNavigation.pop();
       AppNavigation.context
-          .read<GetCandidateExperiencesCubit>()
+          .read<GetExperiencesCubit>()
           .getCandidateExperiences();
       emit(CubitState.done);
       CustomSnackBars.showSuccessToast(title: 'تم تعديل الخبرة');
